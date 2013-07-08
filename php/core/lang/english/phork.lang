@@ -1,0 +1,60 @@
+#
+# api.php
+#
+
+default: Invalid request method - %s required
+replace: Invalid request method - %s required
+
+default: Invalid API method
+replace: Invalid API method
+
+default: Missing request type and/or URL
+replace: Missing request type and/or URL
+
+default: Invalid batch definitions
+replace: Invalid batch definitions
+
+default: Missing batch definitions
+replace: Missing batch definitions
+
+#
+# config.php
+#
+
+default: Invalid config: %s
+replace: Invalid config: %s
+
+#
+# controllers/api.php
+#
+
+default: Invalid encoder: %s
+replace: Invalid encoder: %s
+
+#
+# files.php
+#
+
+default: The file size exceeds the maximum allowed file size
+replace: The file size exceeds the maximum allowed file size
+
+default: The file was only partially uploaded
+replace: The file was only partially uploaded
+
+default: Invalid temporary directory
+replace: Invalid temporary directory
+
+default: The file was not written to disk
+replace: The file was not written to disk
+
+default: Undefined error
+replace: Undefined error
+
+default: There was an error uploading the file: %s
+replace: There was an error uploading the file: %s
+
+default: Invalid file - It must be an uploaded file
+replace: Invalid file - It must be an uploaded file
+
+default: That file exists already and cannot be overwritten
+replace: That file exists already and cannot be overwritten

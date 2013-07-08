@@ -1,4 +1,29 @@
-microphork
-==========
+#microPhork
 
-microPhork is a small and very flexible PHP 5.3+ framework loosely based on the Phork framework.
+* [By Phork Labs](http://phorklabs.com/)
+* Version: 0.1
+
+
+##Introduction
+
+microPhork is a tiny, flexible, MVC framework for PHP 5.3 and above. It includes an API framework, automatic URL routing, a flexible debugging system, and several useful utilities and extensions.
+
+Parts of microPhork are based on the Phork Framework but it has mostly been written from the ground up. microPhork isn't production ready or supported. Use at your own risk.
+
+
+##Todo
+
+* Sessions
+* Models and collections
+* Database
+* Cache
+* Authentication
+* Flash alerts
+* POST tokens
+* Timer
+
+
+##License
+
+Licensed under The MIT License
+<http://www.opensource.org/licenses/mit-license.php>
