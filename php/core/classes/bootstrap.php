@@ -363,15 +363,15 @@
 		 * @return mixed The result of the callback
 		 */
 		public function initPackage($pkg, $callback = null, $unstack = true) {
-			$this->loader->addStack($pkg, array(
+			$this->loader->addStack($stack = $pkg.'stack', array(
 				'pkg' => PKG_PATH.$pkg.DIRECTORY_SEPARATOR,
 				'app' => APP_PATH
 			));
 			
-			$this->config->load($pkg, $pkg);
+			$this->config->load($pkg, $stack);
 			$this->language->addFilePath(PKG_PATH.$pkg.DIRECTORY_SEPARATOR.'lang'.DIRECTORY_SEPARATOR);
-			$result = $this->loader->loadStack($pkg, $pkg, $callback);
-			$unstack && $this->loader->removeStack($pkg);
+			$result = $this->loader->loadStack($stack, $pkg, $callback);
+			$unstack && $this->loader->removeStack($stack);
 			
 			return $result;
 		}
