@@ -7,6 +7,8 @@
 		),
 		
 		'error'			=> array(
+			'verbose'		=> true,
+			'backtrace'		=> true,
 			'handlers'		=> array(
 				'log'			=> array(
 					'active'		=> true
@@ -22,12 +24,6 @@
 				'log'			=> array(
 					'active'		=> true
 				)
-			)
-		),
-		
-		'interfaces'	=> array(
-			'browser'		=> array(
-				'debug'			=> true
 			)
 		)
 	);

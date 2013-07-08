@@ -32,6 +32,11 @@
 					$this->$key = $value;
 				}
 			}
+			
+			if (!$this->logfile) {
+				throw new \PhorkException('Invalid debug log file');
+			}
+			
 			$this->request = md5(rand());
 		}
 		
@@ -45,10 +50,6 @@
 		 * @return void
 		 */
 		public function log() {
-			if (!$this->logfile) {
-				throw new \PhorkException('Invalid debug log file');
-			}
-			
 			$args = func_get_args();
 			$output = implode(': ', $args);
 			

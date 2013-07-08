@@ -1,7 +1,7 @@
 {
 	"name": "phork/microphork",
 	"description": "The microPhork framework",
-	"keywords": ["framework", "phork", "microphork"],
+	"keywords": ["microphork", "phork", "framework"],
 	"type": "project",
 	"license": "MIT",
 	"homepage": "http://phork.org",

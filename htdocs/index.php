@@ -1,10 +1,10 @@
 <?php
-	//include any environmental configuration data (this can also be auto-prepended by the server)
+	//everything below can be overridden by an environmental file (this can also be auto-prepended by the server)
 	(file_exists('env.php') && include_once 'env.php');
 	
-	//define the environment type and the source root if they haven't already been set in env.php
+	//define the environment type and the source root
 	(!defined('PHK_ENV')) && define('PHK_ENV', 'prod');
-	(!defined('PHK_ROOT')) && define('PHK_ROOT', realpath(dirname(__DIR__)).DIRECTORY_SEPARATOR);
+	(!defined('PHK_ROOT')) && define('PHK_ROOT', dirname(__DIR__).DIRECTORY_SEPARATOR);
 	
 	
 	//create a temporary closure to define file paths
@@ -26,8 +26,8 @@
 	unset($pathdef);
 	
 	
-	//create a temporary closure to import core and app files
-	$import = function($path, $type = 'classes') {
+	//create a temporary closure to import core and optionally app files
+	empty($import) && $import = function($path, $type = 'classes') {
 		$path = str_replace('/', DIRECTORY_SEPARATOR, $path);
 		
 		if (is_file(CORE_PATH.$type.DIRECTORY_SEPARATOR.$path.'.php')) {
@@ -54,22 +54,21 @@
 	function_exists('phork_initialize') && phork_initialize();
 	
 	
-	//set up the exception and bootstrap class aliases
+	//create a class alias to either the core class or the app class for each main component
 	(!class_exists('PhorkException')) && class_alias('Phork\\Core\\Exception', 'PhorkException');
+	(!class_exists('PhorkLoader')) && class_alias('Phork\\Core\\Loader', 'PhorkLoader');
+	(!class_exists('PhorkEvent')) && class_alias('Phork\\Core\\Event', 'PhorkEvent');
 	(!class_exists('Phork')) && class_alias('Phork\\App\\Bootstrap', 'Phork');
 	
 	//initialize the bootstrap, register the common objects, initialize the app, and run everything
 	try {
 		Phork::instance()
-		     ->register('loader', class_exists('Phork\\App\\Loader', false) ? Phork\App\Loader::instance(true) : Phork\Core\Loader::instance(true))
-		     ->register('event', class_exists('Phork\\App\\Event', false) ? Phork\App\Event::instance(true) : Phork\Core\Event::instance(true))
+		     ->register('loader', PhorkLoader::instance(true))
+		     ->register('event', PhorkEvent::instance(true))
 		     ->init(PHK_ENV)
 		     ->run()
 		     ->shutdown()
 		;
-	}
-	
-	//handle any uncaught exceptions with a basic fatal error page
-	catch (Exception $exception) {
+	} catch (Exception $exception) {
 		require 'fatal.php';
 	}

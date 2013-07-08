@@ -29,6 +29,10 @@
 					$this->$key = $value;
 				}
 			}
+			
+			if (!$this->logfile) {
+				throw new \PhorkException('Invalid error log file');
+			}
 		}
 		
 		
@@ -57,9 +61,6 @@
 		 * @return void
 		 */
 		protected function log($output) {
-			if (!$this->logfile) {
-				throw new \PhorkException('Invalid error log file');
-			}
 			error_log(date('m.d.y H:i:s')." {$output}\n", 3, $this->logfile);
 		}
 	}
