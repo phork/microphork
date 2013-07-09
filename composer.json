@@ -2,7 +2,7 @@
 	"name": "microphork/framework",
 	"description": "The microphork framework",
 	"keywords": ["microphork", "phork", "framework"],
-	"type": "project",
+	"type": "microphork-framework",
 	"license": "MIT",
 	"homepage": "http://phork.org",
 	"authors": [
@@ -14,7 +14,8 @@
 		}
 	],
 	"require": {
-		"php": ">=5.3.0"
+		"php": ">=5.3.0",
+		"microphork/package-installer": "*"
 	},
 	"extra": {
 		"branch-alias": {
