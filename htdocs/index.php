@@ -26,16 +26,13 @@
     unset($pathdef);
     
     
-    //create a temporary closure to import core and optionally app files
-    empty($import) && $import = function($path, $type = 'classes') {
-        $path = str_replace('/', DIRECTORY_SEPARATOR, $path);
-        
-        if (is_file(CORE_PATH.$type.DIRECTORY_SEPARATOR.$path.'.php')) {
-            require_once CORE_PATH.$type.DIRECTORY_SEPARATOR.$path.'.php';
+    //create a temporary closure to import core and (optionally) app classes
+    empty($import) && $import = function($class) {
+        if (is_file($path = CORE_PATH.'classes'.DIRECTORY_SEPARATOR.$class.'.php')) {
+            require_once $path;
         }
-        
-        if (is_file(APP_PATH.$type.DIRECTORY_SEPARATOR.$path.'.php')) {
-            require_once APP_PATH.$type.DIRECTORY_SEPARATOR.$path.'.php';
+        if (is_file($path = APP_PATH.'classes'.DIRECTORY_SEPARATOR.$class.'.php')) {
+            require_once $path;
         }
     };
     

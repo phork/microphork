@@ -113,7 +113,7 @@
         {
             if (!(array_key_exists($class, $this->map) && $fullpath = $this->map[$class])) {
                 if ($namespaces = explode('\\', preg_replace('/^\\\/', '', $class))) {
-                    if (array_shift($namespaces) == 'Phork' && $type = strtoupper(array_shift($namespaces))) {
+                    if (($vendor = array_shift($namespaces) == 'Phork') && $type = strtoupper(array_shift($namespaces))) {
                         if (defined($pathvar = strtoupper($type).'_PATH') && $root = constant($pathvar)) {
                             switch ($type) {
                                 case 'PKG':
@@ -133,6 +133,7 @@
                     }
                 }
             }
+            
             if (!empty($fullpath) && $fullpath = $this->isFile($fullpath)) {
                 return (require $fullpath) && class_exists($class, false);
             } else {
