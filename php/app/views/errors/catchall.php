@@ -1,1 +1,1 @@
-<?php echo($statusCode); ?>: <?php echo($statusString); ?>
+<?php echo($statusCode); ?>: <?php echo($statusString);

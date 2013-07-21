@@ -1,4 +1,5 @@
 <?php
-	return array(
-		'env'			=> 'prod'
-	);
+
+    return array(
+        'env'			=> 'prod'
+    );
