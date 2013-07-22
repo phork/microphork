@@ -1,6 +1,6 @@
 <?php
     //everything below can be overridden by an environmental file (this can also be auto-prepended by the server)
-    (file_exists('env.php') && include_once 'env.php');
+    (file_exists(__DIR__.DIRECTORY_SEPARATOR.'env.php') && include_once __DIR__.DIRECTORY_SEPARATOR.'env.php');
     
     //define the environment type and the source root
     (!defined('PHK_ENV')) && define('PHK_ENV', 'prod');
