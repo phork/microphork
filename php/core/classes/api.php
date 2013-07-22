@@ -113,8 +113,8 @@
         protected function handle()
         {
             $handlers = array(
-                'batch'		=> 'getBatch',
-                'encoders'	=> 'getEncoders'
+                'batch'     => 'getBatch',
+                'encoders'  => 'getEncoders'
             );
 
             $segment = str_replace('.'.$this->format, '', $this->router->getSegment(1));

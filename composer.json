@@ -1,23 +1,23 @@
 {
-	"name": "microphork/framework",
-	"description": "The microphork framework",
-	"keywords": ["microphork", "phork", "framework"],
-	"license": "MIT",
-	"homepage": "http://phork.org",
-	"authors": [
-		{
-			"name": "Elenor Collings",
-			"email": "elenor@phork.org",
-			"homepage": "http://elenor.net",
-			"role": "Developer"
-		}
-	],
-	"require": {
-		"php": ">=5.3.0"
-	},
-	"extra": {
-		"branch-alias": {
-			"dev-master": "0.1-dev"
-		}
-	}
+    "name": "microphork/framework",
+    "description": "The microphork framework",
+    "keywords": ["microphork", "phork", "framework"],
+    "license": "MIT",
+    "homepage": "http://phork.org",
+    "authors": [
+        {
+            "name": "Elenor Collings",
+            "email": "elenor@phork.org",
+            "homepage": "http://elenor.net",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        }
+    }
 }

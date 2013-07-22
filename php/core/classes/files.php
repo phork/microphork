@@ -29,11 +29,11 @@
                     if (is_array($value['tmp_name'])) {
                         foreach ($value['tmp_name'] as $key=>$value) {
                             $file = array(
-                                'name'		=> $_FILES[$element]['name'][$key],
-                                'type'		=> $_FILES[$element]['type'][$key],
-                                'tmp_name'	=> $_FILES[$element]['tmp_name'][$key],
-                                'error'		=> $_FILES[$element]['error'][$key],
-                                'size'		=> $_FILES[$element]['size'][$key],
+                                'name'      => $_FILES[$element]['name'][$key],
+                                'type'      => $_FILES[$element]['type'][$key],
+                                'tmp_name'  => $_FILES[$element]['tmp_name'][$key],
+                                'error'     => $_FILES[$element]['error'][$key],
+                                'size'      => $_FILES[$element]['size'][$key],
                             );
 
                             if ($result = self::validateUploadedFile($file, $uploaded)) {
