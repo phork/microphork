@@ -21,6 +21,11 @@
      *       return new $class();
      *     }
      *   );
+     *
+     *   //load a set of global config files and fail if none were found
+     *   if (!$this->loadStack('default', 'global', function() { return true; }, 'config') {
+     *     throw new \PhorkException('No global config files found');
+     *   }
      * </code>
      *
      * @author Elenor Collings <elenor@phork.org>
@@ -54,6 +59,21 @@
         public function __destruct()
         {
             spl_autoload_unregister(array($this, 'loadClass'));
+        }
+
+
+        /**
+         * Maps a class name to a file so that loadClass() will be able
+         * to load classes in non-standard locations.
+         *
+         * @access public
+         * @param string $class The name of the class
+         * @param string $file The full path to the file containing the class
+         * @return void
+         */
+        public function mapClass($class, $file)
+        {
+            $this->map[$class] = $file;
         }
 
 
@@ -103,10 +123,11 @@
          * Loads a class by class name without knowing the path. First checks
          * the class map array and if no value is found this will try to parse
          * out a file path based on the namespace and class. Can be used with
-         * spl_autoload_register().
+         * spl_autoload_register(). If loading from a vendor other than Phork
+         * this can be wrapped with a try/catch block in the app extension.
          *
          * @access public
-         * @param string $class The name of the class to load
+         * @param string $class The name of the class (or interface) to load
          * @return boolean True on success
          */
         public function loadClass($class)
@@ -135,7 +156,7 @@
             }
             
             if (!empty($fullpath) && $fullpath = $this->isFile($fullpath)) {
-                return (require $fullpath) && class_exists($class, false);
+                return (require $fullpath) && (class_exists($class, false) || interface_exists($class, false));
             } else {
                 throw new \PhorkException(sprintf('Unable to load class %s', $class));
             }
@@ -147,7 +168,7 @@
          * callback function exists it will either run all the callbacks for
          * successfully loaded items if the $runall flag is true, or it will
          * just run the callback for the last successfully loaded item if
-         * the $runall flag is false
+         * the $runall flag is false. This won't fail if nothing was loaded.
          *
          * @access public
          * @param string $path The path to the class relative to the $roots directories
@@ -293,21 +314,6 @@
 
 
         /**
-         * Maps a class name to a file so that loadClass() will be able
-         * to load classes in non-standard locations.
-         *
-         * @access public
-         * @param string $class The name of the class
-         * @param string $file The full path to the file containing the class
-         * @return void
-         */
-        public function mapClass($class, $file)
-        {
-            $this->map[$class] = $file;
-        }
-
-
-        /**
          * Replaces the slashed path with the appropriate directory
          * separator and optionally returns the realpath of the file.
          * If the file doesn't exist then realpath will return false.
@@ -319,7 +325,10 @@
          */
         protected function cleanPath($path, $realpath = false)
         {
-            $path = str_replace('/', DIRECTORY_SEPARATOR, $path);
-            return $realpath ? realpath($path) : $path;
+            if ($realpath) {
+                return realpath($path);
+            } else {
+                return str_replace('/', DIRECTORY_SEPARATOR, $path);
+            }
         }
     }

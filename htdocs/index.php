@@ -60,11 +60,11 @@
     //initialize the bootstrap, register the common objects, initialize the app, and run everything
     try {
         Phork::instance()
-             ->register('loader', PhorkLoader::instance(true))
-             ->register('event', PhorkEvent::instance(true))
-             ->init(PHK_ENV)
-             ->run()
-             ->shutdown()
+            ->register('loader', PhorkLoader::instance(true))
+            ->register('event', PhorkEvent::instance(true))
+            ->init(PHK_ENV)
+            ->run()
+            ->shutdown()
         ;
     } catch (Exception $exception) {
         require 'fatal.php';
