@@ -58,6 +58,8 @@
                     } else {
                         return $root.'classes'.DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR, array_map('strtolower', $unmatched)).$extension;
                     }
+                } else {
+                    throw new \PhorkException(sprintf('No path defined for Phork\%s', $type));
                 }
             });
             
@@ -98,8 +100,10 @@
          * @access public
          * @param string $vendor The vendor name 
          * @param callback $loader The loader callback
+         * @return void
          */
-        public function mapNamespace($namespace, $loader) {
+        public function mapNamespace($namespace, $loader) 
+        {
             $this->namespaces[$namespace] = $loader;
         }
 
@@ -203,22 +207,20 @@
                 if ($fullpath = $this->isFile($root.$folder.DIRECTORY_SEPARATOR.$file.($ext ?: $this->extension))) {
                     $result = $this->loadFile($fullpath);
 
-                    if ($runall) {
-                        if (is_callable($callback)) {
-                            $results[$root] = $callback($result, $type);
+                    if ($callback) {
+                        if ($runall) {
+                            $results[$type] = call_user_func_array($callback, array($result, $type));
+                        } else {
+                            $run = array($result, $type);
                         }
                     } else {
-                        $run = array(
-                            'callback' => $callback,
-                            'result' => $result,
-                            'type' => $type
-                        );
+                        $results[$type] = $result;
                     }
                 }
             }
 
-            if (isset($run) && is_callable($run['callback'])) {
-                $results = $run['callback']($run['result'], $run['type']);
+            if (isset($run)) {
+                $results = call_user_func_array($callback, $run);
             }
 
             return isset($results) ? $results : null;
