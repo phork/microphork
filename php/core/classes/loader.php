@@ -34,7 +34,8 @@
      */
     class Loader extends Singleton
     {
-        protected $map = array();
+        protected $classes = array();
+        protected $namespaces = array();
         protected $stacks = array();
         protected $extension = '.php';
 
@@ -47,6 +48,18 @@
          */
         protected function __construct()
         {
+            $extension = $this->extension;
+            $this->mapNamespace('\Phork', function($class, $unmatched) use ($extension) {
+                if (($type = strtoupper(array_shift($unmatched))) && defined($pathvar = strtoupper($type).'_PATH') && $root = constant($pathvar)) {
+                    if ($type == 'PKG') {
+                        $package = strtolower(array_shift($unmatched));
+                        return $root.$package.DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR, array_map('strtolower', $unmatched)).$extension;
+                    } else {
+                        return $root.'classes'.DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR, array_map('strtolower', $unmatched)).$extension;
+                    }
+                }
+            });
+            
             spl_autoload_register(array($this, 'loadClass'));
         }
 
@@ -73,7 +86,20 @@
          */
         public function mapClass($class, $file)
         {
-            $this->map[$class] = $file;
+            $this->classes[$class] = $file;
+        }
+        
+        
+        /**
+         * Maps a namespace to a class loader so that loadClass() will
+         * be able to load classes in non-standard locations.
+         *
+         * @access public
+         * @param string $vendor The vendor name 
+         * @param callback $loader The loader callback
+         */
+        public function mapNamespace($namespace, $loader) {
+            $this->namespaces[$namespace] = $loader;
         }
 
 
@@ -132,26 +158,15 @@
          */
         public function loadClass($class)
         {
-            if (!(array_key_exists($class, $this->map) && $fullpath = $this->map[$class])) {
-                if ($namespaces = explode('\\', preg_replace('/^\\\/', '', $class))) {
-                    if (($vendor = array_shift($namespaces) == 'Phork') && $type = strtoupper(array_shift($namespaces))) {
-                        if (defined($pathvar = strtoupper($type).'_PATH') && $root = constant($pathvar)) {
-                            switch ($type) {
-                                case 'PKG':
-                                    $package = strtolower(array_shift($namespaces));
-                                    if ($namespaces) {
-                                        $fullpath = $root.$package.DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR, array_map('strtolower', $namespaces)).$this->extension;
-                                    } else {
-                                        $fullpath = $root.$package.DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR.$package.$this->extension;
-                                    }
-                                    break;
-
-                                default:
-                                    $fullpath = $root.'classes'.DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR, array_map('strtolower', $namespaces)).$this->extension;
-                                    break;
-                            }
+            if (!(array_key_exists($class, $this->classes) && $fullpath = $this->classes[$class])) {
+                if ($pieces = explode('\\', preg_replace('/^\\\/', '', $class))) {
+                    $popped = array();
+                    do {
+                        if (array_push($popped, array_pop($pieces)) && !empty($this->namespaces[$joined = '\\'.implode('\\', $pieces)])) {
+                            $fullpath = call_user_func_array($this->namespaces[$joined], array($class, array_reverse($popped)));
+                            break; 
                         }
-                    }
+                    } while ($pieces);             
                 }
             }
             

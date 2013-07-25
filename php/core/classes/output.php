@@ -96,8 +96,8 @@
                 $this->buffered = true;
                 ob_start();
             }
+            
             $this->callback = $callback;
-
             return $this;
         }
 
@@ -118,8 +118,8 @@
                 $this->buffered = false;
                 ob_end_flush();
             }
+            
             $this->clear();
-
             return $this;
         }
 
