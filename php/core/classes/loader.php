@@ -41,7 +41,8 @@
 
         
         /**
-         * Set this object as one of the autoloaders to use for missing classes.
+         * Sets up the Phork namespace to use this loader. Also sets this 
+         * object as one of the autoloaders to use for missing classes.
          * The constructor can't be public for a singleton.
          *
          * @access protected
@@ -49,7 +50,7 @@
         protected function __construct()
         {
             $extension = $this->extension;
-            $this->mapNamespace('\Phork', function($class, $unmatched) use ($extension) {
+            $this->mapNamespace('Phork', function($class, $unmatched) use ($extension) {
                 if (($type = strtoupper(array_shift($unmatched))) && defined($pathvar = strtoupper($type).'_PATH') && $root = constant($pathvar)) {
                     if ($type == 'PKG') {
                         $package = strtolower(array_shift($unmatched));
@@ -65,7 +66,7 @@
 
 
         /**
-         * Remove this from being used as an autoloader.
+         * Removes this from being used as an autoloader.
          *
          * @access public
          */
@@ -147,10 +148,9 @@
 
         /**
          * Loads a class by class name without knowing the path. First checks
-         * the class map array and if no value is found this will try to parse
-         * out a file path based on the namespace and class. Can be used with
-         * spl_autoload_register(). If loading from a vendor other than Phork
-         * this can be wrapped with a try/catch block in the app extension.
+         * the class map array and if no value is found this will check the 
+         * namespace map to try to parse out a file path based on the namespace
+         * and class. Can be used with spl_autoload_register().
          *
          * @access public
          * @param string $class The name of the class (or interface) to load
@@ -162,7 +162,7 @@
                 if ($pieces = explode('\\', preg_replace('/^\\\/', '', $class))) {
                     $popped = array();
                     do {
-                        if (array_push($popped, array_pop($pieces)) && !empty($this->namespaces[$joined = '\\'.implode('\\', $pieces)])) {
+                        if (array_push($popped, array_pop($pieces)) && !empty($this->namespaces[$joined = implode('\\', $pieces)])) {
                             $fullpath = call_user_func_array($this->namespaces[$joined], array($class, array_reverse($popped)));
                             break; 
                         }
