@@ -51,8 +51,8 @@
         {
             $extension = $this->extension;
             $this->mapNamespace('Phork', function($class, $unmatched) use ($extension) {
-                if (($type = strtoupper(array_shift($unmatched))) && defined($pathvar = strtoupper($type).'_PATH') && $root = constant($pathvar)) {
-                    if ($type == 'PKG') {
+                if (($type = array_shift($unmatched)) && defined($pathvar = strtoupper($type).'_PATH') && ($root = constant($pathvar))) {
+                    if ($type == 'Pkg') {
                         $package = strtolower(array_shift($unmatched));
                         return $root.$package.DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR, array_map('strtolower', $unmatched)).$extension;
                     } else {
