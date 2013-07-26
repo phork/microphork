@@ -374,7 +374,7 @@
          *
          * @access public
          * @param string $pkg The name of the package to load
-         * @param closure $callback The callback to pass to the load stack method
+         * @param callable $callback A closure, function name or method to pass to the load stack method
          * @param boolean $unstack Whether to remove the load stack when finished
          * @return mixed The result of the callback
          */

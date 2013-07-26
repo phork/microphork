@@ -87,7 +87,7 @@
          * Turns on output buffering.
          *
          * @access public
-         * @param closure $callback An optional custom output function
+         * @param callable $callback An optional custom output function
          * @return object The instance of the output object
          */
         public function buffer($callback = null)

@@ -98,7 +98,7 @@
          * be able to load classes in non-standard locations.
          *
          * @access public
-         * @param string $vendor The vendor name 
+         * @param string $namespace A full or partial namespace 
          * @param callback $loader The loader callback
          * @return void
          */
@@ -192,7 +192,7 @@
          * @access public
          * @param string $path The path to the class relative to the $roots directories
          * @param array $file The filename (excluding the extension) of the stack
-         * @param closure $callback The function to run for the loaded file(s)
+         * @param callable $callback The closure, function name or method called for successful loads
          * @param string $folder The relative path to the folder (eg. config, classes, classes/foo)
          * @param boolean $runall Whether to run the callbacks for all the loaded files or just the latest
          * @return mixed The result(s) from the called callback(s)

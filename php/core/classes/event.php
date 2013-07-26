@@ -45,7 +45,7 @@
          *
          * @access public
          * @param string $name The name of the event
-         * @param mixed $callback The name of the callback function, or an array for a class method
+         * @param callable $callback The closure, function name or method that will be triggered
          * @param array $args The array of arguments to be passed to the callback
          * @param integer $position The position to insert the action in, otherwise it'll be last
          * @param string $id The unique ID to assign to the event
@@ -70,7 +70,7 @@
          *
          * @access public
          * @param string $name The name of the event
-         * @param mixed $callback The name of the callback function, or an array for a class method
+         * @param callable $callback The closure, function name or method that will be triggered
          * @param array $args The array of arguments to be passed to the callback
          * @param integer $position The position to insert the action in, otherwise it'll be last
          * @param string $id The unique ID to assign to the event
