@@ -102,7 +102,7 @@
 
                 $this->events[$name]->rewind();
                 while (list($key, $event) = $this->events[$name]->each()) {
-                    $results[$key] = call_user_func_array($event[0], is_array($args) ? array_merge($event[1], $args) : $event[1]);
+                    $results[$key] = $this->callback($event, $args);
                     !empty($event[2]) && array_push($remove, $key);
                 }
 
@@ -118,6 +118,20 @@
             }
 
             return isset($results) ? $results : null;
+        }
+        
+        
+        /**
+         * Calls the event callback function and passes the standard and
+         * runtime args.
+         *
+         * @access protected
+         * @param array $event The event array consisting of callback, standard args, and optionally a run once flag
+         * @param array $args The optional runtime args to pass to the callback
+         * @return mixed The results from the callback
+         */
+        protected function callback(array $event, $args) {
+            return call_user_func_array($event[0], is_array($args) ? array_merge($event[1], $args) : $event[1]);
         }
 
 

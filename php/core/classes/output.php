@@ -62,15 +62,6 @@
 
         
         /**
-         * The constructor can't be public for a singleton.
-         *
-         * @access protected
-         * @return void
-         */
-        protected function __construct() {}
-
-
-        /**
          * Called when the object is destroyed to make sure that everything
          * has been output.
          *
@@ -231,7 +222,9 @@
         /**
          * Adds some content to the display.content event. This has to use an
          * anonymous function to output the results because print doesn't work
-         * because it's a language construct.
+         * because it's a language construct. The benefit of using addContent
+         * versus standard print is that it makes it possible to rearrange or
+         * alter the content added.
          *
          * @access public
          * @param string $content The content to output
@@ -265,7 +258,6 @@
         public function outputHeaders()
         {
             \Phork::event()->trigger('output.display.headers');
-
             return $this;
         }
 
@@ -279,7 +271,6 @@
         public function outputContent()
         {
             \Phork::event()->trigger('output.display.content');
-
             return $this;
         }
     }
