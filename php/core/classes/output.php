@@ -76,7 +76,9 @@
 
         /**
          * Turns on output buffering within this class. This is internal
-         * buffering and doesn't affect the output buffer.
+         * buffering and doesn't affect the output buffer. If no output 
+         * callback is passed then this will use an anonymous function 
+         * because echo and print are language constructs and won't work. 
          *
          * @access public
          * @param callable $callback An optional custom output function
@@ -88,7 +90,10 @@
                 $this->buffered = true;
             }
             
-            $this->callback = $callback;
+            $this->callback = $callback ?: function($buffered) {
+                print $buffered; 
+            };
+            
             return $this;
         }
 
@@ -222,11 +227,9 @@
 
 
         /**
-         * Adds some content to the display.content event. This has to use an
-         * anonymous function to output the results because print doesn't work
-         * because it's a language construct. The benefit of using addContent
-         * versus standard print is that it makes it possible to rearrange or
-         * alter the content added.
+         * Adds some content to the display.content event. The benefit of using 
+         * addContent versus standard print is that it makes it possible to 
+         * rearrange or alter the content added.
          *
          * @access public
          * @param string $content The content to output
@@ -237,7 +240,7 @@
         public function addContent($content, $position = null, &$id = null)
         {
             if ($this->buffered) {
-                $id = \Phork::event()->listen('output.display.content', $this->callback ?: function($buffered) { print $buffered; }, array($content), $position, $id);
+                $id = \Phork::event()->listen('output.display.content', $this->callback, array($content), $position, $id);
             } else {
                 print $content;
             }
