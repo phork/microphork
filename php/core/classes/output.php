@@ -75,7 +75,8 @@
 
 
         /**
-         * Turns on output buffering.
+         * Turns on output buffering within this class. This is internal
+         * buffering and doesn't affect the output buffer.
          *
          * @access public
          * @param callable $callback An optional custom output function
@@ -85,7 +86,6 @@
         {
             if (!$this->buffered) {
                 $this->buffered = true;
-                ob_start();
             }
             
             $this->callback = $callback;
@@ -107,7 +107,6 @@
                 $this->outputContent();
 
                 $this->buffered = false;
-                ob_end_flush();
             }
             
             $this->clear();
@@ -205,11 +204,14 @@
             if (is_array($templateVars)) {
                 extract($templateVars);
             }
+            
+            if ($this->buffered) {
+                ob_start();
+            }
 
             if (($fullpath = \Phork::loader()->isTemplate($path)) && include($fullpath)) {
-                if ($this->buffered && ($content = ob_get_contents())) {
+                if ($this->buffered && ($content = ob_get_clean())) {
                     $this->addContent($content, $position, $id);
-                    ob_clean();
                 }
             } else {
                 throw new \PhorkException(sprintf('Invalid template path (%s)', $path));

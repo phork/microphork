@@ -130,7 +130,8 @@
          * @param array $args The optional runtime args to pass to the callback
          * @return mixed The results from the callback
          */
-        protected function callback(array $event, $args) {
+        protected function callback(array $event, $args) 
+        {
             return call_user_func_array($event[0], is_array($args) ? array_merge($event[1], $args) : $event[1]);
         }
 

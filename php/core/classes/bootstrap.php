@@ -49,8 +49,9 @@
 
         const LOAD_STACK = 'app';
 
+        
         /**
-         * This sets up the default registry keys for the base objects.
+         * Sets up empty registry keys for the default base objects.
          * The constructor can't be public for a singleton.
          *
          * @access protected
