@@ -25,24 +25,32 @@
          * Returns the instance of the singleton object. If it doesn't
          * exist this instantiates it. Has the option to immediately
          * dereference the singleton. An object that has been instantiated
-         * and dereferenced can not be instantiated again.
+         * and dereferenced cannot be instantiated again.
          *
          * @access public
          * @param boolean $dereference Whether to immediately dereference the object
+         * @param boolean $create Whether to create a new instance if one doesn't exist
          * @return object The instance of the object
          * @static
          */
-        static public function instance($dereference = false)
+        static public function instance($dereference = false, $create = true)
         {
             if (!array_key_exists($class = get_called_class(), self::$instances)) {
                 if (empty(self::$dereferenced[$class])) {
-                    self::$instances[$class] = new $class();
+                    if ($create) {
+                        self::$instances[$class] = new $class();
+                    }
                 } else {
                     throw new \PhorkException(sprintf('The singleton %s has been instantiated and dereferenced', $class));
                 }
             }
-
-            return $dereference ? self::dereference() : self::$instances[$class];
+            
+            if (array_key_exists($class, self::$instances)) {
+                $instance = self::$instances[$class];
+                $dereference && self::dereference();
+                
+                return $instance;
+            }
         }
         
 
@@ -66,14 +74,29 @@
                 return $instance;
             }
         }
-
-
+        
+        
         /**
          * The constructor can't be public for a singleton.
          *
          * @access protected
          */
         protected function __construct() {}
+        
+        
+        /**
+         * Removes the dereferend flag or the instance.
+         *
+         * @access public
+         */
+        public function __destruct() {
+            $class = get_called_class();
+            if (array_key_exists($class, self::$dereferenced)) {
+                unset(self::$dereferenced[$class]);
+            } else if (array_key_exists($class, self::$instances)) {
+                unset(self::$instances[$class]);
+            }
+        }
 
 
         /**

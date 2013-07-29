@@ -447,7 +447,7 @@
             if (array_key_exists($method, $registry) && is_object($registry[$method])) {
                 return $registry[$method];
             } else {
-                throw new \PhorkException('Invalid registry object');
+                throw new \PhorkException(sprintf('Invalid registry object: %s', $method));
             }
         }
     }

@@ -74,6 +74,7 @@
          */
         public function __destruct()
         {
+            parent::__destruct();
             spl_autoload_unregister(array($this, 'loadClass'));
         }
 
