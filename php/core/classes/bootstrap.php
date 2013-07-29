@@ -85,7 +85,7 @@
         public function init($env)
         {
             $this->event->trigger('bootstrap.init.before');
-
+            
             try {
                 $this->loader->addStack(static::LOAD_STACK, array(
                     'core' => CORE_PATH,
@@ -94,6 +94,9 @@
             } catch (Exception $exception) {
                 //the stack has already been defined; not a problem
             }
+            
+            $this->loader->autoload(true);
+            $this->event->listen('shutdown.run.before', array($this->loader, 'autoload'), array(false));
 
             empty($this->registry['config'])   && $this->initConfig($env);
             empty($this->registry['error'])    && $this->initError();
@@ -150,15 +153,17 @@
 
         /**
          * Unsets most of the registry objects. If any of these are
-         * referenced elsewhere they will only be dereferenced here
-         * and won't actually be destroyed until later. The error
-         * handler is excluded because it may still be used later.
+         * referenced elsewhere they will only be dereferenced here and
+         * won't actually be destroyed until later. The error handler
+         * is excluded because it may still be used later.
          *
          * @access public
          * @return void
          */
         public function shutdown()
         {
+            $this->event->trigger('shutdown.run.before');
+            
             unset(
                 $this->registry['controller'],
                 $this->registry['output'],

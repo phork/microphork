@@ -62,20 +62,23 @@
                     throw new \PhorkException(sprintf('No path defined for Phork\%s', $type));
                 }
             });
-            
-            spl_autoload_register(array($this, 'loadClass'));
         }
 
 
         /**
-         * Removes this from being used as an autoloader.
+         * Adds or remove this class from the autoload stack based on the
+         * active flag passed.
          *
          * @access public
+         * @param boolean $active Whether to set as an autoloader
+         * @return void 
          */
-        public function __destruct()
-        {
-            parent::__destruct();
-            spl_autoload_unregister(array($this, 'loadClass'));
+        public function autoload($active) {
+            if ($active) {
+                spl_autoload_register(array($this, 'loadClass'));
+            } else {
+                spl_autoload_unregister(array($this, 'loadClass'));
+            }
         }
 
 
