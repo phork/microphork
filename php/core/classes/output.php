@@ -185,7 +185,7 @@
         public function addHeader($header, $position = null, &$id = null)
         {
             if ($this->buffered) {
-                \Phork::event()->listen('output.display.headers', 'header', array($header), $position, $id);
+                \Phork::event()->once('output.display.headers', 'header', array($header), $position, $id);
             } else {
                 header($header);
             }
@@ -241,7 +241,7 @@
         public function addContent($content, $position = null, &$id = null)
         {
             if ($this->buffered) {
-                $id = \Phork::event()->listen('output.display.content', $this->callback, array($content), $position, $id);
+                $id = \Phork::event()->once('output.display.content', $this->callback, array($content), $position, $id);
             } else {
                 print $content;
             }
