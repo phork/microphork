@@ -111,11 +111,11 @@
             if ($this->buffered) {
                 $this->outputHeaders();
                 $this->outputContent();
-
+                $this->clear();
+            
                 $this->buffered = false;
             }
             
-            $this->clear();
             return $this;
         }
 

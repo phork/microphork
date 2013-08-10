@@ -35,19 +35,19 @@
          */
         static public function instance($dereference = false, $create = true)
         {
-            if (!array_key_exists($class = get_called_class(), self::$instances)) {
-                if (empty(self::$dereferenced[$class])) {
+            if (!array_key_exists($class = get_called_class(), static::$instances)) {
+                if (empty(static::$dereferenced[$class])) {
                     if ($create) {
-                        self::$instances[$class] = new $class();
+                        static::$instances[$class] = new $class();
                     }
                 } else {
                     throw new \PhorkException(sprintf('The singleton %s has been instantiated and dereferenced', $class));
                 }
             }
             
-            if (array_key_exists($class, self::$instances)) {
-                $instance = self::$instances[$class];
-                $dereference && self::dereference();
+            if (array_key_exists($class, static::$instances)) {
+                $instance = static::$instances[$class];
+                $dereference && static::dereference();
                 
                 return $instance;
             }
@@ -66,10 +66,10 @@
          */
         static public function dereference()
         {
-            if (array_key_exists($class = get_called_class(), self::$instances)) {
-                $instance = self::$instances[$class];
-                unset(self::$instances[$class]);
-                self::$dereferenced[$class] = true;
+            if (array_key_exists($class = get_called_class(), static::$instances)) {
+                $instance = static::$instances[$class];
+                unset(static::$instances[$class]);
+                static::$dereferenced[$class] = true;
 
                 return $instance;
             }
@@ -85,16 +85,16 @@
         
         
         /**
-         * Removes the dereferend flag or the instance.
+         * Removes the dereferenced flag or the instance.
          *
          * @access public
          */
-        public function __destruct() {
-            $class = get_called_class();
-            if (array_key_exists($class, self::$dereferenced)) {
-                unset(self::$dereferenced[$class]);
-            } else if (array_key_exists($class, self::$instances)) {
-                unset(self::$instances[$class]);
+        public function __destruct() 
+        {
+            if (array_key_exists($class = get_called_class(), static::$dereferenced)) {
+                unset(static::$dereferenced[$class]);
+            } else if (array_key_exists($class, static::$instances)) {
+                unset(static::$instances[$class]);
             }
         }
 

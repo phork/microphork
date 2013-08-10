@@ -70,6 +70,14 @@
                 'controller'
             ), null);
         }
+        
+        
+        /**
+         * Don't let the bootstrap be dereferenced.
+         *
+         * @access public
+         */
+        public function __destruct() {}
 
 
         /**
@@ -108,7 +116,6 @@
             $this->event->trigger('bootstrap.init.after');
 
             $this->initialized = true;
-
             return $this;
         }
 
@@ -152,10 +159,10 @@
 
 
         /**
-         * Unsets most of the registry objects. If any of these are
-         * referenced elsewhere they will only be dereferenced here and
-         * won't actually be destroyed until later. The error handler
-         * is excluded because it may still be used later.
+         * Unsets most of the registry objects. If any of these are referenced
+         * elsewhere they will only be dereferenced here and won't actually be
+         * destroyed until later. The order of destruction is important and
+         * the error handler is excluded because it may still be used later.
          *
          * @access public
          * @return void
@@ -166,13 +173,13 @@
             
             unset(
                 $this->registry['controller'],
-                $this->registry['output'],
                 $this->registry['loader'],
                 $this->registry['router'],
                 $this->registry['debug'],
                 $this->registry['event'],
                 $this->registry['config'],
-                $this->registry['language']
+                $this->registry['language'],
+                $this->registry['output']
             );
         }
 
@@ -370,6 +377,8 @@
                     return $class::instance(true);
                 }
             ));
+            
+            $this->event->listen('shutdown.run.before', array($this->output, 'flush'));
         }
 
 
@@ -432,7 +441,7 @@
             if (!empty($this->registry[$name])) {
                 return $this->registry[$name];
             } else {
-                throw new \PhorkException('Invalid registry object');
+                throw new \PhorkException(sprintf('Invalid registry object: %s', $name));
             }
         }
 
