@@ -2,15 +2,14 @@
     namespace Phork\Core;
 
     /**
-     * This class handles uploaded files and has additional
-     * file system checks before tying into the file system
-     * helper object to permanently save the file.
+     * This class handles uploaded files and has additional file system
+     * checks before permanently saving the file.
      *
      * @author Elenor Collings <elenor@phork.org>
      * @package phork
      * @subpackage core
      */
-    class Files
+    class Uploads
     {
         /**
          * Gets an array of the successfully uploaded files.
@@ -20,7 +19,7 @@
          * @return array The uploaded files array
          * @static
          */
-        static public function getUploadedFiles($uploaded = true)
+        static public function getFiles($uploaded = true)
         {
             $files = array();
 
@@ -36,12 +35,12 @@
                                 'size'      => $_FILES[$element]['size'][$key],
                             );
 
-                            if ($result = self::validateUploadedFile($file, $uploaded)) {
+                            if ($result = self::validateFile($file, $uploaded)) {
                                 $files[$element][$key] = $result;
                             }
                         }
                     } else {
-                        if ($result = self::validateUploadedFile($value, $uploaded)) {
+                        if ($result = self::validateFile($value, $uploaded)) {
                             $files[$element] = $result;
                         }
                     }
@@ -53,8 +52,8 @@
         
 
         /**
-         * Validates that the file upload was successful and
-         * returns the file data only if successful.
+         * Validates that the file upload was successful and returns
+         * the file data only if successful.
          *
          * @access public
          * @param array $file The file array to validate and format.
@@ -62,7 +61,7 @@
          * @return array The file data
          * @static
          */
-        static public function validateUploadedFile($file, $uploaded = true)
+        static public function validateFile($file, $uploaded = true)
         {
             if ($file['error']) {
                 switch ($file['error']) {
@@ -100,9 +99,9 @@
         
 
         /**
-         * Moves the uploaded file from its temporary location
-         * to the final location. If the file isn't an uploaded
-         * file it's copied to the new location rather than moved.
+         * Moves the uploaded file from its temporary location to the
+         * final location. If the file isn't an uploaded file it's 
+         * copied to the new location rather than moved.
          *
          * @access public
          * @param string $tempPath The file's temporary location
@@ -111,24 +110,28 @@
          * @return boolean True if the file was saved successfully
          * @static
          */
-        static public function saveUploadedFile($tempPath, $filePath, $overwrite = false)
+        static public function saveFile($tempPath, $filePath, $overwrite = false)
         {
             if (!empty($filePath)) {
                 if (($overwrite == true && is_file($filePath)) || !file_exists($filePath)) {
                     if (is_uploaded_file($tempPath)) {
-                        if (move_uploaded_file($tempPath, $filePath)) {
-                            return true;
+                        if (!@move_uploaded_file($tempPath, $filePath)) {
+                            throw new \PhorkException(\Phork::language()->translate('Unable to move uploaded file'));
                         }
                     } else {
-                        if (copy($tempPath, $filePath)) {
-                            return true;
+                        if (!@copy($tempPath, $filePath)) {
+                            $errors = \Phork::error()->getErrors();
+                            $message = $errors->last();
+                            throw new \PhorkException(\Phork::language()->translate('Unable to copy file'));
                         }
                     }
                 } else {
                     throw new \PhorkException(\Phork::language()->translate('That file exists already and cannot be overwritten'));
                 }
+            } else {
+                throw new \PhorkException(\Phork::language()->translate('Missing file path'));
             }
 
-            return false;
+            return true;
         }
     }

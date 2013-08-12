@@ -208,7 +208,7 @@
          */
         public function items()
         {
-            return array_combine($this->keys, $this->items);
+            return $this->keys || $this->items ? array_combine($this->keys, $this->items) : array();
         }
         
 

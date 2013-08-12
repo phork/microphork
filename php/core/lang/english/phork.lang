@@ -32,7 +32,7 @@ default: Invalid encoder: %s
 replace: Invalid encoder: %s
 
 #
-# files.php
+# uploads.php
 #
 
 default: The file size exceeds the maximum allowed file size
@@ -56,5 +56,14 @@ replace: There was an error uploading the file: %s
 default: Invalid file - It must be an uploaded file
 replace: Invalid file - It must be an uploaded file
 
+default: Unable to move uploaded file
+replace: Unable to move uploaded file
+
+default: Unable to copy file
+replace: Unable to copy file
+
 default: That file exists already and cannot be overwritten
 replace: That file exists already and cannot be overwritten
+
+default: Missing filepath
+replace: Missing filepath

@@ -272,7 +272,7 @@
             $this->register('error', $this->loader->loadStack(static::LOAD_STACK, 'error',
                 function($result, $type) use ($config) {
                     $class = sprintf('\\Phork\\%s\\Error', ucfirst($type));
-                    return new $class($config->verbose);
+                    return new $class($config->verbose, $config->backtrace);
                 }
             ));
 

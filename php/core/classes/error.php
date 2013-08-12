@@ -24,6 +24,7 @@
         protected $backtrace;
 
         protected $errors;
+        protected $details;
         protected $backtraces;
         protected $handling;
 
@@ -40,8 +41,9 @@
             $this->verbose = $verbose;
             $this->backtrace = $backtrace;
 
-            $this->errors = new Iterator();
-            $this->backtraces = new Iterator();
+            $this->errors = new Iterators\Associative();
+            $this->details = new Iterators\Associative();
+            $this->backtraces = new Iterators\Associative();
 
             set_error_handler(array($this, 'handle'));
             $this->handling = true;
@@ -107,8 +109,10 @@
                 }
 
                 $error = $this->verbose ? sprintf('%s: %s in %s on line %d', $type, $error, $file, $line) : $error;
-                $this->errors->append($error);
-                $this->backtraces->append($this->backtrace ? debug_backtrace() : null);
+                $id = $this->errors->append($error);
+                
+                $this->details->append(array($id, array($level, $error, $file, $line)));
+                $this->backtrace && $this->backtraces->append(array($id, debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
 
                 $args = func_get_args();
                 array_unshift($args, $type);
@@ -128,6 +132,7 @@
         public function clear()
         {
             $this->errors->clear();
+            $this->details->clear();
             $this->backtraces->clear();
         }
         
@@ -141,6 +146,18 @@
         public function getErrors()
         {
             return $this->errors;
+        }
+        
+
+        /**
+         * Returns the details iterator object.
+         *
+         * @access public
+         * @return object The iterator object of details
+         */
+        public function getDetails()
+        {
+            return $this->details;
         }
         
 

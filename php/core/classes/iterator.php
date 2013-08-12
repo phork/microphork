@@ -410,7 +410,7 @@
                 unset($this->items[$position]);
                 $this->items = array_values($this->items);
 
-                if ($this->cursor > $position) {
+                if ($this->cursor >= $position) {
                     $this->cursor--;
                 }
                 $this->count--;
