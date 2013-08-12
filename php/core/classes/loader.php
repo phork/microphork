@@ -73,7 +73,8 @@
          * @param boolean $active Whether to set as an autoloader
          * @return void 
          */
-        public function autoload($active) {
+        public function autoload($active) 
+        {
             if ($active) {
                 spl_autoload_register(array($this, 'loadClass'));
             } else {

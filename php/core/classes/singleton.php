@@ -55,10 +55,10 @@
         
 
         /**
-         * Removes the reference to the instantiated singleton so
-         * that unset() can be called and the object can be destroyed.
-         * This keeps tracks of which objects have been dereferenced
-         * so they can't be reinstantiated later.
+         * Removes the reference to the instantiated singleton so that
+         * unset() can be called and the object can be destroyed. This
+         * keeps tracks of which objects have been dereferenced so they
+         * can't be reinstantiated later.
          *
          * @access public
          * @return object The instance of the object

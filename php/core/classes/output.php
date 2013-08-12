@@ -101,7 +101,7 @@
 
         /**
          * Outputs the headers and the content, turns off buffering and
-         * clears out the data.
+         * destroys the output events.
          *
          * @access public
          * @return object The instance of the output object
@@ -111,26 +111,14 @@
             if ($this->buffered) {
                 $this->outputHeaders();
                 $this->outputContent();
-                $this->clear();
+                
+                \Phork::event()->destroy('output.display.headers');
+                \Phork::event()->destroy('output.display.content');
             
                 $this->buffered = false;
+                $this->callback = null;
             }
             
-            return $this;
-        }
-
-
-        /**
-         * Clears out all the events that display the data.
-         *
-         * @access public
-         * @return object The instance of the output object
-         */
-        public function clear()
-        {
-            \Phork::event()->destroy('output.display.headers');
-            \Phork::event()->destroy('output.display.content');
-
             return $this;
         }
 

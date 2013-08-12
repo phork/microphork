@@ -84,7 +84,8 @@
          * Dispatches to the other initialization methods. These can be
          * added to or overridden in the app bootstrap class. If any of
          * the core objects have already been registered they won't be
-         * overwritten here. Also sets up the default loader stack paths.
+         * overwritten here. Also sets up the default loader stack paths
+         * and sets up the loader to be used as an autoloader.
          *
          * @access public
          * @param string $env The environment to initialize (eg. prod, stage, dev)
@@ -173,13 +174,13 @@
             
             unset(
                 $this->registry['controller'],
+                $this->registry['output'],
                 $this->registry['loader'],
                 $this->registry['router'],
                 $this->registry['debug'],
                 $this->registry['event'],
                 $this->registry['config'],
-                $this->registry['language'],
-                $this->registry['output']
+                $this->registry['language']
             );
         }
 
@@ -438,7 +439,7 @@
          */
         public function __get($name)
         {
-            if (!empty($this->registry[$name])) {
+            if (array_key_exists($name, $this->registry) && is_object($this->registry[$name])) {
                 return $this->registry[$name];
             } else {
                 throw new \PhorkException(sprintf('Invalid registry object: %s', $name));
@@ -451,17 +452,17 @@
          * a way to pass through calls to the registry objects.
          *
          * @access public
-         * @param string $method The name of the method called
+         * @param string $name The name of the method called
          * @param array $args The arguments passed to the method
          * @return object The object property
          */
-        static public function __callStatic($method, $args)
+        static public function __callStatic($name, $args)
         {
             $registry = self::instance()->registry;
-            if (array_key_exists($method, $registry) && is_object($registry[$method])) {
-                return $registry[$method];
+            if (array_key_exists($name, $registry) && is_object($registry[$name])) {
+                return $registry[$name];
             } else {
-                throw new \PhorkException(sprintf('Invalid registry object: %s', $method));
+                throw new \PhorkException(sprintf('Invalid registry object: %s', $name));
             }
         }
     }
