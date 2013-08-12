@@ -111,7 +111,23 @@
             if ($this->buffered) {
                 $this->outputHeaders();
                 $this->outputContent();
-                
+            }
+            
+            $this->clear();
+            return $this;
+        }
+        
+        
+        /**
+         * Destroys any headers and content that have been buffered and
+         * turns off buffering.
+         *
+         * @access public
+         * @return object The instance of the output object
+         */
+        public function clear() 
+        {
+            if ($this->buffered) {
                 \Phork::event()->destroy('output.display.headers');
                 \Phork::event()->destroy('output.display.content');
             
