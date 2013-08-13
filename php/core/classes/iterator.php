@@ -409,12 +409,12 @@
             if ($this->offsetExists($position)) {
                 unset($this->items[$position]);
                 $this->items = array_values($this->items);
-
-                if ($this->cursor >= $position) {
+                $this->count--;
+                
+                if ($this->cursor >= $this->count) {
                     $this->cursor--;
                 }
-                $this->count--;
-
+                
                 return true;
             }
         }
