@@ -165,7 +165,7 @@
          */
         public function remove($name, $key)
         {
-            if ($this->exists($name) && $this->events[$name]->seekByKey($key)) {
+            if ($this->exists($name) && $this->events[$name]->seek($key)) {
                 $action = $this->events[$name]->current();
                 $this->events[$name]->remove();
                 $this->events[$name]->rewind();
