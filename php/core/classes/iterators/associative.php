@@ -161,7 +161,7 @@
         public function before($key, $item)
         {
             if ($this->keyExists($key)) {
-                $this->insert($this->keyOffset($key), $item);
+                return $this->insert($this->keyOffset($key), $item);
             }
         }
         
@@ -177,7 +177,7 @@
         public function after($key, $item)
         {
             if ($this->keyExists($key)) {
-                $this->insert($this->keyOffset($key) + 1, $item);
+                return $this->insert($this->keyOffset($key) + 1, $item);
             }
         }
         
@@ -237,6 +237,21 @@
         {
             return array_search($key, $this->keys);
         }
+        
+        
+        /**
+         * Returns the key for the offset passed.
+         *
+         * @access public
+         * @param integer $offset The offset to get the key for
+         * @return string The key if it exists
+         */
+        public function offsetKey($offset)
+        {
+            if (isset($this->keys[$offset])) {
+                return $this->keys[$offset];
+            }
+        }
 
 
         //-----------------------------------------------------------------
@@ -285,7 +300,7 @@
                 return true;
             }
         }
-
+        
 
         //-----------------------------------------------------------------
         //   key methods
