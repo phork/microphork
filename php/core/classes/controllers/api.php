@@ -16,6 +16,7 @@
     {
         const SID_URL_VAR = 'sid';
 
+        protected $withMeta = true;
         protected $format;
         protected $success;
         protected $result;
@@ -115,7 +116,6 @@
             $encoder = \Phork::loader()->loadStack(\Phork::LOAD_STACK, 'encoder',
                 function($result, $type) {
                     $class = sprintf('\\Phork\\%s\\Encoder', ucfirst($type));
-
                     return new $class();
                 }
             );
@@ -154,8 +154,10 @@
                 }
 
                 $header = $encoder->getHeader();
-                $content = $encoder->encode(array_merge(array(
-                    'success' => !!$success
+                $content = $encoder->encode(!$this->withMeta ? $result : array_merge(array(
+                    'meta' => array(
+                        'success' => !!$success
+                    )
                 ), $result), $args);
 
                 return array(
