@@ -18,13 +18,6 @@ default: Missing batch definitions
 replace: Missing batch definitions
 
 #
-# config.php
-#
-
-default: Invalid config: %s
-replace: Invalid config: %s
-
-#
 # controllers/api.php
 #
 

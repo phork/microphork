@@ -161,7 +161,7 @@
          * @access public
          * @param string $name The name of the event contain the action to remove
          * @param string $key The key of the action to remove
-         * @return void
+         * @return array The event array of callback, args, and the run once flag
          */
         public function remove($name, $key)
         {

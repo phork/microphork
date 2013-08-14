@@ -93,7 +93,7 @@
         {
             if (array_key_exists($class = get_called_class(), static::$dereferenced)) {
                 unset(static::$dereferenced[$class]);
-            } else if (array_key_exists($class, static::$instances)) {
+            } elseif (array_key_exists($class, static::$instances)) {
                 unset(static::$instances[$class]);
             }
         }

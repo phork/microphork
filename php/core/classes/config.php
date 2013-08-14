@@ -100,7 +100,7 @@
             if (array_key_exists($name, $this->config)) {
                 $result = $this->config[$name];
             } elseif ($warn) {
-                trigger_error(\Phork::language()->translate('Invalid config: %s', $name), E_USER_NOTICE);
+                trigger_error(sprintf('Invalid config: %s', $name), E_USER_NOTICE);
             }
 
             return $result;
