@@ -346,9 +346,7 @@
         public function keySet($key, $item)
         {
             if (($position = $this->keyOffset($key)) !== false) {
-                if ($this->offsetSet($position, array($key, $item))) {
-                    return true;
-                }
+                return $this->offsetSet($position, array($key, $item));
             }
         }
         
