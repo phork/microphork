@@ -142,7 +142,7 @@
             $this->result = array();
 
             if ($errors = \Phork::error()->getErrors()->items()) {
-                $this->result['errors'] = $errors;
+                $this->result['errors'] = array_values($errors);
             }
         }
 
