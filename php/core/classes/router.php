@@ -172,8 +172,8 @@
         {
             if ($this->cli) {
                 $relativeUrl = $GLOBALS['argc'] > 2 ? $GLOBALS['argv'][2] : '';
-            } elseif (!empty($_SERVER['_PATH_INFO'])) {
-                $relativeUrl = str_replace($this->baseUrl, '', $_SERVER['_PATH_INFO']);
+            } elseif (!empty($_SERVER['PATH_INFO'])) {
+                $relativeUrl = str_replace($this->baseUrl, '', $_SERVER['PATH_INFO']);
             } elseif (!empty($_SERVER['REQUEST_URI'])) {
                 $relativeUrl = str_replace($this->baseUrl, '', $_SERVER['REQUEST_URI']);
             } else {
