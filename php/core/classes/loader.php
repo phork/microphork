@@ -119,11 +119,12 @@
          * @access public
          * @param string $path The path to the file relative to the CORE_PATH directory
          * @param string $type The type of file (eg. config, classes, classes/foo)
+         * @param boolean $once Whether to use require_once instead of require
          * @return mixed The return value from the require
          */
-        public function loadCore($path, $type = 'classes')
+        public function loadCore($path, $type = 'classes', $once = true)
         {
-            return $this->loadFile(CORE_PATH.$type.DIRECTORY_SEPARATOR.$path.$this->extension);
+            return $this->loadFile(CORE_PATH.$type.DIRECTORY_SEPARATOR.$path.$this->extension, $once);
         }
 
 
@@ -133,11 +134,12 @@
          * @access public
          * @param string $path The path to the file relative to the APP_PATH directory
          * @param string $type The type of file (eg. config, classes, classes/foo)
+         * @param boolean $once Whether to use require_once instead of require
          * @return mixed The return value from the require
          */
-        public function loadApp($path, $type = 'classes')
+        public function loadApp($path, $type = 'classes', $once = true)
         {
-            return $this->loadFile(APP_PATH.$type.DIRECTORY_SEPARATOR.$path.$this->extension);
+            return $this->loadFile(APP_PATH.$type.DIRECTORY_SEPARATOR.$path.$this->extension, $once);
         }
 
 
@@ -147,11 +149,16 @@
          *
          * @access public
          * @param string $fullpath The absolute path to the file
+         * @param boolean $once Whether to use require_once instead of require
          * @return mixed The return value from the require
          */
-        public function loadFile($fullpath)
+        public function loadFile($fullpath, $once = true)
         {
-            return require $this->validateFile($fullpath);
+            if ($once) {
+                return require_once $this->validateFile($fullpath);
+            } else {
+                return require $this->validateFile($fullpath);
+            }
         }
         
 
@@ -200,9 +207,11 @@
          * @param callable $callback The closure, function name or method called for successful loads
          * @param string $folder The relative path to the folder (eg. config, classes, classes/foo)
          * @param boolean $runall Whether to run the callbacks for all the loaded files or just the latest
+         * @param string $ext The file extension of the file (eg. .php)
+         * @param boolean $once Whether to use require_once instead of require
          * @return mixed The result(s) from the called callback(s)
          */
-        public function loadStack($name, $file, $callback = null, $folder = 'classes', $runall = false, $ext = null)
+        public function loadStack($name, $file, $callback = null, $folder = 'classes', $runall = false, $ext = null, $once = true)
         {
             if (!array_key_exists($name, $this->stacks)) {
                 throw new \PhorkException(sprintf('Unable to load from non-existent stack %s', $name));
@@ -210,7 +219,7 @@
 
             foreach ($this->stacks[$name] as $type=>$root) {
                 if ($fullpath = $this->isFile($root.$folder.DIRECTORY_SEPARATOR.$file.($ext ?: $this->extension))) {
-                    $result = $this->loadFile($fullpath);
+                    $result = $this->loadFile($fullpath, $once);
 
                     if ($callback) {
                         if ($runall) {
