@@ -37,7 +37,6 @@
             $class = \Phork::loader()->loadStack(\Phork::LOAD_STACK, 'api',
                 function($result, $type) {
                     $class = sprintf('\\Phork\\%s\\Api', ucfirst($type));
-
                     return $class;
                 }
             );
@@ -45,11 +44,17 @@
             $this->api = new $class(\Phork::router(), $this->authenticate(), false);
             $this->format = \Phork::router()->getExtension() ?: \Phork::config()->interfaces->api->defaults->encoder;
 
-            list(
-                $this->statusCode,
-                $this->success,
-                $this->result
-            ) = $this->api->run();
+            try {
+                list(
+                    $this->statusCode,
+                    $this->success,
+                    $this->result
+                ) = $this->api->run();
+            } catch (\Exception $exception) {
+                $this->success = false;
+                $this->statusCode = $exception->getCode();
+                $this->result = array('error' => $exception->getMessage());
+            }
 
             $this->output();
 
@@ -93,7 +98,7 @@
         protected function output()
         {
             list($header, $content) = $this->encode($this->success, $this->result);
-
+            
             \Phork::output()
                 ->setStatusCode($this->statusCode ?: 200)
                 ->addHeader($header)
