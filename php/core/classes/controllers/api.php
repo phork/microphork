@@ -95,13 +95,17 @@
          */
         protected function output()
         {
-            list($header, $content) = $this->encode($this->success, $this->result);
-            
-            \Phork::output()
-                ->setStatusCode($this->statusCode ?: 200)
-                ->addHeader($header)
-                ->addContent($content)
-            ;
+            try {
+                list($header, $content) = $this->encode($this->success, $this->result);
+                
+                \Phork::output()
+                    ->setStatusCode($this->statusCode ?: 200)
+                    ->addHeader($header)
+                    ->addContent($content)
+                ;
+            } catch (\Exception $exception) {
+                \Phork::instance()->fatal($exception->getCode() ?: 500, $exception->getMessage());
+            }
         }
 
 
@@ -153,7 +157,7 @@
                         break;
 
                     default:
-                        throw new \PhorkException(\Phork::language()->translate('Invalid encoder: %s', $this->format ?: 'undefined'));
+                        throw new \PhorkException(\Phork::language()->translate('Invalid encoder: %s', htmlentities($this->format) ?: 'undefined'), 400);
                 }
 
                 $header = $encoder->getHeader();

@@ -141,7 +141,6 @@
             $class = \Phork::loader()->loadStack(\Phork::LOAD_STACK, $segment, (
                 function($result, $type) use ($segment) {
                     $class = sprintf('\\Phork\\%s\\Controllers\\%s', ucfirst($type), ucfirst($segment));
-
                     return $class;
                 }
             ), 'classes/controllers');
@@ -191,9 +190,10 @@
          *
          * @access public
          * @param integer $statusCode The HTTP status code
+         * @param string $statusString A string to use instead of the default code string
          * @return void
          */
-        public function fatal($statusCode)
+        public function fatal($statusCode, $statusString = null)
         {
             if (!\Phork::loader()->isTemplate($template = 'errors/'.$statusCode)) {
                 $template = 'errors/catchall';
@@ -204,7 +204,7 @@
                 ->setStatusCode($statusCode)
                 ->addTemplate($template, array(
                     'statusCode' => $statusCode,
-                    'statusString' => \Phork::output()->getStatusCode($statusCode)
+                    'statusString' => $statusString ?: \Phork::output()->getStatusCode($statusCode)
                 ))
             ;
         }
@@ -374,7 +374,6 @@
             $this->register('output', $this->loader->loadStack(static::LOAD_STACK, 'output',
                 function($result, $type) {
                     $class = sprintf('\\Phork\\%s\\Output', ucfirst($type));
-
                     return $class::instance(true);
                 }
             ));

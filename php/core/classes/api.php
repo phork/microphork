@@ -7,6 +7,9 @@
      * of outputting them. This allows for the results to then be displayed
      * by the API controller or for this to be called internally.
      *
+     * GET: /api/encoders.json
+     * GET: /api/batch.json?requests=%7B"encoders"%3A%7B"method"%3A"get"%2C"url"%3A"%5C%2Fapi%5C%2Fencoders.json"%7D%7D
+     *
      * @author Elenor Collings <elenor@phork.org>
      * @package phork
      * @subpackage core
@@ -20,7 +23,7 @@
         protected $internal;
         protected $format;
 
-        protected $statusCode = 200;
+        protected $statusCode;
         protected $success = false;
         protected $result = array();
 
@@ -41,6 +44,14 @@
             $this->router = $router;
             $this->authenticated = $authenticated;
             $this->internal = $internal;
+            
+            if (!class_exists('\ApiException', false)) {
+                if (\Phork::loader()->loadCore('exception', 'classes/api')) {
+                    class_alias('\\Phork\\Core\\Api\\Exception', 'ApiException');
+                } else {
+                    throw new \PhorkException(\Phork::language()->translate('Unable to load API exception handler'));
+                }
+            }
         }
 
 
@@ -58,28 +69,31 @@
          */
         public function run()
         {
-            if (get_class($this) == __CLASS__ && count($segments = $this->router->getSegments()) > 2) {
-                $class = \Phork::loader()->loadStack(\Phork::LOAD_STACK, ($segment = $segments[1]), (
-                    function($result, $type) use ($segment) {
-                        $class = sprintf('\\Phork\\%s\\Api\\%s', ucfirst($type), ucfirst($segment));
-
-                        return $class;
+            try {
+                if (get_class($this) == __CLASS__ && count($segments = $this->router->getSegments()) > 2) {
+                    $class = \Phork::loader()->loadStack(\Phork::LOAD_STACK, ($segment = $segments[1]), (
+                        function($result, $type) use ($segment) {
+                            $class = sprintf('\\Phork\\%s\\Api\\%s', ucfirst($type), ucfirst($segment));
+                            return $class;
+                        }
+                    ), 'classes/api');
+    
+                    if (!$class) {
+                        throw new \ApiException(\Phork::language()->translate('Invalid API class'), 400);
                     }
-                ), 'classes/api');
-
-                if ($class) {
+                    
                     $delegate = new $class($this->router, $this->authenticated, $this->internal);
                 } else {
-                    trigger_error(\Phork::language()->translate('Invalid API class', E_USER_ERROR));
-                    $this->error(404);
+                    $this->format = $this->router->getExtension();
+                    $this->handle();
                 }
-            } else {
-                $this->format = $this->router->getExtension();
-                $this->handle();
+            } catch (\ApiException $exception) {
+                trigger_error($exception->getMessage(), E_USER_ERROR);
+                $this->error($exception->getCode());
             }
-
+            
             return isset($delegate) ? $delegate->run() : array(
-                $this->statusCode,
+                $this->statusCode ?: 200,
                 $this->success,
                 $this->result
             );
@@ -87,19 +101,18 @@
 
 
         /**
-         * Verifies that the actual method matches the method passed.
+         * Verifies that the actual method matches the method passed and
+         * throwa an API exception if it doesn't.
          *
          * @access protected
          * @param string $method The required request type (GET, PUT, POST, DELETE)
-         * @return boolean True on success
+         * @return void
          */
         protected function validate($method)
         {
-            if (!($result = ($this->router->getMethod() == strtolower($method)))) {
-                trigger_error(\Phork::language()->translate('Invalid request method - %s required', $method), E_USER_ERROR);
+            if ($this->router->getMethod() != strtolower($method)) {
+                throw new \ApiException(\Phork::language()->translate('Invalid request method - %s required', $method), 400);
             }
-
-            return $result;
         }
 
 
@@ -118,13 +131,12 @@
             );
 
             $segment = str_replace('.'.$this->format, '', $this->router->getSegment(1));
-            if (!empty($handlers[$segment])) {
-                $method = $this->prefix.$handlers[$segment];
-                $this->$method();
-            } else {
-                trigger_error(\Phork::language()->translate('Invalid API method', E_USER_ERROR));
-                $this->error(404);
+            if (empty($handlers[$segment])) {
+                throw new \ApiException(\Phork::language()->translate('Invalid API method'), 400);
             }
+            
+            $method = $this->prefix.$handlers[$segment];
+            $this->$method();
         }
 
 
@@ -140,7 +152,7 @@
             $this->statusCode = $statusCode;
             $this->success = false;
             $this->result = array();
-
+            
             if ($errors = \Phork::error()->getErrors()->items()) {
                 $this->result['errors'] = array_values($errors);
             }
@@ -162,62 +174,59 @@
          */
         protected function handleGetBatch()
         {
-            if ($requests = $this->router->getVariable('requests')) {
-                if ($requests = json_decode($requests, true)) {
-                    foreach ($requests as $key=>$request) {
-                        $key = isset($request['key']) ? $request['key'] : $key;
-                        if (!empty($request['method']) && !empty($request['url'])) {
-                            switch (strtolower($request['method'])) {
-                                case 'get':
-                                    list(
-                                        $result[$key]['status'],
-                                        $result[$key]['success'],
-                                        $result[$key]['data'],
-                                    ) = Api\Internal::get($request['url'], false);
-                                    break;
-
-                                case 'post':
-                                    list(
-                                        $result[$key]['status'],
-                                        $result[$key]['success'],
-                                        $result[$key]['data'],
-                                    ) = Api\Internal::post($request['url'], $request['args'], false);
-                                    break;
-
-                                case 'put':
-                                    list(
-                                        $result[$key]['status'],
-                                        $result[$key]['success'],
-                                        $result[$key]['data'],
-                                    ) = Api\Internal::put($request['url'], false);
-                                    break;
-
-                                case 'delete':
-                                    list(
-                                        $result[$key]['status'],
-                                        $result[$key]['success'],
-                                        $result[$key]['data'],
-                                    ) = Api\Internal::delete($request['url'], false);
-                                    break;
-                            }
-                        } else {
-                            trigger_error(\Phork::language()->translate('Missing request type and/or URL'), E_USER_ERROR);
-                            $this->error();
-                        }
-                    }
-
-                    $this->success = true;
-                    $this->result = array(
-                        'batched' => isset($result) ? $result : array()
-                    );
-                } else {
-                    trigger_error(\Phork::language()->translate('Invalid batch definitions'), E_USER_ERROR);
-                    $this->error(400);
-                }
-            } else {
-                trigger_error(\Phork::language()->translate('Missing batch definitions'), E_USER_ERROR);
-                $this->error(400);
+            if (!($requests = $this->router->getVariable('requests'))) {
+                throw new \ApiException(\Phork::language()->translate('Missing batch definitions'), 400);
             }
+            
+            if (!($requests = json_decode($requests, true))) {
+                throw new \ApiException(\Phork::language()->translate('Invalid batch definitions'), 400);
+            }
+            
+            foreach ($requests as $key=>$request) {
+                $key = isset($request['key']) ? $request['key'] : $key;
+                if (!empty($request['method']) && !empty($request['url'])) {
+                    switch (strtolower($request['method'])) {
+                        case 'get':
+                            list(
+                                $result[$key]['status'],
+                                $result[$key]['success'],
+                                $result[$key]['data'],
+                            ) = Api\Internal::get($request['url'], false);
+                            break;
+
+                        case 'post':
+                            list(
+                                $result[$key]['status'],
+                                $result[$key]['success'],
+                                $result[$key]['data'],
+                            ) = Api\Internal::post($request['url'], $request['args'], false);
+                            break;
+
+                        case 'put':
+                            list(
+                                $result[$key]['status'],
+                                $result[$key]['success'],
+                                $result[$key]['data'],
+                            ) = Api\Internal::put($request['url'], false);
+                            break;
+
+                        case 'delete':
+                            list(
+                                $result[$key]['status'],
+                                $result[$key]['success'],
+                                $result[$key]['data'],
+                            ) = Api\Internal::delete($request['url'], false);
+                            break;
+                    }
+                } else {
+                    throw new \ApiException(\Phork::language()->translate('Missing request type and/or URL'), 400);
+                }
+            }
+
+            $this->success = true;
+            $this->result = array(
+                'batched' => isset($result) ? $result : array()
+            );
         }
 
 
@@ -229,16 +238,13 @@
          */
         protected function handleGetEncoders()
         {
-            if ($this->validate('GET')) {
-                $config = \Phork::config()->get('encoder');
+            $this->validate('GET');
+            $config = \Phork::config()->get('encoder');
 
-                $this->success = true;
-                $this->result = array(
-                    'encoders' => array_keys($config->handlers->export())
-                );
-            } else {
-                $this->error(400);
-            }
+            $this->success = true;
+            $this->result = array(
+                'encoders' => array_keys($config->handlers->export())
+            );
         }
 
 

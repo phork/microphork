@@ -2,6 +2,9 @@
 # api.php
 #
 
+default: Unable to load API exception handler
+replace: Unable to load API exception handler
+
 default: Invalid request method - %s required
 replace: Invalid request method - %s required
 
