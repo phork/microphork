@@ -45,7 +45,9 @@
 
         'router'            => array(
             'defaults'          => array(
-                'controller'        => 'home'
+                'controller'        => 'home',
+                'endslash'          => false,
+                'mixedpost'         => false
             ),
             'urls'              => array(
                 'site'              => !empty($_SERVER['HTTP_HOST']) ? 'http://'.$_SERVER['HTTP_HOST'] : '',

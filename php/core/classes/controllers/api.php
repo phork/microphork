@@ -67,9 +67,7 @@
          * auth vars. If a session ID was passed in the query string that matches
          * the user's current session that will also authenticate them. The
          * session ID is required so that a malicious user can't send an already
-         * logged in user to the API to do something unauthorized. Alternately the
-         * API can be set to run on a different subdomain that can't read the
-         * top level domain's cookies.
+         * logged in user to the API to do something unauthorized.
          *
          * @access protected
          * @return boolean True if the user was authenticated

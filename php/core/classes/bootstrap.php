@@ -351,7 +351,7 @@
             $this->register('router', $this->loader->loadStack(static::LOAD_STACK, 'router',
                 function($result, $type) use ($config) {
                     $class = sprintf('\\Phork\\%s\\Router', ucfirst($type));
-                    return new $class($config->urls->base);
+                    return new $class($config->urls->base, $config->defaults->endslash, $config->defaults->mixedpost);
                 }
             ));
 

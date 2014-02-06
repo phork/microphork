@@ -16,7 +16,9 @@
 
         'router'            => array(
             'defaults'          => array(
-                'controller'        => 'home'
+                'controller'        => 'home',
+                'endslash'          => false,
+                'mixedpost'         => false
             ),
             'urls'              => array(
                 'base'              => !empty($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : ''
