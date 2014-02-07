@@ -14,7 +14,7 @@
      */
     abstract class Api
     {
-        const SID_URL_VAR = 'sid';
+        const URL_TOKEN = 't';
 
         protected $withMeta = true;
         protected $format;
@@ -63,11 +63,9 @@
 
 
         /**
-         * Authenticates a user for the non-public API calls using the server
-         * auth vars. If a session ID was passed in the query string that matches
-         * the user's current session that will also authenticate them. The
-         * session ID is required so that a malicious user can't send an already
-         * logged in user to the API to do something unauthorized.
+         * Authenticates a user using either the HTTP authentication or
+         * token authentication. The token can either be part of the query
+         * string or passed with a POST request.
          *
          * @access protected
          * @return boolean True if the user was authenticated
@@ -78,7 +76,7 @@
 
             if (empty($internal)) {
                 if (!empty(\Phork::instance()->auth)) {
-                    if (\Phork::router()->getVariable(static::SID_URL_VAR) == session_id()) {
+                    if (\Phork::auth()->isTokenValid(\Phork::router()->getVariable(static::URL_TOKEN))) {
                         return \Phork::auth()->isAuthenticated();
                     } elseif (!empty($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_PW'])) {
                         return \Phork::auth()->standardAuth($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
