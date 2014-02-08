@@ -213,11 +213,7 @@
          */
         public function loadStack($name, $file, $callback = null, $folder = 'classes', $runall = false, $ext = null, $once = true)
         {
-            if (!array_key_exists($name, $this->stacks)) {
-                throw new \PhorkException(sprintf('Unable to load from non-existent stack %s', $name));
-            }
-
-            foreach ($this->stacks[$name] as $type=>$root) {
+            foreach ($this->getStack($name) as $type=>$root) {
                 if ($fullpath = $this->isFile($root.$folder.DIRECTORY_SEPARATOR.$file.($ext ?: $this->extension))) {
                     $result = $this->loadFile($fullpath, $once);
 
@@ -279,6 +275,23 @@
             }
 
             return isset($return) ? $return : null;
+        }
+        
+        
+        /**
+         * Gets a stack if it's been registered.
+         *
+         * @param string $name The name of the stack
+         * @param boolean $warn Whether to throw an exception if getting a non-existent stack
+         * @return array The stack
+         */
+        public function getStack($name, $warn = true)
+        {
+            if (array_key_exists($name, $this->stacks)) {
+                return $this->stacks[$name];
+            } elseif ($warn) {
+                throw new \PhorkException(sprintf('Unable to get non-existent stack %s', $name));
+            }
         }
         
 
