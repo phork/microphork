@@ -18,7 +18,7 @@
     "autoload": {
         "psr-4": {
 	        "Phork\\Core\\": "php/core/classes",
-	        "Phork\\App\\": "php/core/app"
+	        "Phork\\App\\": "php/app/classes"
         }
     },
     "extra": {
