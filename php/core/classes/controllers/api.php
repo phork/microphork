@@ -16,7 +16,7 @@
     {
         const URL_TOKEN = 't';
 
-        protected $withMeta = true;
+        protected $withMeta;
         protected $format;
         protected $success;
         protected $result;
@@ -29,6 +29,7 @@
          * result.
          *
          * @access public
+         * @return void
          */
         public function run()
         {
@@ -43,6 +44,7 @@
 
             $this->api = new $class(\Phork::router(), $this->authenticate(), false);
             $this->format = \Phork::router()->getExtension() ?: \Phork::config()->interfaces->api->defaults->encoder;
+            $this->withMeta = \Phork::config()->interfaces->api->defaults->meta;
 
             try {
                 list(
@@ -90,6 +92,7 @@
          * Encodes and outputs the result returned from the API handler.
          *
          * @access protected
+         * @return void
          */
         protected function output()
         {

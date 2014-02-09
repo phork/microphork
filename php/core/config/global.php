@@ -48,7 +48,8 @@
         'interfaces'        => array(
             'api'               => array(
                 'defaults'          => array(
-                    'encoder'           => 'json'
+                    'encoder'           => 'json',
+                    'meta'              => false
                 )
             )
         )

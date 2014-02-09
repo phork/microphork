@@ -2,10 +2,6 @@
     return array(
         'env'               => 'dev',
 
-        'language'          => array(
-            'language'          => 'english'
-        ),
-
         'error'             => array(
             'verbose'           => true,
             'backtrace'         => true,
