@@ -16,7 +16,10 @@
         "php": ">=5.3.0"
     },
     "autoload": {
-        "classmap": ["php/core/classes", "php/app/classes"]
+        "psr-4": {
+	        "Phork\\Core\\": "php/core/classes",
+	        "Phork\\App\\": "php/core/app"
+        }
     },
     "extra": {
         "branch-alias": {
