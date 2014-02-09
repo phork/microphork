@@ -102,7 +102,7 @@
 
         /**
          * Verifies that the actual method matches the method passed and
-         * throwa an API exception if it doesn't.
+         * throws an API exception if it doesn't.
          *
          * @access protected
          * @param string $method The required request type (GET, PUT, POST, DELETE)
@@ -155,6 +155,7 @@
             
             if ($errors = \Phork::error()->getErrors()->items()) {
                 $this->result['errors'] = array_values($errors);
+                \Phork::error()->clear();
             }
         }
 
@@ -234,7 +235,7 @@
          * Returns the encoders available to format the results.
          *
          * @access protected
-         * @return array The array of encodings
+         * @return array The array of encoders
          */
         protected function handleGetEncoders()
         {

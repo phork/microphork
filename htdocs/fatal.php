@@ -1,13 +1,8 @@
-<!DOCTYPE html> 
-<html lang="en"> 
-    <head>
-        <meta charset="utf-8" /> 
-        <title>Fatal error</title>
-    </head>
+<?php
+    if (isset($exception)) {
+        $statusCode = $exception->getCode() ?: 500;
+        $statusString = $exception->getMessage();
+    }
     
-    <body>
-        <h1>Initialization error</h1>
-    
-        <pre><?php print_r($exception); ?></pre>
-    </body>
-</html>
+    //require the error template which will have access to the status vars
+    require VIEW_PATH.'errors/catchall.php';

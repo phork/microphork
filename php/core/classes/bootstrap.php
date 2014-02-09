@@ -191,9 +191,10 @@
          * @access public
          * @param integer $statusCode The HTTP status code
          * @param string $statusString A string to use instead of the default code string
+         * @param string $exception An optional exception which can be used for verbose output
          * @return void
          */
-        public function fatal($statusCode, $statusString = null)
+        public function fatal($statusCode, $statusString = null, $exception = null)
         {
             if (!\Phork::loader()->isTemplate($template = 'errors/'.$statusCode)) {
                 $template = 'errors/catchall';
@@ -204,7 +205,8 @@
                 ->setStatusCode($statusCode)
                 ->addTemplate($template, array(
                     'statusCode' => $statusCode,
-                    'statusString' => $statusString ?: \Phork::output()->getStatusCode($statusCode)
+                    'statusString' => $statusString ?: \Phork::output()->getStatusCode($statusCode),
+                    'exception' => $exception
                 ))
             ;
         }

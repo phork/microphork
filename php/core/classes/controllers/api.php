@@ -105,7 +105,7 @@
                     ->addContent($content)
                 ;
             } catch (\Exception $exception) {
-                \Phork::instance()->fatal($exception->getCode() ?: 500, $exception->getMessage());
+                \Phork::instance()->fatal($exception->getCode() ?: 500, $exception->getMessage(), $exception);
             }
         }
 

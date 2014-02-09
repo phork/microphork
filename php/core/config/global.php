@@ -3,6 +3,8 @@
         'env'               => null,
 
         'error'             => array(
+        	'verbose'           => false,
+            'backtrace'         => false,
             'handlers'          => array(
                 //handlers should be defined in the app class
             )

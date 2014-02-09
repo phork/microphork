@@ -8,8 +8,6 @@
         ),
 
         'error'             => array(
-            'verbose'           => false,
-            'backtrace'         => false,
             'handlers'          => array(
                 'log'               => array(
                     'active'            => false,
