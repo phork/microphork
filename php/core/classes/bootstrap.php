@@ -327,10 +327,10 @@
             ));
 
             if ($config) {
-            	foreach ($stack = $this->loader->getStack(static::LOAD_STACK) as $type=>$root) {
-	            	$stack[$type] = $root.'lang'.DIRECTORY_SEPARATOR;
-            	}
-            	
+                foreach ($stack = $this->loader->getStack(static::LOAD_STACK) as $type=>$root) {
+                    $stack[$type] = $root.'lang'.DIRECTORY_SEPARATOR;
+                }
+                
                 $this->language->setFilePaths($stack);
                 $this->language->setCachePath($config->cachepath);
                 $this->language->setLanguage($config->language);
