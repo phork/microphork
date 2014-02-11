@@ -89,7 +89,7 @@
          *
          * @access public
          */
-        public function __destruct() 
+        public function __destruct()
         {
             if (array_key_exists($class = get_called_class(), static::$dereferenced)) {
                 unset(static::$dereferenced[$class]);

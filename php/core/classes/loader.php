@@ -73,7 +73,7 @@
          * @param boolean $active Whether to set as an autoloader
          * @return void 
          */
-        public function autoload($active) 
+        public function autoload($active)
         {
             if ($active) {
                 spl_autoload_register(array($this, 'loadClass'));
@@ -107,7 +107,7 @@
          * @param callback $loader The loader callback
          * @return void
          */
-        public function mapNamespace($namespace, $loader) 
+        public function mapNamespace($namespace, $loader)
         {
             $this->namespaces[$namespace] = $loader;
         }
@@ -180,9 +180,9 @@
                     do {
                         if (array_push($popped, array_pop($pieces)) && !empty($this->namespaces[$joined = implode('\\', $pieces)])) {
                             $fullpath = call_user_func_array($this->namespaces[$joined], array($class, array_reverse($popped)));
-                            break; 
+                            break;
                         }
-                    } while ($pieces);             
+                    } while ($pieces);
                 }
             }
             

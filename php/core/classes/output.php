@@ -125,7 +125,7 @@
          * @access public
          * @return object The instance of the output object
          */
-        public function clear() 
+        public function clear()
         {
             if ($this->buffered) {
                 \Phork::event()->destroy('output.display.headers');
