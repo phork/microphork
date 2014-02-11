@@ -35,7 +35,7 @@
          */
         public function import(array $config)
         {
-            foreach ($config as $name=>$value) {
+            foreach ($config as $name => $value) {
                 $this->set($name, $value);
             }
         }
@@ -50,7 +50,7 @@
         public function export()
         {
             $result = array();
-            foreach ($this->config as $name=>$value) {
+            foreach ($this->config as $name => $value) {
                 if (is_object($value) && $value instanceof self) {
                     $result[$name] = $value->export();
                 } else {
@@ -140,7 +140,7 @@
          */
         protected function merge(Config $initial, array $additional)
         {
-            foreach ($additional as $name=>$value) {
+            foreach ($additional as $name => $value) {
                 $initial->set($name, $value);
             }
         }

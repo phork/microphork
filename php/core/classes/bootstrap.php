@@ -31,7 +31,7 @@
      *
      *   //initialize the auth package
      *   $auth = Phork::instance()->initPackage('auth', (
-     *     function($result, $type) {
+     *     function ($result, $type) {
      *       $class = sprintf('\\Phork\\%s\\Auth', ucfirst($type));
      *       return new $class();
      *     }
@@ -139,7 +139,7 @@
 
             $segment = ($this->router->getSegment(0) ?: $this->config->router->defaults->controller);
             $class = \Phork::loader()->loadStack(\Phork::LOAD_STACK, $segment, (
-                function($result, $type) use ($segment) {
+                function ($result, $type) use ($segment) {
                     $class = sprintf('\\Phork\\%s\\Controllers\\%s', ucfirst($type), ucfirst($segment));
                     return $class;
                 }
@@ -249,7 +249,7 @@
         protected function initConfig($env)
         {
             $this->register('config', $this->loader->loadStack(static::LOAD_STACK, 'config',
-                function($result, $type) {
+                function ($result, $type) {
                     $class = sprintf('\\Phork\\%s\\Config', ucfirst($type));
                     return new $class();
                 }
@@ -272,7 +272,7 @@
             $config = $this->config->get('error');
 
             $this->register('error', $this->loader->loadStack(static::LOAD_STACK, 'error',
-                function($result, $type) use ($config) {
+                function ($result, $type) use ($config) {
                     $class = sprintf('\\Phork\\%s\\Error', ucfirst($type));
                     return new $class($config->verbose, $config->backtrace);
                 }
@@ -296,7 +296,7 @@
             $config = $this->config->get('debug');
 
             $this->register('debug', $this->loader->loadStack(static::LOAD_STACK, 'debug',
-                function($result, $type) {
+                function ($result, $type) {
                     $class = sprintf('\\Phork\\%s\\Debug', ucfirst($type));
                     return new $class();
                 }
@@ -320,14 +320,14 @@
             $config = $this->config->get('language');
 
             $this->register('language', $this->loader->loadStack(static::LOAD_STACK, 'language',
-                function($result, $type) {
+                function ($result, $type) {
                     $class = sprintf('\\Phork\\%s\\Language', ucfirst($type));
                     return new $class();
                 }
             ));
 
             if ($config) {
-                foreach ($stack = $this->loader->getStack(static::LOAD_STACK) as $type=>$root) {
+                foreach ($stack = $this->loader->getStack(static::LOAD_STACK) as $type => $root) {
                     $stack[$type] = $root.'lang'.DIRECTORY_SEPARATOR;
                 }
                 
@@ -352,7 +352,7 @@
             $config = $this->config->get('router');
 
             $this->register('router', $this->loader->loadStack(static::LOAD_STACK, 'router',
-                function($result, $type) use ($config) {
+                function ($result, $type) use ($config) {
                     $class = sprintf('\\Phork\\%s\\Router', ucfirst($type));
                     return new $class($config->urls->base, $config->defaults->endslash, $config->defaults->mixedpost);
                 }
@@ -375,7 +375,7 @@
         protected function initOutput()
         {
             $this->register('output', $this->loader->loadStack(static::LOAD_STACK, 'output',
-                function($result, $type) {
+                function ($result, $type) {
                     $class = sprintf('\\Phork\\%s\\Output', ucfirst($type));
                     return $class::instance(true);
                 }

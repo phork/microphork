@@ -24,9 +24,9 @@
             $files = array();
 
             if (!empty($_FILES)) {
-                foreach ($_FILES as $element=>$value) {
+                foreach ($_FILES as $element => $value) {
                     if (is_array($value['tmp_name'])) {
-                        foreach ($value['tmp_name'] as $key=>$value) {
+                        foreach ($value['tmp_name'] as $key => $value) {
                             $file = array(
                                 'name'      => $_FILES[$element]['name'][$key],
                                 'type'      => $_FILES[$element]['type'][$key],
