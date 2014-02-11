@@ -183,7 +183,7 @@
                 throw new \ApiException(\Phork::language()->translate('Invalid batch definitions'), 400);
             }
             
-            foreach ($requests as $key=>$request) {
+            foreach ($requests as $key => $request) {
                 $key = isset($request['key']) ? $request['key'] : $key;
                 if (!empty($request['method']) && !empty($request['url'])) {
                     switch (strtolower($request['method'])) {

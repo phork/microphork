@@ -57,7 +57,7 @@
             $this->config = $config;
             $this->handlers = $this->active = array();
 
-            foreach ($config as $name=>$handler) {
+            foreach ($config as $name => $handler) {
                 if (!empty($handler['active'])) {
                     $this->initHandler($name);
                 }
@@ -204,7 +204,7 @@
         public function __call($method, $args)
         {
             if (($total = array_sum($this->active)) >= $this->minimum && (!$this->maximum || $total <= $this->maximum)) {
-                foreach ($this->handlers as $name=>$handler) {
+                foreach ($this->handlers as $name => $handler) {
                     if (!empty($this->active[$name])) {
                         $results[$name] = call_user_func_array(array($handler, $method), $args);
                     }

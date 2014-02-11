@@ -28,7 +28,7 @@
          */
         public function __construct($params = array())
         {
-            foreach ($params as $key=>$value) {
+            foreach ($params as $key => $value) {
                 if (property_exists($this, $key)) {
                     $this->$key = $value;
                 }
@@ -76,7 +76,7 @@
          */
         protected function build($source, $parent)
         {
-            foreach ($source as $key=>$source) {
+            foreach ($source as $key => $source) {
                 $realKey = $this->node($key, $parent);
 
                 if ($recurse = (is_array($source) || is_object($source))) {

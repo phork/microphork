@@ -262,7 +262,7 @@
         protected function routeUrl()
         {
             if ($this->routes) {
-                foreach ($this->routes as $pattern=>$route) {
+                foreach ($this->routes as $pattern => $route) {
                     if (preg_match("#{$pattern}#", $this->relativeUrl, $matches)) {
                         if (preg_match_all('#\$([0-9+])#', $route, $replacements)) {
                             foreach ($replacements[1] as $replacement) {
@@ -293,7 +293,7 @@
             $segments = explode('/', ($this->routedUrl ?: $this->relativeUrl));
             $filters = array();
 
-            foreach ($segments as $key=>$segment) {
+            foreach ($segments as $key => $segment) {
                 if ($position = strpos($segment, static::FILTER_DELIMITER)) {
                     $filter = substr($segment, 0, $position);
                     $value = substr($segment, $position + 1);

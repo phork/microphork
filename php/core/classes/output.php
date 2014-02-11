@@ -91,8 +91,8 @@
                 $this->buffered = true;
             }
             
-            $this->callback = $callback ?: function($buffered) {
-                print $buffered; 
+            $this->callback = $callback ?: function ($buffered) {
+                print $buffered;
             };
             
             return $this;

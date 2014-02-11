@@ -213,7 +213,7 @@
          */
         public function loadStack($name, $file, $callback = null, $folder = 'classes', $runall = false, $ext = null, $once = true)
         {
-            foreach ($this->getStack($name) as $type=>$root) {
+            foreach ($this->getStack($name) as $type => $root) {
                 if ($fullpath = $this->isFile($root.$folder.DIRECTORY_SEPARATOR.$file.($ext ?: $this->extension))) {
                     $result = $this->loadFile($fullpath, $once);
 

@@ -25,7 +25,7 @@
          */
         public function __construct($params = array())
         {
-            foreach ($params as $key=>$value) {
+            foreach ($params as $key => $value) {
                 if (property_exists($this, $key)) {
                     $this->$key = $value;
                 }
