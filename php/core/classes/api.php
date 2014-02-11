@@ -72,7 +72,7 @@
             try {
                 if (get_class($this) == __CLASS__ && count($segments = $this->router->getSegments()) > 2) {
                     $class = \Phork::loader()->loadStack(\Phork::LOAD_STACK, ($segment = $segments[1]), (
-                        function($result, $type) use ($segment) {
+                        function ($result, $type) use ($segment) {
                             $class = sprintf('\\Phork\\%s\\Api\\%s', ucfirst($type), ucfirst($segment));
                             return $class;
                         }

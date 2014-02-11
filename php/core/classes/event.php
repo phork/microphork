@@ -8,7 +8,7 @@
      *
      * <code>
      *   //listen for an event named foobar with one standard arg and one runtime arg
-     *   Event::instance()->listen('foobar', function($standard, $runtime) {
+     *   Event::instance()->listen('foobar', function ($standard, $runtime) {
      *     print $standard."\n".$runtime."\n";
      *   }, array('This is a standard variable'));
      *

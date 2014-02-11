@@ -16,14 +16,14 @@
      *
      *   //load the Foo class using the default stack and return a new Foo object
      *   $this->loadStack('default', 'foo',
-     *     function($result, $type) {
+     *     function ($result, $type) {
      *       $class = sprintf('\\Phork\\%s\\Foo', ucfirst($type));
      *       return new $class();
      *     }
      *   );
      *
      *   //load a set of global config files and fail if none were found
-     *   if (!$this->loadStack('default', 'global', function() { return true; }, 'config') {
+     *   if (!$this->loadStack('default', 'global', function () { return true; }, 'config') {
      *     throw new \PhorkException('No global config files found');
      *   }
      * </code>
@@ -50,7 +50,7 @@
         protected function __construct()
         {
             $extension = $this->extension;
-            $this->mapNamespace('Phork', function($class, $unmatched) use ($extension) {
+            $this->mapNamespace('Phork', function ($class, $unmatched) use ($extension) {
                 if (($type = array_shift($unmatched)) && defined($pathvar = strtoupper($type).'_PATH') && ($root = constant($pathvar))) {
                     if ($type == 'Pkg') {
                         $package = strtolower(array_shift($unmatched));

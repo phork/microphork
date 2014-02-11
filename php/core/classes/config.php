@@ -76,7 +76,7 @@
         {
             $self = $this;
             \Phork::loader()->loadStack($stack ?: \Phork::LOAD_STACK, $name, (
-                function($config, $type) use ($self) {
+                function ($config, $type) use ($self) {
                     $self->import($config);
                 }
             ), 'config', true);

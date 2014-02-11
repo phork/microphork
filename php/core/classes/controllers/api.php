@@ -36,7 +36,7 @@
             \Phork::event()->trigger('controller.run.before', null, true);
 
             $class = \Phork::loader()->loadStack(\Phork::LOAD_STACK, 'api',
-                function($result, $type) {
+                function ($result, $type) {
                     $class = sprintf('\\Phork\\%s\\Api', ucfirst($type));
                     return $class;
                 }
@@ -122,7 +122,7 @@
         protected function encode($success, array $result)
         {
             $encoder = \Phork::loader()->loadStack(\Phork::LOAD_STACK, 'encoder',
-                function($result, $type) {
+                function ($result, $type) {
                     $class = sprintf('\\Phork\\%s\\Encoder', ucfirst($type));
                     return new $class();
                 }

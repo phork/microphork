@@ -8,7 +8,7 @@
     
     
     //create a temporary closure to define file paths
-    $pathdef = function($constant, $path) {
+    $pathdef = function ($constant, $path) {
         if (!defined($constant)) {
             (!is_dir($path) && is_dir(PHK_ROOT.$path)) && $path = PHK_ROOT.$path;
             define($constant, realpath($path).DIRECTORY_SEPARATOR);
@@ -27,7 +27,7 @@
     
     
     //create a temporary closure to import core and (optionally) app classes
-    empty($import) && $import = function($class) {
+    empty($import) && $import = function ($class) {
         if (is_file($path = CORE_PATH.'classes'.DIRECTORY_SEPARATOR.$class.'.php')) {
             require_once $path;
         }

@@ -30,7 +30,7 @@
             $errors = count(\Phork::error()->getErrors()->items());
 
             $api = \Phork::loader()->loadStack(\Phork::LOAD_STACK, 'api',
-                function($result, $type) use ($router, $authenticated, $internal) {
+                function ($result, $type) use ($router, $authenticated, $internal) {
                     $class = sprintf('\\Phork\\%s\\Api', ucfirst($type));
 
                     return new $class($router, $authenticated, $internal);
