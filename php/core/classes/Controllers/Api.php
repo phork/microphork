@@ -121,7 +121,7 @@
          */
         protected function encode($success, array $result)
         {
-            $encoder = \Phork::loader()->loadStack(\Phork::LOAD_STACK, 'encoder',
+            $encoder = \Phork::loader()->loadStack(\Phork::LOAD_STACK, 'Encoder',
                 function ($result, $type) {
                     $class = sprintf('\\Phork\\%s\\Encoder', $type);
                     return new $class();
