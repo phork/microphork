@@ -33,15 +33,15 @@
         'encoder'           => array(
             'handlers'          => array(
                 'xml'               => array(
-                    'class'             => '\Phork\Core\Encoder\Xml',
+                    'class'             => '\Phork\Core\Encoder\Handlers\Xml',
                     'params'            => array()
                 ),
                 'json'              => array(
-                    'class'             => '\Phork\Core\Encoder\Json',
+                    'class'             => '\Phork\Core\Encoder\Handlers\Json',
                     'params'            => array()
                 ),
                 'jsonp'             => array(
-                    'class'             => '\Phork\Core\Encoder\Jsonp',
+                    'class'             => '\Phork\Core\Encoder\Handlers\Jsonp',
                     'params'            => array()
                 )
             )

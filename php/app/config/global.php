@@ -9,7 +9,7 @@
             'handlers'          => array(
                 'log'               => array(
                     'active'            => false,
-                    'class'             => '\Phork\Core\Error\Log',
+                    'class'             => '\Phork\Core\Error\Handlers\Log',
                     'params'            => array(
                         'logfile'           => LOG_PATH.'error.log',
                         'verbose'           => true
@@ -22,7 +22,7 @@
             'handlers'          => array(
                 'display'           => array(
                     'active'            => false,
-                    'class'             => '\Phork\Core\Debug\Display',
+                    'class'             => '\Phork\Core\Debug\Handlers\Display',
                     'params'            => array(
                         'html'              => true,
                         'verbose'           => true
@@ -30,7 +30,7 @@
                 ),
                 'log'               => array(
                     'active'            => false,
-                    'class'             => '\Phork\Core\Debug\Log',
+                    'class'             => '\Phork\Core\Debug\Handlers\Log',
                     'params'            => array(
                         'logfile'           => LOG_PATH.'debug.log',
                         'verbose'           => true

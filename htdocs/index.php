@@ -27,7 +27,9 @@
     
     
     //create a temporary closure to import core and (optionally) app classes
-    empty($import) && $import = function ($class) {
+    empty($import) && $import = function ($class, $interface = false) use (&$import) {
+    	$interface && $import($class.DIRECTORY_SEPARATOR.$class.'Interface');
+    	
         if (is_file($path = CORE_PATH.'classes'.DIRECTORY_SEPARATOR.$class.'.php')) {
             require_once $path;
         }
@@ -37,11 +39,10 @@
     };
     
     //import the absolute basic core and app files
-    $import('singleton');
-    $import('exception');
-    $import('loader');
-    $import('event');
-    $import('bootstrap');
+    $import('Singleton');
+    $import('Exception');
+    $import('Loader');
+    $import('Bootstrap');
     
     //the import function should be replaced with the loader class after this point
     unset($import);
@@ -52,16 +53,14 @@
     
     
     //create a class alias to either the core class or the app class for each main component
-    (!class_exists('PhorkException')) && class_alias('Phork\\Core\\Exception', 'PhorkException');
-    (!class_exists('PhorkLoader')) && class_alias('Phork\\Core\\Loader', 'PhorkLoader');
-    (!class_exists('PhorkEvent')) && class_alias('Phork\\Core\\Event', 'PhorkEvent');
-    (!class_exists('Phork')) && class_alias('Phork\\App\\Bootstrap', 'Phork');
+    (!class_exists('PhorkException', false)) && class_alias('Phork\\Core\\Exception', 'PhorkException');
+    (!class_exists('PhorkLoader', false))    && class_alias('Phork\\Core\\Loader', 'PhorkLoader');
+    (!class_exists('Phork', false))          && class_alias('Phork\\App\\Bootstrap', 'Phork');
     
-    //initialize the bootstrap, register the common objects, initialize the app, and run everything
+    //initialize the bootstrap, register the common object(s), initialize the app, and run everything
     try {
         Phork::instance()
             ->register('loader', PhorkLoader::instance(true))
-            ->register('event', PhorkEvent::instance(true))
             ->init(PHK_ENV)
             ->run()
             ->shutdown()

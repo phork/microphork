@@ -11,7 +11,7 @@
             'handlers'          => array(
                 'log'               => array(
                     'active'            => false,
-                    'class'             => '\Phork\Core\Error\Log',
+                    'class'             => '\Phork\Core\Error\Handlers\Log',
                     'params'            => array(
                         'logfile'           => LOG_PATH.'error.log',
                         'verbose'           => true
@@ -24,7 +24,7 @@
             'handlers'          => array(
                 'display'           => array(
                     'active'            => false,
-                    'class'             => '\Phork\Core\Debug\Display',
+                    'class'             => '\Phork\Core\Debug\Handlers\Display',
                     'params'            => array(
                         'html'              => true,
                         'verbose'           => true
@@ -32,7 +32,7 @@
                 ),
                 'log'               => array(
                     'active'            => true,
-                    'class'             => '\Phork\Core\Debug\Log',
+                    'class'             => '\Phork\Core\Debug\Handlers\Log',
                     'params'            => array(
                         'logfile'           => LOG_PATH.'debug.log',
                         'verbose'           => true
@@ -60,15 +60,15 @@
         'encoder'           => array(
             'handlers'          => array(
                 'xml'               => array(
-                    'class'             => '\Phork\Core\Encoder\Xml',
+                    'class'             => '\Phork\Core\Encoder\Handlers\Xml',
                     'params'            => array()
                 ),
                 'json'              => array(
-                    'class'             => '\Phork\Core\Encoder\Json',
+                    'class'             => '\Phork\Core\Encoder\Handlers\Json',
                     'params'            => array()
                 ),
                 'jsonp'             => array(
-                    'class'             => '\Phork\Core\Encoder\Jsonp',
+                    'class'             => '\Phork\Core\Encoder\Handlers\Jsonp',
                     'params'            => array()
                 )
             )
