@@ -53,10 +53,10 @@
             $this->mapNamespace('Phork', function ($class, $unmatched) use ($extension) {
                 if (($type = array_shift($unmatched)) && defined($pathvar = strtoupper($type).'_PATH') && ($root = constant($pathvar))) {
                     if ($type == 'Pkg') {
-                        $package = strtolower(array_shift($unmatched));
-                        return $root.$package.DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR, array_map('strtolower', $unmatched)).$extension;
+                        $package = array_shift($unmatched);
+                        return $root.$package.DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR, $unmatched).$extension;
                     } else {
-                        return $root.'classes'.DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR, array_map('strtolower', $unmatched)).$extension;
+                        return $root.'classes'.DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR, $unmatched).$extension;
                     }
                 } else {
                     throw new \PhorkException(sprintf('No path defined for Phork\%s', $type));
