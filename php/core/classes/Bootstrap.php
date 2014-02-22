@@ -46,6 +46,7 @@
     {
         protected $registry = array();
         protected $initialized = false;
+        protected $autoloader = true;
 
         const LOAD_STACK = 'app';
 
@@ -102,7 +103,7 @@
                 //the stack has already been defined; not a problem
             }
             
-            $this->loader->autoload(true);
+            $this->autoloader && $this->loader->autoload(true);
 
             empty($this->registry['config'])   && $this->initConfig($env);
             empty($this->registry['event'])    && $this->initEvent();
@@ -112,7 +113,7 @@
             empty($this->registry['router'])   && $this->initRouter();
             empty($this->registry['output'])   && $this->initOutput();
             
-            $this->event->listen('shutdown.run.before', array($this->loader, 'autoload'), array(false));
+            $this->autoloader && $this->event->listen('shutdown.run.before', array($this->loader, 'autoload'), array(false));
 
             $this->initialized = true;
             return $this;
