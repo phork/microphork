@@ -100,7 +100,7 @@
             if (array_key_exists($name, $this->config)) {
                 $result = $this->config[$name];
             } elseif ($warn) {
-                trigger_error(sprintf('Invalid config: %s', $name), E_USER_NOTICE);
+                throw new \PhorkException(sprintf('Invalid config: %s', $name));
             }
 
             return $result;
@@ -132,6 +132,24 @@
             return $this->config[$name];
         }
         
+        
+        /**
+         * Deletes a config variable. Also has the option to trigger a notice
+         * if the value isn't defined.
+         *
+         * @access public
+         * @param string $name The name of the variable to delete
+         * @param boolean $warn Whether to trigger a notice if the variable doesn't exist
+         * @return void
+         */
+        public function delete($name, $warn = false) {
+	        if (array_key_exists($name, $this->config)) {
+                unset($this->config[$name]);
+            } elseif ($warn) {
+                throw new \PhorkException(sprintf('Invalid config: %s', $name));
+            }
+        }
+        
 
         /**
          * Merges the additional values into the initial object.
@@ -160,6 +178,18 @@
          */
         public function __get($name)
         {
-            return $this->get($name);
+            return $this->get($name, null, true);
+        }
+        
+        
+        /**
+         * Checks if an unknown or un-public variable exists.
+         *
+         * @access public
+         * @return boolean True if the value is set
+         */
+        public function __isset($name)
+        {
+            return array_key_exists($name, $this->config);
         }
     }

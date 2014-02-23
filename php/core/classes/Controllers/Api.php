@@ -172,6 +172,8 @@
                     $header[$handler],
                     $content[$handler]
                 );
+            } else {
+	            throw new \PhorkException(\Phork::language()->translate('Missing API encoders'));
             }
         }
     }

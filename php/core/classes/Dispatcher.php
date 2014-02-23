@@ -7,8 +7,8 @@
      * <code>
      *   //initialize a new dispatcher and manually add and remove handlers
      *   $foo = new Foo();
-     *   $foo->addHandler('bar', new Foo\Bar('some', 'args'));
-     *   $foo->addHandler('baz', new Foo\Baz('some', 'more', 'args'), false);
+     *   $foo->addHandler('bar', new Foo\Handlers\Bar('some', 'args'));
+     *   $foo->addHandler('baz', new Foo\Handlers\Baz('some', 'more', 'args'), false);
      *   $foo->activateHandler('baz');
      *   $foo->removeHander('bar');
      *   $foo->passthru('content', 'to', 'dispatch');
@@ -17,14 +17,13 @@
      *   $foo->init(array(
      *      'bar' => array(
      *        'active'  => true,
-     *        'class'   => '\Phork\Core\Foo\Bar',
-     *        'params'  => array(
-     *          'life'    => 42
-     *        )
+     *        'class'   => '\Phork\Core\Foo\Handlers\Bar',
+     *        'params'  => array('some', 'args')
      *      ),
      *      'baz' => array(
      *        'active'  => false,
-     *        'class'   => '\Phork\App\Foo\Baz'
+     *        'class'   => '\Phork\App\Foo\Handlers\Baz',
+     *        'params'  => array('some', 'more', 'args')
      *      )
      *   ));
      * </code>
@@ -213,7 +212,7 @@
                 if ($this->maximum == 1) {
                     $results = $results[$name];
                 }
-
+                
                 return isset($results) ? $results : null;
             } else {
                 throw new \PhorkException(sprintf('Invalid number of handlers defined for %s', get_class($this)));

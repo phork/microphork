@@ -20,4 +20,5 @@
     class Encoder extends Dispatcher
     {
         protected $instanceOf = '\\Phork\\Core\\Encoder\\Handlers\\HandlerInterface';
+        protected $minimum = 1;
     }

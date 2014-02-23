@@ -27,6 +27,9 @@ replace: Missing batch definitions
 default: Invalid encoder: %s
 replace: Invalid encoder: %s
 
+default: Missing API encoders
+replace: Missing API encoders
+
 #
 # uploads.php
 #
