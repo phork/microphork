@@ -46,16 +46,16 @@
             $this->internal = $internal;
             
             if (!class_exists('\ApiException', false)) {
-            	$aliased = \Phork::loader()->loadStack(\Phork::LOAD_STACK, 'Api/Exception',
-	                function ($result, $type) {
-	                	$class = sprintf('\\Phork\\%s\\Api\\Exception', $type);
-						return class_alias($class, 'ApiException');
-	                }
-	            );
-	            
-	            if (!$aliased) {
-		        	throw new \PhorkException(\Phork::language()->translate('Unable to load API exception handler'));
-		        }
+                $aliased = \Phork::loader()->loadStack(\Phork::LOAD_STACK, 'Api/Exception',
+                    function ($result, $type) {
+                        $class = sprintf('\\Phork\\%s\\Api\\Exception', $type);
+                        return class_alias($class, 'ApiException');
+                    }
+                );
+                
+                if (!$aliased) {
+                    throw new \PhorkException(\Phork::language()->translate('Unable to load API exception handler'));
+                }
             }
         }
 
@@ -245,11 +245,11 @@
         protected function handleGetEncoders()
         {
             $this->validate('GET');
-            $config = \Phork::config()->get('encoder');
+            $handlers = \Phork::config()->encoder->handlers;
 
             $this->success = true;
             $this->result = array(
-                'encoders' => array_keys($config->handlers->export())
+                'encoders' => array_keys($handlers->export())
             );
         }
 

@@ -143,7 +143,7 @@
          * @return void
          */
         public function delete($name, $warn = false) {
-	        if (array_key_exists($name, $this->config)) {
+            if (array_key_exists($name, $this->config)) {
                 unset($this->config[$name]);
             } elseif ($warn) {
                 throw new \PhorkException(sprintf('Invalid config: %s', $name));

@@ -12,5 +12,5 @@
      */
     class Exception extends \Exception
     {
-	    
+        
     }
