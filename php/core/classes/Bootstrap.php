@@ -2,9 +2,10 @@
     namespace Phork\Core;
 
     /**
-     * Includes the config files and the global classes and initializes
-     * the application. Several public methods in here return the object
-     * itself to allow for daisy chaining calls. This is a singleton.
+     * The bootstrap includes the config files and the global classes
+     * and initializes the application. Several public methods in here
+     * return the object itself to allow for daisy chaining calls.
+     * This is a singleton.
      *
      * In a nutshell this will map the first segment of the URL to an
      * app controller of the same name and then run its run() method.

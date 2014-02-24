@@ -2,9 +2,9 @@
     namespace Phork\Core;
 
     /**
-     * The event class is used to listen to events throughout the
-     * application and to trigger the corresponding actions. This
-     * is a singleton.
+     * The event class is used to listen to reusable and once-only events 
+     * throughout the application and to trigger the corresponding actions.
+     * This is a singleton.
      *
      * <code>
      *   //listen for an event named foobar with one standard arg and one runtime arg
@@ -23,6 +23,10 @@
     class Event extends Singleton
     {
         protected $events = array();
+        
+        const CALLBACK_KEY = 0;
+        const ARGS_KEY = 1;
+        const ONCE_KEY = 2;
 
         
         /**
@@ -92,32 +96,27 @@
          * @param string $name The name of the registered event
          * @param array $args Any additional arguments to send to the callbacks
          * @param boolean $flush Whether to destroy the event after running it
-         * @param boolean $fatal Throws an exception if the event isn't found
          * @return array The array of result data from the events
          */
-        public function trigger($name, $args = null, $flush = false, $fatal = false)
+        public function trigger($name, $args = null, $flush = false)
         {
-            if ($this->exists($name)) {
-                $remove = array();
-
-                $this->events[$name]->rewind();
-                while (list($key, $event) = $this->events[$name]->each()) {
-                    $results[$key] = $this->callback($event, $args);
-                    !empty($event[2]) && array_push($remove, $key);
-                }
-
-                foreach ($remove as $key) {
-                    $this->events[$name]->keyUnset($key);
-                }
-
-                (!$flush || $this->destroy($name));
-            } else {
-                if ($fatal) {
-                    throw new \PhorkException(sprintf('No event named %s has been registered', $name));
-                }
+            $iterator = $this->get($name);
+            $iterator->rewind();
+            
+            $remove = $results = array();
+            
+            while (list($key, $action) = $iterator->each()) {
+                $results[$key] = $this->callback($action, $args);
+                (!empty($action[static::ONCE_KEY]) && array_push($remove, $key));
             }
 
-            return isset($results) ? $results : null;
+            foreach ($remove as $key) {
+                $iterator->keyUnset($key);
+            }
+
+            ($flush && $this->destroy($name));
+            
+            return $results;
         }
         
         
@@ -132,7 +131,7 @@
          */
         protected function callback(array $event, $args)
         {
-            return call_user_func_array($event[0], is_array($args) ? array_merge($event[1], $args) : $event[1]);
+            return call_user_func_array($event[static::CALLBACK_KEY], is_array($args) ? array_merge($event[static::ARGS_KEY], $args) : $event[static::ARGS_KEY]);
         }
 
 
@@ -146,12 +145,9 @@
          */
         public function destroy($name)
         {
-            if ($this->exists($name)) {
-                $iterator = $this->events[$name];
-                unset($this->events[$name]);
-
-                return $iterator;
-            }
+            $iterator = $this->get($name);
+            unset($this->events[$name]);
+            return $iterator;
         }
 
 
@@ -165,12 +161,36 @@
          */
         public function remove($name, $key)
         {
-            if ($this->exists($name) && $this->events[$name]->seek($key)) {
-                $action = $this->events[$name]->current();
-                $this->events[$name]->remove();
-                $this->events[$name]->rewind();
-
-                return $action;
+            $iterator = $this->get($name);
+            if ($iterator->seek($key)) {
+                $action = $iterator->current();
+                $iterator->remove();
+                $iterator->rewind();
+            } else {
+                throw new \PhorkException(sprintf('Unable to remove non-existent action %s from %s', $key, $name));
+            }
+            
+            return $action;
+        }
+        
+        
+        /**
+         * Replaces a single action from an event with a new callback.
+         *
+         * @access public
+         * @param string $name The name of the event contain the action to replace
+         * @param string $key The key of the action to replace
+         * @param callable $callback The closure, function name or method that will be triggered
+         * @return void
+         */
+        public function replace($name, $key, $callback)
+        {
+            if (($event = $this->get($name)) && $event->keyExists($key)) {
+                $action = $event->keyGet($key);
+                $action[1][static::CALLBACK_KEY] = call_user_func_array($callback, array($action[1][static::CALLBACK_KEY]));
+                $event->keySet($key, $action);
+            } else {
+                throw new \PhorkException(sprintf('Unable to replace non-existent action %s from %s', $key, $name));
             }
         }
 
@@ -184,10 +204,10 @@
          */
         public function get($name)
         {
-            if ($this->exists($name)) {
-                return $this->events[$name];
-            } else {
+            if (!$this->exists($name)) {
                 throw new \PhorkException(sprintf('No event named %s has been registered', $name));
             }
+            
+            return $this->events[$name];
         }
     }

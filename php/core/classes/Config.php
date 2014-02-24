@@ -85,13 +85,13 @@
 
         /**
          * Returns either the existing config variable or the default value
-         * if no config is defined. Also has the option to trigger a notice
+         * if no config is defined. Also has the option to throw an exception
          * if the value isn't defined.
          *
          * @access public
          * @param string $name The name of the variable to get
          * @param mixed $default The default value to return if no config is set
-         * @param boolean $warn Whether to trigger a notice if the variable doesn't exist
+         * @param boolean $warn Whether to throw an exception if the variable doesn't exist
          * @return mixed The config value
          */
         public function get($name, $default = null, $warn = false)
@@ -134,15 +134,16 @@
         
         
         /**
-         * Deletes a config variable. Also has the option to trigger a notice
+         * Deletes a config variable. Also has the option to throw an exception
          * if the value isn't defined.
          *
          * @access public
          * @param string $name The name of the variable to delete
-         * @param boolean $warn Whether to trigger a notice if the variable doesn't exist
+         * @param boolean $warn Whether to throw an exception if the variable doesn't exist
          * @return void
          */
-        public function delete($name, $warn = false) {
+        public function delete($name, $warn = false)
+        {
             if (array_key_exists($name, $this->config)) {
                 unset($this->config[$name]);
             } elseif ($warn) {

@@ -27,14 +27,13 @@
     
     
     //create a temporary closure to import core and (optionally) app classes
-    empty($import) && $import = function ($class, $interface = false) use (&$import) {
-        $interface && $import($class.DIRECTORY_SEPARATOR.$class.'Interface');
-        
-        if (is_file($path = CORE_PATH.'classes'.DIRECTORY_SEPARATOR.$class.'.php')) {
-            require_once $path;
-        }
-        if (is_file($path = APP_PATH.'classes'.DIRECTORY_SEPARATOR.$class.'.php')) {
-            require_once $path;
+    empty($import) && $import = function ($class) {
+        foreach (array('Core', 'App') as $namespace) {
+            if (!class_exists(sprintf('\\Phork\\%s\\%s', $namespace, $class))) {
+                if (is_file($path = constant(strtoupper($namespace).'_PATH').'classes'.DIRECTORY_SEPARATOR.$class.'.php')) {
+                    require_once $path;
+                }
+            }
         }
     };
     

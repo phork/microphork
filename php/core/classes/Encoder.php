@@ -2,7 +2,7 @@
     namespace Phork\Core;
 
     /**
-     * The encoder class is used to transform array and objects into
+     * The encoder class is used to transform arrays and objects into
      * another format (eg. JSON or XML) by dispatching the original
      * data to one or more handler classes.
      *

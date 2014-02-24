@@ -2,7 +2,9 @@
     namespace Phork\Core;
 
     /**
-     * Dispatches all processing to the active handlers (AKA observers).
+     * The dispatcher accepts a set of handlers (AKA observers) which can be
+     * set to active or inactive. When a non-existent function is called it
+     * will be passed through to all the active handlers.
      *
      * <code>
      *   //initialize a new dispatcher and manually add and remove handlers

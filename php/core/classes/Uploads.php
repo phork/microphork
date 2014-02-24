@@ -2,8 +2,8 @@
     namespace Phork\Core;
 
     /**
-     * This class handles uploaded files and has additional file system
-     * checks before permanently saving the file.
+     * The uploads class handles files uploaded via POST and has some 
+     * additional file system checks before permanently saving the file.
      *
      * @author Elenor Collings <elenor@phork.org>
      * @package phork

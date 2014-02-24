@@ -2,10 +2,10 @@
     namespace Phork\Core;
 
     /**
-     * Outputs the headers and the content that have previously been added
-     * using the event class. Can also be used to output content directly.
-     * Most public methods in here return the object itself to allow for
-     * daisy chaining calls. This is a singleton.
+     * The output class is used to buffer and send headers and content. It
+     * can also be used to output content directly without buffering. Most 
+     * public methods in here return the object itself to allow for daisy 
+     * chaining calls. This is a singleton.
      *
      * @author Elenor Collings <elenor@phork.org>
      * @package phork
@@ -251,6 +251,25 @@
             }
 
             return $this;
+        }
+        
+        
+        /**
+         * Replaces the buffered content at the key passed using the
+         * callback function which should return the new value.
+         *
+         * @access public
+         * @param string $id The unique ID of the content in the event object if the content was buffered
+         * @param callable $callback A closure, function name or method that accepts the current content and returns the new content
+         * @return void
+         */
+        public function replaceContent($id, $callback)
+        {
+            if ($this->buffered) {
+                \Phork::event()->replace('output.display.content', $id, $callback);
+            } else {
+                throw new \PhorkException('Output buffering must be turned on to replace content');
+            }
         }
 
 

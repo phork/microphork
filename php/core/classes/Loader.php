@@ -2,10 +2,13 @@
     namespace Phork\Core;
 
     /**
-     * Loads in the various application and core files with special methods
-     * for certain file types. Includes the option to define one or more
-     * path stacks which will load a stack of files (eg. core then app).
-     * This is a singleton.
+     * The loader is used to include additional files. It can be used to
+     * load core, app and package classes, config files, language files and
+     * templates. It has special handling for classes in the Phork namespace,
+     * as well as the ability to map additional namespaces to custom load
+     * functions. It includes the option to define one or more path stacks
+     * which will load a stack of files (eg. core then app) with an optional
+     * callback function. This is a singleton.
      *
      * <code>
      *   //define a stack that first tries to load core file and then app files

@@ -2,10 +2,10 @@
     namespace Phork\Core;
 
     /**
-     * Parses the URL or the CLI args, factors in the custom routing, and
-     * splits either the routed URL or the relative URL into segments and
-     * filters. The base URL is the front controller path relative to the
-     * document root, and including the filename when not using mod rewrite
+     * The router class parses the URL or the CLI args, factors in the custom
+     * routing, and splits either the routed URL or the relative URL into 
+     * segments and filters. The base URL is the front controller path relative
+     * to the document root, and including the filename when not using mod rewrite
      * (eg. /admin or index.php). The URL and request data can either be
      * determined automatically or passed as arguments to the init() method.
      *

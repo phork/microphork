@@ -2,11 +2,11 @@
     namespace Phork\Core;
 
     /**
-     * Loads in a set of language translation files and translates from
-     * the default application language to another language. The language
-     * file format can either be in human-readable default/replace format
-     * or can be pre-generated into an array of replacements keyed by the
-     * original string.
+     * The language class loads in a set of translation files to translate
+     * from the default application language. The language file format can
+     * either be in human-readable default/replace format or it can be 
+     * pre-generated into an array of replacements keyed by the original
+     * string.
      *
      * @author Elenor Collings <elenor@phork.org>
      * @package phork
