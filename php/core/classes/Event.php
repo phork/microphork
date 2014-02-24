@@ -39,6 +39,10 @@
                     return $class;
                 }
             );
+            
+            if (!$this->actionClass) {
+                throw new \PhorkException('Unable to determine the event action class');
+            }
         }
         
         
@@ -184,11 +188,11 @@
                     $action = $iterator->current();
                     $iterator->remove();
                     $iterator->rewind();
-                } else {
+                    
+                    return $action;
+                } elseif ($warn) {
                     throw new \PhorkException(sprintf('Unable to remove non-existent action %s from %s', $key, $name));
                 }
-                
-                return $action;
             }
         }
         
