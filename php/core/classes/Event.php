@@ -96,27 +96,29 @@
          * @param string $name The name of the registered event
          * @param array $args Any additional arguments to send to the callbacks
          * @param boolean $flush Whether to destroy the event after running it
+         * @param boolean $warn Whether to throw an exception if the event doesn't exist
          * @return array The array of result data from the events
          */
-        public function trigger($name, $args = null, $flush = false)
+        public function trigger($name, $args = null, $flush = false, $warn = false)
         {
-            $iterator = $this->get($name);
-            $iterator->rewind();
-            
-            $remove = $results = array();
-            
-            while (list($key, $action) = $iterator->each()) {
-                $results[$key] = $this->callback($action, $args);
-                (!empty($action[static::ONCE_KEY]) && array_push($remove, $key));
+            if ($iterator = $this->get($name, $warn)) {
+                $iterator->rewind();
+                
+                $remove = $results = array();
+                
+                while (list($key, $action) = $iterator->each()) {
+                    $results[$key] = $this->callback($action, $args);
+                    (!empty($action[static::ONCE_KEY]) && array_push($remove, $key));
+                }
+    
+                foreach ($remove as $key) {
+                    $iterator->keyUnset($key);
+                }
+    
+                ($flush && $this->destroy($name));
+                
+                return $results;
             }
-
-            foreach ($remove as $key) {
-                $iterator->keyUnset($key);
-            }
-
-            ($flush && $this->destroy($name));
-            
-            return $results;
         }
         
         
@@ -141,13 +143,15 @@
          *
          * @access public
          * @param string $name The name of the event to remove
+         * @param boolean $warn Whether to throw an exception if the event doesn't exist
          * @return object The iterator object containing the event actions
          */
-        public function destroy($name)
+        public function destroy($name, $warn = false)
         {
-            $iterator = $this->get($name);
-            unset($this->events[$name]);
-            return $iterator;
+            if ($iterator = $this->get($name, $warn)) {
+                unset($this->events[$name]);
+                return $iterator;
+            }
         }
 
 
@@ -157,20 +161,22 @@
          * @access public
          * @param string $name The name of the event contain the action to remove
          * @param string $key The key of the action to remove
+         * @param boolean $warn Whether to throw an exception if the event doesn't exist
          * @return array The event array of callback, args, and the run once flag
          */
-        public function remove($name, $key)
+        public function remove($name, $key, $warn = false)
         {
-            $iterator = $this->get($name);
-            if ($iterator->seek($key)) {
-                $action = $iterator->current();
-                $iterator->remove();
-                $iterator->rewind();
-            } else {
-                throw new \PhorkException(sprintf('Unable to remove non-existent action %s from %s', $key, $name));
+            if ($iterator = $this->get($name, $warn)) {
+                if ($iterator->seek($key)) {
+                    $action = $iterator->current();
+                    $iterator->remove();
+                    $iterator->rewind();
+                } else {
+                    throw new \PhorkException(sprintf('Unable to remove non-existent action %s from %s', $key, $name));
+                }
+                
+                return $action;
             }
-            
-            return $action;
         }
         
         
@@ -185,10 +191,10 @@
          */
         public function replace($name, $key, $callback)
         {
-            if (($event = $this->get($name)) && $event->keyExists($key)) {
-                $action = $event->keyGet($key);
+            if (($iterator = $this->get($name)) && $iterator->keyExists($key)) {
+                $action = $iterator->keyGet($key);
                 $action[1][static::CALLBACK_KEY] = call_user_func_array($callback, array($action[1][static::CALLBACK_KEY]));
-                $event->keySet($key, $action);
+                $iterator->keySet($key, $action);
             } else {
                 throw new \PhorkException(sprintf('Unable to replace non-existent action %s from %s', $key, $name));
             }
@@ -202,12 +208,12 @@
          * @param string $name The name of the event to return
          * @return object The event iterator if it exists
          */
-        public function get($name)
+        public function get($name, $warn = false)
         {
-            if (!$this->exists($name)) {
+            if ($this->exists($name)) {
+                return $this->events[$name];
+            } elseif ($warn) {
                 throw new \PhorkException(sprintf('No event named %s has been registered', $name));
             }
-            
-            return $this->events[$name];
         }
     }
