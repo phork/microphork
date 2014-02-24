@@ -22,11 +22,25 @@
     class Event extends Singleton
     {
         protected $events = array();
+        protected $actionClass;
         
-        const CALLBACK_KEY = 0;
-        const ARGS_KEY = 1;
-        const ONCE_KEY = 2;
-
+        
+        /**
+         * Determines the event action class based on the load stack.
+         * The constructor can't be public for a singleton.
+         *
+         * @access protected
+         */
+        protected function __construct()
+        {
+            $this->actionClass = \Phork::loader()->loadStack(\Phork::LOAD_STACK, 'Event/Action',
+                function ($result, $type) {
+                    $class = sprintf('\\Phork\\%s\\Event\\Action', $type);
+                    return $class;
+                }
+            );
+        }
+        
         
         /**
          * Checks if an event exists.
@@ -57,12 +71,12 @@
          */
         public function listen($name, $callback, array $args = array(), $position = null, $id = null, $once = false)
         {
-            ($this->exists($name) || $this->events[$name] = new Iterators\Associative());
+            ($this->exists($name) || $this->events[$name] = new \Phork\Core\Iterators\Associative());
 
             if ($position !== null) {
-                return $this->events[$name]->insert($position, array($id, array($callback, $args, $once)));
+                return $this->events[$name]->insert($position, array($id, new $this->actionClass($callback, $args, $once)));
             } else {
-                return $this->events[$name]->append(array($id, array($callback, $args, $once)));
+                return $this->events[$name]->append(array($id, new $this->actionClass($callback, $args, $once)));
             }
         }
         
@@ -107,7 +121,7 @@
                 
                 while (list($key, $action) = $iterator->each()) {
                     $results[$key] = $this->callback($action, $args);
-                    (!empty($action[static::ONCE_KEY]) && array_push($remove, $key));
+                    ($action->once() && array_push($remove, $key));
                 }
     
                 foreach ($remove as $key) {
@@ -126,13 +140,13 @@
          * runtime args.
          *
          * @access protected
-         * @param array $event The event array consisting of callback, standard args, and optionally a run once flag
+         * @param object $event The event object of callback, standard args, and the run once flag
          * @param array $args The optional runtime args to pass to the callback
          * @return mixed The results from the callback
          */
-        protected function callback(array $event, $args)
+        protected function callback($event, $args)
         {
-            return call_user_func_array($event[static::CALLBACK_KEY], is_array($args) ? array_merge($event[static::ARGS_KEY], $args) : $event[static::ARGS_KEY]);
+            return call_user_func_array($event->callback(), is_array($args) ? array_merge($event->args(), $args) : $event->args());
         }
 
 
@@ -161,7 +175,7 @@
          * @param string $name The name of the event contain the action to remove
          * @param string $key The key of the action to remove
          * @param boolean $warn Whether to throw an exception if the event doesn't exist
-         * @return array The event array of callback, args, and the run once flag
+         * @return object The event object of callback, standard args, and the run once flag
          */
         public function remove($name, $key, $warn = false)
         {

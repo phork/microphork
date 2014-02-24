@@ -268,12 +268,9 @@
             if ($this->buffered) {
                 if (($iterator = \Phork::event()->get('output.display.content')) && $iterator->keyExists($id)) {
                     $action = $iterator->keyGet($id);
-                    
-                    $reflection = new \ReflectionObject(\Phork::event());
-                    $argsKey = $reflection->getConstant('ARGS_KEY');
-                    
-                    $action[$argsKey][0] = call_user_func_array($callback, array($action[$argsKey][0]));
-                    $iterator->keySet($id, $action);
+                    $args = $action->args();
+                    $args[0] = call_user_func_array($callback, array($args[0]));
+                    $action->args($args);
                 } else {
                     throw new \PhorkException(sprintf('Unable to replace non-existent action %s from %s', $id, $name));
                 }
