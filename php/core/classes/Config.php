@@ -7,8 +7,7 @@
      * objects are recursive.
      *
      * @author Elenor Collings <elenor@phork.org>
-     * @package phork
-     * @subpackage core
+     * @package \Phork\Core
      */
     class Config
     {
@@ -175,6 +174,7 @@
          * the config value by name.
          *
          * @access public
+         * @param string $name The name of the variable to get
          * @return mixed The config value
          */
         public function __get($name)
@@ -187,6 +187,7 @@
          * Checks if an unknown or un-public variable exists.
          *
          * @access public
+         * @param string $name The name of the variable to check
          * @return boolean True if the value is set
          */
         public function __isset($name)

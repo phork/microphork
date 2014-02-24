@@ -9,8 +9,7 @@
      * All core controllers must be extended by an app controller.
      *
      * @author Elenor Collings <elenor@phork.org>
-     * @package phork
-     * @subpackage core
+     * @package \Phork\Core
      */
     abstract class Api
     {

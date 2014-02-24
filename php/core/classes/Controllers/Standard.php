@@ -7,8 +7,7 @@
      * app controllers should extend this one.
      *
      * @author Elenor Collings <elenor@phork.org>
-     * @package phork
-     * @subpackage core
+     * @package \Phork\Core
      */
     abstract class Standard
     {
@@ -65,6 +64,7 @@
          * '^/error/([0-9]{3}/?)?' => '/home/fatal/$1'
          *
          * @access protected
+         * @param string $statusCode The HTTP status for the fatal error (eg. 404)
          * @return void
          */
         protected function displayFatal($statusCode = null)

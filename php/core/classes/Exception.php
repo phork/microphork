@@ -7,8 +7,7 @@
      * be aliased in the bootstrap to \PhorkException.
      *
      * @author Elenor Collings <elenor@phork.org>
-     * @package phork
-     * @subpackage core
+     * @package \Phork\Core
      */
     class Exception extends \Exception
     {

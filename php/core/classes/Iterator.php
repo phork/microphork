@@ -6,8 +6,7 @@
      * PHP's built in iterator interface.
      *
      * @author Elenor Collings <elenor@phork.org>
-     * @package phork
-     * @subpackage core
+     * @package \Phork\Core
      */
     class Iterator implements \Iterator, \Countable, \ArrayAccess
     {

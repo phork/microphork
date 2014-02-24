@@ -17,8 +17,7 @@
      * be the variables (eg. php index.php get api/foo.xml "bar=123&baz=456")
      *
      * @author Elenor Collings <elenor@phork.org>
-     * @package phork
-     * @subpackage core
+     * @package \Phork\Core
      */
     class Router
     {

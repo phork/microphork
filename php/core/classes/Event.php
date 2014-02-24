@@ -17,8 +17,7 @@
      * </code>
      *
      * @author Elenor Collings <elenor@phork.org>
-     * @package phork
-     * @subpackage core
+     * @package \Phork\Core\Event
      */
     class Event extends Singleton
     {
@@ -206,6 +205,7 @@
          *
          * @access public
          * @param string $name The name of the event to return
+         * @param boolean $warn Whether to throw an exception if the event doesn't exist
          * @return object The event iterator if it exists
          */
         public function get($name, $warn = false)

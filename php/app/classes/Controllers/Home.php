@@ -6,8 +6,7 @@
      * This is the default application controller.
      *
      * @author Elenor Collings <elenor@phork.org>
-     * @package phork
-     * @subpackage app
+     * @package \Phork\App
      */
     class Home extends \Phork\Core\Controllers\Standard
     {

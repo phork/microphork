@@ -12,8 +12,7 @@
      * around here preventing the object from being destroyed.
      *
      * @author Elenor Collings <elenor@phork.org>
-     * @package phork
-     * @subpackage core
+     * @package \Phork\Core
      */
     abstract class Singleton
     {

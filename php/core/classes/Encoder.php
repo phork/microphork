@@ -14,8 +14,7 @@
      * </code>
      *
      * @author Elenor Collings <elenor@phork.org>
-     * @package phork
-     * @subpackage core
+     * @package \Phork\Core
      */
     class Encoder extends Dispatcher
     {

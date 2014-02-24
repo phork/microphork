@@ -6,8 +6,7 @@
      * a proper constructor and the right handle methods.
      *
      * @author Elenor Collings <elenor@phork.org>
-     * @package phork
-     * @subpackage core
+     * @package \Phork\Core
      */
     interface HandlerInterface
     {

@@ -6,8 +6,7 @@
      * additional file system checks before permanently saving the file.
      *
      * @author Elenor Collings <elenor@phork.org>
-     * @package phork
-     * @subpackage core
+     * @package \Phork\Core
      */
     class Uploads
     {

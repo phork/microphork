@@ -10,8 +10,7 @@
      * array.
      *
      * @author Elenor Collings <elenor@phork.org>
-     * @package phork
-     * @subpackage core
+     * @package \Phork\Core
      */
     class Associative extends \Phork\Core\Iterator
     {
@@ -39,7 +38,7 @@
          * exist this will generate one.
          *
          * @access protected
-         * @param mixed The key/value pair or just the item value
+         * @param mixed $item The key/value pair or just the item value
          * @param boolean $genKey Whether to generate a key if one doesn't exist
          * @return array The key/value pair
          */
@@ -170,7 +169,7 @@
          * Inserts an item after the key passed.
          *
          * @access public
-         * @param string key The key to insert the item after
+         * @param string $key The key to insert the item after
          * @param mixed $item The item to insert
          * @return integer The array key of the inserted item
          */

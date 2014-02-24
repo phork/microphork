@@ -11,8 +11,7 @@
      * GET: /api/batch.json?requests=%7B"encoders"%3A%7B"method"%3A"get"%2C"url"%3A"%5C%2Fapi%5C%2Fencoders.json"%7D%7D
      *
      * @author Elenor Collings <elenor@phork.org>
-     * @package phork
-     * @subpackage core
+     * @package \Phork\Core
      */
     class Api
     {

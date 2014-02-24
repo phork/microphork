@@ -6,8 +6,7 @@
      * This is the controller for the API.
      *
      * @author Elenor Collings <elenor@phork.org>
-     * @package phork
-     * @subpackage app
+     * @package \Phork\App
      */
     class Api extends \Phork\Core\Controllers\Api
     {

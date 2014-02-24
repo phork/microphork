@@ -8,8 +8,7 @@
      * chaining calls. This is a singleton.
      *
      * @author Elenor Collings <elenor@phork.org>
-     * @package phork
-     * @subpackage core
+     * @package \Phork\Core
      */
     class Output extends Singleton
     {

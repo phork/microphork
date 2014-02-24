@@ -32,8 +32,7 @@
      * </code>
      *
      * @author Elenor Collings <elenor@phork.org>
-     * @package phork
-     * @subpackage core
+     * @package \Phork\Core
      */
     class Loader extends Singleton
     {
@@ -205,7 +204,7 @@
          * the $runall flag is false. This won't fail if nothing was loaded.
          *
          * @access public
-         * @param string $path The path to the class relative to the $roots directories
+         * @param string $name The path to the class relative to the $roots directories
          * @param array $file The filename (excluding the extension) of the stack
          * @param callable $callback The closure, function name or method called for successful loads
          * @param string $folder The relative path to the folder (eg. config, classes, classes/Foo)

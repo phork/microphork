@@ -6,8 +6,7 @@
      * the API class.
      *
      * @author Elenor Collings <elenor@phork.org>
-     * @package phork
-     * @subpackage core
+     * @package \Phork\Core
      */
     class Exception extends \Phork\Core\Exception
     {

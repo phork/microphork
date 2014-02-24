@@ -6,8 +6,7 @@
      * handler has a proper encode method.
      *
      * @author Elenor Collings <elenor@phork.org>
-     * @package phork
-     * @subpackage core
+     * @package \Phork\Core
      */
     interface HandlerInterface
     {

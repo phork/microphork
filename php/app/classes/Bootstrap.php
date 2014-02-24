@@ -6,8 +6,7 @@
      * application. This is a singleton.
      *
      * @author Elenor Collings <elenor@phork.org>
-     * @package phork
-     * @subpackage app
+     * @package \Phork\App
      */
     class Bootstrap extends \Phork\Core\Bootstrap
     {
