@@ -180,27 +180,6 @@
         
         
         /**
-         * Replaces a single action from an event with a new callback.
-         *
-         * @access public
-         * @param string $name The name of the event contain the action to replace
-         * @param string $key The key of the action to replace
-         * @param callable $callback The closure, function name or method that will be triggered
-         * @return void
-         */
-        public function replace($name, $key, $callback)
-        {
-            if (($iterator = $this->get($name)) && $iterator->keyExists($key)) {
-                $action = $iterator->keyGet($key);
-                $action[1][static::CALLBACK_KEY] = call_user_func_array($callback, array($action[1][static::CALLBACK_KEY]));
-                $iterator->keySet($key, $action);
-            } else {
-                throw new \PhorkException(sprintf('Unable to replace non-existent action %s from %s', $key, $name));
-            }
-        }
-
-
-        /**
          * Returns the event iterator for the event named.
          *
          * @access public

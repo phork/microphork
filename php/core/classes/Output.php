@@ -255,7 +255,8 @@
         
         /**
          * Replaces the buffered content at the key passed using the
-         * callback function which should return the new value.
+         * callback function which accepts the previous content as its
+         * only argument and should return the new content.
          *
          * @access public
          * @param string $id The unique ID of the content in the event object if the content was buffered
@@ -265,7 +266,17 @@
         public function replaceContent($id, $callback)
         {
             if ($this->buffered) {
-                \Phork::event()->replace('output.display.content', $id, $callback);
+                if (($iterator = \Phork::event()->get('output.display.content')) && $iterator->keyExists($id)) {
+                    $action = $iterator->keyGet($id);
+                    
+                    $reflection = new \ReflectionObject(\Phork::event());
+                    $argsKey = $reflection->getConstant('ARGS_KEY');
+                    
+                    $action[$argsKey][0] = call_user_func_array($callback, array($action[$argsKey][0]));
+                    $iterator->keySet($id, $action);
+                } else {
+                    throw new \PhorkException(sprintf('Unable to replace non-existent action %s from %s', $id, $name));
+                }
             } else {
                 throw new \PhorkException('Output buffering must be turned on to replace content');
             }
