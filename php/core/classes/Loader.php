@@ -249,8 +249,8 @@
          */
         public function listStack($name, $file, $folder = 'classes', $ext = null)
         {
-        	$results = array();
-        	
+            $results = array();
+            
             foreach ($this->getStack($name) as $type => $root) {
                 if ($fullpath = $this->isFile($root.$folder.DIRECTORY_SEPARATOR.$file.($ext ?: $this->extension))) {
                     $results[$type] = $fullpath;
