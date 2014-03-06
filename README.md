@@ -6,21 +6,9 @@
 
 ##Introduction
 
-microphork is a tiny, flexible, MVC framework for PHP 5.3 and above. It includes an API framework, automatic URL routing, a flexible debugging system, and several useful utilities and extensions.
+microphork is a small and very flexible MVC framework for PHP 5.3 and above. It includes an API framework, automatic URL routing, language localization, and several useful utilities and extensions. Parts of microphork are based on the [Phork Framework](http://phork.org) but it has mostly been written from the ground up.
 
-Parts of microphork are based on the Phork Framework but it has mostly been written from the ground up. microphork isn't production ready or supported. Use at your own risk.
-
-
-##Todo
-
-* Sessions
-* Models and collections
-* Database
-* Cache
-* Authentication
-* Flash alerts
-* POST tokens
-* Timer
+The best way to start a new microphork project is to use the Composer-based [microphork application](https://github.com/phork/microphork-application) package, however it's also possible to use it as a standalone framework. All application code should go in the `app` folder.
 
 
 ##License
