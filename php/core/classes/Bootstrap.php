@@ -137,7 +137,7 @@
             $this->event->trigger('bootstrap.run.before');
 
             $segment = ($this->router->getSegment(0) ?: $this->config->router->defaults->controller);
-            $class = \Phork::loader()->loadStack(\Phork::LOAD_STACK, ucfirst($segment), (
+            $class = $this->loader->loadStack(static::LOAD_STACK, ucfirst($segment), (
                 function ($result, $type) use ($segment) {
                     $class = sprintf('\\Phork\\%s\\Controllers\\%s', $type, ucfirst($segment));
                     return $class;
@@ -195,7 +195,7 @@
          */
         public function fatal($statusCode, $statusString = null, $exception = null)
         {
-            if (!\Phork::loader()->isTemplate($template = 'errors/'.$statusCode)) {
+            if (!$this->loader->isTemplate($template = 'errors/'.$statusCode)) {
                 $template = 'errors/catchall';
             }
 
@@ -204,7 +204,7 @@
                 ->setStatusCode($statusCode)
                 ->addTemplate($template, array(
                     'statusCode' => $statusCode,
-                    'statusString' => $statusString ?: \Phork::output()->getStatusCode($statusCode),
+                    'statusString' => $statusString ?: $this->output->getStatusCode($statusCode),
                     'exception' => $exception
                 ))
             ;

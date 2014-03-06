@@ -204,30 +204,28 @@
          * the $runall flag is false. This won't fail if nothing was loaded.
          *
          * @access public
-         * @param string $name The path to the class relative to the $roots directories
-         * @param array $file The filename (excluding the extension) of the stack
+         * @param string $name The name of the stack to load the files from
+         * @param array $file The file name (excluding the extension) of the file(s) to load
          * @param callable $callback The closure, function name or method called for successful loads
-         * @param string $folder The relative path to the folder (eg. config, classes, classes/Foo)
+         * @param string $folder The file path relative to the stack paths (eg. config, classes, classes/Foo)
          * @param boolean $runall Whether to run the callbacks for all the loaded files or just the latest
-         * @param string $ext The file extension of the file (eg. .php)
+         * @param string $ext The extension of the file (eg. .php)
          * @param boolean $once Whether to use require_once instead of require
          * @return mixed The result(s) from the called callback(s)
          */
         public function loadStack($name, $file, $callback = null, $folder = 'classes', $runall = false, $ext = null, $once = true)
         {
-            foreach ($this->getStack($name) as $type => $root) {
-                if ($fullpath = $this->isFile($root.$folder.DIRECTORY_SEPARATOR.$file.($ext ?: $this->extension))) {
-                    $result = $this->loadFile($fullpath, $once);
+            foreach ($this->listStack($name, $file, $folder, $ext) as $type => $fullpath) {
+                $result = $this->loadFile($fullpath, $once);
 
-                    if ($callback) {
-                        if ($runall) {
-                            $results[$type] = call_user_func_array($callback, array($result, $type));
-                        } else {
-                            $run = array($result, $type);
-                        }
+                if ($callback) {
+                    if ($runall) {
+                        $results[$type] = call_user_func_array($callback, array($result, $type));
                     } else {
-                        $results[$type] = $result;
+                        $run = array($result, $type);
                     }
+                } else {
+                    $results[$type] = $result;
                 }
             }
 
@@ -239,6 +237,30 @@
         }
         
 
+        /**
+         * Returns the filepaths to all the files found in the stack.
+         *
+         * @access public
+         * @param string $name The name of the stack to list the files from
+         * @param array $file The file name (excluding the extension) of the file(s) to list
+         * @param string $folder The file path relative to the stack paths (eg. config, classes, classes/Foo)
+         * @param string $ext The extension of the file (eg. .php)
+         * @return array The array of paths for the files that exist
+         */
+        public function listStack($name, $file, $folder = 'classes', $ext = null)
+        {
+        	$results = array();
+        	
+            foreach ($this->getStack($name) as $type => $root) {
+                if ($fullpath = $this->isFile($root.$folder.DIRECTORY_SEPARATOR.$file.($ext ?: $this->extension))) {
+                    $results[$type] = $fullpath;
+                }
+            }
+            
+            return $results;
+        }
+        
+        
         /**
          * Adds a new stack to the list of available stacks. If the overwrite
          * flag is false this will throw an exception instead of overwriting
