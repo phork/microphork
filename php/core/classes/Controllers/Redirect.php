@@ -2,8 +2,16 @@
     namespace Phork\Core\Controllers;
 
     /**
-     * The controller handles redirecting to another page with an optional
-     * status code.
+     * The redirect controller handles redirecting to another page with
+     * an optional status code. This can be used with the routing config
+     * to set up shortcuts and permanent redirects.
+     *
+     * <code>
+     *  $routes = array(
+     *    '^/foo/?' => '/redirect/home/shortcut/',
+     *    '^/bar/?' => '/redirect/status=301/home/permanent/'
+     *  );
+     * </code>
      *
      * @author Elenor Collings <elenor@phork.org>
      * @package \Phork\Core
