@@ -382,6 +382,19 @@
 
 
         /**
+         * Returns the routed URL.
+         *
+         * @access public
+         * @return string The routed URL
+         */
+        public function getRoutedUrl()
+        {
+            $this->initialized || $this->init();
+            return $this->routedUrl;
+        }
+
+
+        /**
          * Returns the base URL, the relative URL and optionally the query
          * string if there is one all joined back together.
          *
