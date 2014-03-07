@@ -7,8 +7,8 @@
      * logging to a file.
      *
      * <code>
-     *   $debug = new Error();
-     *   $debug->addHandler('log', new Error\Handlers\Log('/path/to/logfile'));
+     *   $error = new Error();
+     *   $error->addHandler('log', new Error\Handlers\Log('/path/to/logfile'));
      *   trigger_error('Uh oh!');
      * </code>
      *
@@ -59,8 +59,8 @@
         public function __destruct()
         {
             if ($this->handling) {
-                restore_error_handler();
                 $this->handling = false;
+                restore_error_handler();
             }
         }
         

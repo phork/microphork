@@ -10,16 +10,5 @@
                     'active'            => true
                 )
             )
-        ),
-
-        'debug'             => array(
-            'handlers'          => array(
-                'display'           => array(
-                    'active'            => true
-                ),
-                'log'               => array(
-                    'active'            => true
-                )
-            )
         )
     );

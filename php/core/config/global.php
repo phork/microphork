@@ -10,12 +10,6 @@
             )
         ),
 
-        'debug'             => array(
-            'handlers'          => array(
-                //handlers should be defined in the app class
-            )
-        ),
-
         'router'            => array(
             'defaults'          => array(
                 'controller'        => 'home',

@@ -238,7 +238,7 @@
         
 
         /**
-         * Returns the filepaths to all the files found in the stack.
+         * Returns the full paths to all the files found in the stack.
          *
          * @access public
          * @param string $name The name of the stack to list the files from

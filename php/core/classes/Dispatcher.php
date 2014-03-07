@@ -19,7 +19,7 @@
      *   $foo->init(array(
      *      'bar' => array(
      *        'active'  => true,
-     *        'class'   => '\Phork\Core\Foo\Handlers\Bar',
+     *        'class'   => '\Phork\App\Foo\Handlers\Bar',
      *        'params'  => array('some', 'args')
      *      ),
      *      'baz' => array(

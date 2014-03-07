@@ -24,11 +24,11 @@
      *
      * <code>
      *   //call a registry object from within this object
-     *   $this->debug->log('Debugging is fun');
+     *   $this->config->get('foobar');
      *
      *   //call a registry object from outside this object
-     *   Phork::instance()->debug->log('Debugging is fun');
-     *   Phork::debug()->log('Shorter static call');
+     *   Phork::instance()->config->get('foobar');
+     *   Phork::config()->get('foobar');
      *
      *   //initialize the auth package
      *   $auth = Phork::instance()->initPackage('Auth', (
@@ -64,7 +64,6 @@
                 'config',
                 'event',
                 'error',
-                'debug',
                 'language',
                 'router',
                 'output',
@@ -108,7 +107,6 @@
             empty($this->registry['config'])   && $this->initConfig($env);
             empty($this->registry['event'])    && $this->initEvent();
             empty($this->registry['error'])    && $this->initError();
-            empty($this->registry['debug'])    && $this->initDebug();
             empty($this->registry['language']) && $this->initLanguage();
             empty($this->registry['router'])   && $this->initRouter();
             empty($this->registry['output'])   && $this->initOutput();
@@ -175,7 +173,6 @@
                 $this->registry['output'],
                 $this->registry['loader'],
                 $this->registry['router'],
-                $this->registry['debug'],
                 $this->registry['event'],
                 $this->registry['config'],
                 $this->registry['language']
@@ -298,30 +295,6 @@
 
             if ($config->handlers && $handlers = $config->handlers->export()) {
                 $this->error->init($handlers);
-            }
-        }
-
-
-        /**
-         * Loads and initializes the debugging class and adds each of the
-         * configured handlers.
-         *
-         * @access protected
-         * @return void
-         */
-        protected function initDebug()
-        {
-            $config = $this->config->get('debug');
-
-            $this->register('debug', $this->loader->loadStack(static::LOAD_STACK, 'Debug',
-                function ($result, $type) {
-                    $class = sprintf('\\Phork\\%s\\Debug', $type);
-                    return new $class();
-                }
-            ));
-
-            if ($config->handlers && $handlers = $config->handlers->export()) {
-                $this->debug->init($handlers);
             }
         }
 

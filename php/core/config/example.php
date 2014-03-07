@@ -20,27 +20,6 @@
             )
         ),
 
-        'debug'             => array(
-            'handlers'          => array(
-                'display'           => array(
-                    'active'            => false,
-                    'class'             => '\Phork\Core\Debug\Handlers\Display',
-                    'params'            => array(
-                        'html'              => true,
-                        'verbose'           => true
-                    )
-                ),
-                'log'               => array(
-                    'active'            => true,
-                    'class'             => '\Phork\Core\Debug\Handlers\Log',
-                    'params'            => array(
-                        'logfile'           => LOG_PATH.'debug.log',
-                        'verbose'           => true
-                    )
-                )
-            )
-        ),
-
         'router'            => array(
             'defaults'          => array(
                 'controller'        => 'home',

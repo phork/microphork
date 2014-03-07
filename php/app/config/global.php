@@ -18,27 +18,6 @@
             )
         ),
 
-        'debug'             => array(
-            'handlers'          => array(
-                'display'           => array(
-                    'active'            => false,
-                    'class'             => '\Phork\Core\Debug\Handlers\Display',
-                    'params'            => array(
-                        'html'              => true,
-                        'verbose'           => true
-                    )
-                ),
-                'log'               => array(
-                    'active'            => false,
-                    'class'             => '\Phork\Core\Debug\Handlers\Log',
-                    'params'            => array(
-                        'logfile'           => LOG_PATH.'debug.log',
-                        'verbose'           => true
-                    )
-                )
-            )
-        ),
-
         'router'            => array(
             'urls'              => array(
                 'site'              => !empty($_SERVER['HTTP_HOST']) ? 'http://'.$_SERVER['HTTP_HOST'] : '',
