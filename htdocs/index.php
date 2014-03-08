@@ -48,13 +48,13 @@
     
     
     //call the optional post-load / pre-run function
-    function_exists('phork_initialize') && phork_initialize();
+    (function_exists('phork_initialize') && phork_initialize());
     
     
     //create a class alias to either the core class or the app class for each main component
-    (!class_exists('PhorkException', false)) && class_alias('Phork\\Core\\Exception', 'PhorkException');
-    (!class_exists('PhorkLoader', false))    && class_alias('Phork\\Core\\Loader', 'PhorkLoader');
-    (!class_exists('Phork', false))          && class_alias('Phork\\App\\Bootstrap', 'Phork');
+    (!class_exists('PhorkException', false) && class_alias('Phork\\Core\\Exception', 'PhorkException'));
+    (!class_exists('PhorkLoader', false)    && class_alias('Phork\\Core\\Loader', 'PhorkLoader'));
+    (!class_exists('Phork', false)          && class_alias('Phork\\App\\Bootstrap', 'Phork'));
     
     //initialize the bootstrap, register the common object(s), initialize the app, and run everything
     try {

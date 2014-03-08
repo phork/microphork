@@ -36,6 +36,7 @@
      */
     class Loader extends Singleton
     {
+        protected $autoloader = false;
         protected $classes = array();
         protected $namespaces = array();
         protected $stacks = array();
@@ -65,6 +66,18 @@
                 }
             });
         }
+        
+        
+        /**
+         * Removes this class from the autoload stack before destruction.
+         *
+         * @access public
+         */
+        public function __destruct()
+        {
+            $this->autoload(false);
+            parent::__destruct();
+        }
 
 
         /**
@@ -78,9 +91,13 @@
         public function autoload($active)
         {
             if ($active) {
-                spl_autoload_register(array($this, 'loadClass'));
+                if (!$this->autoloader) {
+                    $this->autoloader = spl_autoload_register(array($this, 'loadClass'));
+                }
             } else {
-                spl_autoload_unregister(array($this, 'loadClass'));
+                if ($this->autoloader) {
+                    $this->autoloader = !spl_autoload_unregister(array($this, 'loadClass'));
+                }
             }
         }
 

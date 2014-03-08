@@ -83,7 +83,7 @@
         /**
          * Dispatches to the other initialization methods. These can be
          * added to or overridden in the app bootstrap class. If any of
-         * the core objects have already been registered they won't be
+         * the base objects have already been registered they won't be
          * overwritten here. Also sets up the default loader stack paths
          * and sets up the loader to be used as an autoloader.
          *
@@ -111,8 +111,6 @@
             empty($this->registry['router'])   && $this->initRouter();
             empty($this->registry['output'])   && $this->initOutput();
             
-            $this->autoloader && $this->event->listen('shutdown.run.before', array($this->loader, 'autoload'), array(false));
-
             $this->initialized = true;
             return $this;
         }
