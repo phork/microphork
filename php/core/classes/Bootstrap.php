@@ -255,8 +255,8 @@
         
         
         /**
-         * Loads and initializes the event class. The event class is
-         * a singleton that's immediately dereferenced because it's stored
+         * Loads and initializes the event class. The event class is a
+         * singleton that's immediately dereferenced because it's stored
          * here instead.
          *
          * @access protected
@@ -274,8 +274,8 @@
 
 
         /**
-         * Loads and initializes the error handler and adds each of the
-         * configured handlers.
+         * Loads and initializes the error dispatcher and adds each of
+         * the configured handlers.
          *
          * @access protected
          * @return void
@@ -376,7 +376,7 @@
 
         /**
          * Loads and initializes a package and returns the callback result.
-         * This create a new package stack, loads the config files then the
+         * This creates a new package stack, loads the config files, then the
          * language files and finally the class stack.
          *
          * @access public

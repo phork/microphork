@@ -44,7 +44,7 @@
 
         
         /**
-         * Sets up the Phork namespace to use this loader. Also sets this 
+         * Sets up the Phork namespace to use this loader. Also sets this
          * object as one of the autoloaders to use for missing classes.
          * The constructor can't be public for a singleton.
          *
