@@ -133,36 +133,6 @@
 
 
         /**
-         * Loads a class from the core directory.
-         *
-         * @access public
-         * @param string $path The path to the file relative to the CORE_PATH directory
-         * @param string $type The type of file (eg. config, classes, classes/Foo)
-         * @param boolean $once Whether to use require_once instead of require
-         * @return mixed The return value from the require
-         */
-        public function loadCore($path, $type = 'classes', $once = true)
-        {
-            return $this->loadFile(CORE_PATH.$type.DIRECTORY_SEPARATOR.$path.$this->extension, $once);
-        }
-
-
-        /**
-         * Loads a class from the app directory.
-         *
-         * @access public
-         * @param string $path The path to the file relative to the APP_PATH directory
-         * @param string $type The type of file (eg. config, classes, classes/Foo)
-         * @param boolean $once Whether to use require_once instead of require
-         * @return mixed The return value from the require
-         */
-        public function loadApp($path, $type = 'classes', $once = true)
-        {
-            return $this->loadFile(APP_PATH.$type.DIRECTORY_SEPARATOR.$path.$this->extension, $once);
-        }
-
-
-        /**
          * Loads a file and returns the result. If the loaded file doesn't contain
          * a return statement it will return 1 if the file was loaded successfully.
          *
