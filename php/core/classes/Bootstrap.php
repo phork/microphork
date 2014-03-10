@@ -33,7 +33,7 @@
      *   //initialize the auth package
      *   $auth = Phork::instance()->initPackage('Auth', (
      *     function ($result, $type) {
-     *       $class = sprintf('\\Phork\\%s\\Auth', $type);
+     *       $class = sprintf('\\Phork\\%s\\Auth\\Auth', $type);
      *       return new $class();
      *     }
      *   ));
