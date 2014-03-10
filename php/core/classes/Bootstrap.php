@@ -387,10 +387,14 @@
          */
         public function initPackage($pkg, $callback = null, $unstack = true)
         {
-            $this->loader->addStack($stack = $pkg.'stack', array(
-                'Pkg' => PKG_PATH.$pkg.DIRECTORY_SEPARATOR,
-                'App' => APP_PATH
-            ));
+            try {
+                $this->loader->addStack($stack = $pkg.'stack', array(
+                    'Pkg' => PKG_PATH.$pkg.DIRECTORY_SEPARATOR,
+                    'App' => APP_PATH
+                ));
+            } catch (Exception $exception) {
+                //the stack has already been defined; not a problem
+            }
 
             $this->config->load(strtolower($pkg), $stack);
             $this->language->addFilePath(PKG_PATH.$pkg.DIRECTORY_SEPARATOR.'lang'.DIRECTORY_SEPARATOR);
