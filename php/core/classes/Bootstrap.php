@@ -30,13 +30,9 @@
      *   Phork::instance()->config->get('foobar');
      *   Phork::config()->get('foobar');
      *
-     *   //initialize the auth package
-     *   $auth = Phork::instance()->initPackage('Auth', (
-     *     function ($result, $type) {
-     *       $class = sprintf('\\Phork\\%s\\Auth\\Auth', $type);
-     *       return new $class();
-     *     }
-     *   ));
+     *   //load and initialize the auth package
+     *   $class = Phork::instance()->initPackage('Auth');
+     *   $auth = new $class();
      * </code>
      *
      * @author Elenor Collings <elenor@phork.org>
@@ -377,7 +373,9 @@
         /**
          * Loads and initializes a package and returns the callback result.
          * This creates a new package stack, loads the config files, then the
-         * language files and finally the class stack.
+         * language files and finally the class stack. If no callback is
+         * defined then this will return the name of the latest class in the
+         * stack.
          *
          * @access public
          * @param string $pkg The name of the package to load
@@ -394,6 +392,16 @@
                 ));
             } catch (Exception $exception) {
                 //the stack has already been defined; not a problem
+            }
+            
+            if (is_null($callback)) {
+                $callback = function($result, $type) use ($pkg) {
+                    $class = sprintf('\\Phork\\%s\\%s', $type, $pkg);
+                    if ($type == 'Pkg') {
+                        $class .= '\\'.$pkg;
+                    }
+                    return $class;
+                };
             }
 
             $this->config->load(strtolower($pkg), $stack);
