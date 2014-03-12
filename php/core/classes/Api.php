@@ -106,16 +106,19 @@
 
         /**
          * Verifies that the actual method matches the method passed and
-         * throws an API exception if it doesn't.
+         * throws an API exception if it doesn't. This can accept multiple
+         * arguments (eg. validate('GET', 'HEAD')).
          *
          * @access protected
-         * @param string $method The required request type (GET, PUT, POST, DELETE)
+         * @param string $method,... The required request type (GET, PUT, POST, DELETE, HEAD)
          * @return void
          */
         protected function validate($method)
         {
-            if ($this->router->getMethod() != strtolower($method)) {
-                throw new \ApiException(\Phork::language()->translate('Invalid request method - %s required', $method), 400);
+            $methods = array_map('strtolower', func_get_args());
+            
+            if (!in_array($this->router->getMethod(), $methods)) {
+                throw new \ApiException(\Phork::language()->translate('Invalid request method - [%s] required', implode('|', $methods)), 400);
             }
         }
 
@@ -243,7 +246,7 @@
          */
         protected function handleGetEncoders()
         {
-            $this->validate('GET');
+            $this->validate('GET', 'HEAD');
             $handlers = \Phork::config()->encoder->handlers;
 
             $this->success = true;

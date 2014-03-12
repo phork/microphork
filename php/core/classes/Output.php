@@ -238,7 +238,7 @@
          * @access public
          * @param string $content The content to output
          * @param integer $position The order to display the content in
-         * @param string $id The unique ID of the content in the event object if the content was buffered
+         * @param string $id The unique ID of the content in the event object if the content is buffered
          * @return object The instance of the output object
          */
         public function addContent($content, $position = null, &$id = null)
