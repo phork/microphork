@@ -107,6 +107,8 @@
             empty($this->registry['router'])   && $this->initRouter();
             empty($this->registry['output'])   && $this->initOutput();
             
+            $this->autoloader && $this->event->listen('shutdown.run.before', array($this->loader, 'autoload'), array(false));
+            
             $this->initialized = true;
             return $this;
         }

@@ -46,14 +46,17 @@
         /**
          * Sets up the Phork namespace to use this loader. Also sets this
          * object as one of the autoloaders to use for missing classes.
-         * The constructor can't be public for a singleton.
+         * The constructor can't be public for a singleton. 
+         *
+         * PHP 5.4+ binds the closure to $this which will make a circular
+         * reference so in that case this rebinds it to a standard object.
          *
          * @access protected
          */
         protected function __construct()
         {
             $extension = $this->extension;
-            $this->mapNamespace('Phork', function ($class, $unmatched) use ($extension) {
+            $closure = function ($class, $unmatched) use ($extension) {
                 if (($type = array_shift($unmatched)) && defined($pathvar = strtoupper($type).'_PATH') && ($root = constant($pathvar))) {
                     if ($type == 'Pkg') {
                         $package = array_shift($unmatched);
@@ -64,7 +67,9 @@
                 } else {
                     throw new \PhorkException(sprintf('No path defined for Phork\%s', $type));
                 }
-            });
+            };
+            
+            $this->mapNamespace('Phork', method_exists($closure, 'bindTo') ? $closure->bindTo(new \StdClass()) : $closure);
         }
         
         
