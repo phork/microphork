@@ -222,6 +222,26 @@
 
             return $this;
         }
+        
+        
+        /**
+         * Removes an object from the registry and returns it.
+         *
+         * @access public
+         * @param string $name The name of the object to deregister
+         * @return object The object that was removed
+         */
+        public function deregister($name)
+        {
+	        if (array_key_exists($name, $this->registry)) {
+	        	$object = $this->registry[$name];
+		        unset($this->registry[$name]);
+	        } else {
+		        throw new \PhorkException(sprintf('Invalid deregistration (%s)', $name));
+	        }
+	        
+	        return $object;
+        }
 
 
         //-----------------------------------------------------------------
