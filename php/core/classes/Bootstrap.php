@@ -72,8 +72,12 @@
          * Don't let the bootstrap be dereferenced.
          *
          * @access public
+         * @static
          */
-        public function __destruct() {}
+        static public function dereference()
+        {
+	        throw new \PhorkException('The bootstrap cannot be dereferenced');
+        }
 
 
         /**

@@ -11,6 +11,9 @@
      * registry object is unset there won't be a reference still hanging
      * around here preventing the object from being destroyed.
      *
+     * The singleton is not a true singleton in that it is possible
+     * (but not recommended) to destroy a singleton and re-initialize it.
+     *
      * @author Elenor Collings <elenor@phork.org>
      * @package \Phork\Core
      */
