@@ -160,13 +160,15 @@
          * Loads a class by class name without knowing the path. First checks
          * the class map array and if no value is found this will check the 
          * namespace map to try to parse out a file path based on the namespace
-         * and class. Can be used with spl_autoload_register().
+         * and class. Can be used with spl_autoload_register() however if it
+         * is it must not throw an exception.
          *
          * @access public
          * @param string $class The name of the class (or interface) to load
+         * @param boolean $warn Whether to throw an exception if the class isn't found
          * @return boolean True on success
          */
-        public function loadClass($class)
+        public function loadClass($class, $warn = false)
         {
         	if (!class_exists($class, false) && !interface_exists($class, false)) {
 	            if (!(array_key_exists($class, $this->classes) && $fullpath = $this->classes[$class])) {
@@ -183,7 +185,7 @@
 	            
 	            if (!empty($fullpath) && $fullpath = $this->isFile($fullpath)) {
 	                return (require $fullpath) && (class_exists($class, false) || interface_exists($class, false));
-	            } else {
+	            } elseif ($warn) {
 	                throw new \PhorkException(sprintf('Unable to load class %s', $class));
 	            }
 			} else {
