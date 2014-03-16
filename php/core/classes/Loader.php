@@ -170,27 +170,27 @@
          */
         public function loadClass($class, $warn = false)
         {
-        	if (!class_exists($class, false) && !interface_exists($class, false)) {
-	            if (!(array_key_exists($class, $this->classes) && $fullpath = $this->classes[$class])) {
-	                if ($pieces = explode('\\', preg_replace('/^\\\/', '', $class))) {
-	                    $popped = array();
-	                    do {
-	                        if (array_push($popped, array_pop($pieces)) && !empty($this->namespaces[$joined = implode('\\', $pieces)])) {
-	                            $fullpath = call_user_func_array($this->namespaces[$joined], array($class, array_reverse($popped)));
-	                            break;
-	                        }
-	                    } while ($pieces);
-	                }
-	            }
-	            
-	            if (!empty($fullpath) && $fullpath = $this->isFile($fullpath)) {
-	                return (require $fullpath) && (class_exists($class, false) || interface_exists($class, false));
-	            } elseif ($warn) {
-	                throw new \PhorkException(sprintf('Unable to load class %s', $class));
-	            }
-			} else {
-				return true;
-			}
+            if (!class_exists($class, false) && !interface_exists($class, false)) {
+                if (!(array_key_exists($class, $this->classes) && $fullpath = $this->classes[$class])) {
+                    if ($pieces = explode('\\', preg_replace('/^\\\/', '', $class))) {
+                        $popped = array();
+                        do {
+                            if (array_push($popped, array_pop($pieces)) && !empty($this->namespaces[$joined = implode('\\', $pieces)])) {
+                                $fullpath = call_user_func_array($this->namespaces[$joined], array($class, array_reverse($popped)));
+                                break;
+                            }
+                        } while ($pieces);
+                    }
+                }
+                
+                if (!empty($fullpath) && $fullpath = $this->isFile($fullpath)) {
+                    return (require $fullpath) && (class_exists($class, false) || interface_exists($class, false));
+                } elseif ($warn) {
+                    throw new \PhorkException(sprintf('Unable to load class %s', $class));
+                }
+            } else {
+                return true;
+            }
         }
         
 

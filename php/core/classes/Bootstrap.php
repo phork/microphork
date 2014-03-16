@@ -76,7 +76,7 @@
          */
         static public function dereference()
         {
-	        throw new \PhorkException('The bootstrap cannot be dereferenced');
+            throw new \PhorkException('The bootstrap cannot be dereferenced');
         }
 
 
@@ -239,14 +239,14 @@
          */
         public function deregister($name)
         {
-	        if (array_key_exists($name, $this->registry)) {
-	        	$object = $this->registry[$name];
-		        unset($this->registry[$name]);
-	        } else {
-		        throw new \PhorkException(sprintf('Invalid deregistration (%s)', $name));
-	        }
-	        
-	        return $object;
+            if (array_key_exists($name, $this->registry)) {
+                $object = $this->registry[$name];
+                unset($this->registry[$name]);
+            } else {
+                throw new \PhorkException(sprintf('Invalid deregistration (%s)', $name));
+            }
+            
+            return $object;
         }
 
 
