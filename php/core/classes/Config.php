@@ -78,7 +78,7 @@
                 function ($config, $type) use ($self) {
                     $self->import($config);
                 }
-            ), 'config', true);
+            ), 'config', true, null, false);
         }
         
 
