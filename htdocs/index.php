@@ -8,7 +8,7 @@
     
     
     //create a temporary closure to define file paths
-    $pathdef = function ($constant, $path) {
+    empty($pathdef) && $pathdef = function ($constant, $path) {
         if (!defined($constant)) {
             (!is_dir($path) && is_dir(PHK_ROOT.$path)) && $path = PHK_ROOT.$path;
             define($constant, realpath($path).DIRECTORY_SEPARATOR);
@@ -56,10 +56,15 @@
     (!class_exists('PhorkLoader', false)    && class_alias('Phork\\Core\\Loader', 'PhorkLoader'));
     (!class_exists('Phork', false)          && class_alias('Phork\\App\\Bootstrap', 'Phork'));
     
-    //initialize the bootstrap, register the common object(s), initialize the app, and run everything
+    //initialize the bootstrap, register the loader and its paths, initialize the app, and run everything
     try {
         Phork::instance()
-            ->register('loader', PhorkLoader::instance(true))
+            ->register('loader', PhorkLoader::instance(true)
+                ->mapPath('Core', CORE_PATH)
+                ->mapPath('App',  APP_PATH)
+                ->mapPath('Pkg',  PKG_PATH)
+                ->mapPath('View', VIEW_PATH)
+            )
             ->init(PHK_ENV)
             ->run()
             ->shutdown()

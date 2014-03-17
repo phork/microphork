@@ -94,10 +94,7 @@
         public function init($env)
         {
             try {
-                $this->loader->addStack(static::LOAD_STACK, array(
-                    'Core' => CORE_PATH,
-                    'App' => APP_PATH
-                ));
+                $this->loader->addStack(static::LOAD_STACK, array('Core', 'App'));
             } catch (Exception $exception) {
                 //the stack has already been defined; not a problem
             }
@@ -411,11 +408,10 @@
          */
         public function initPackage($pkg, $callback = null, $unstack = true)
         {
+            $path = $this->loader->getPath('Pkg').$pkg.DIRECTORY_SEPARATOR;
+            
             try {
-                $this->loader->addStack($stack = $pkg.'stack', array(
-                    'Pkg' => PKG_PATH.$pkg.DIRECTORY_SEPARATOR,
-                    'App' => APP_PATH
-                ));
+                $this->loader->addStack($stack = $pkg.'stack', array(array('Pkg', $path), 'App'));
             } catch (Exception $exception) {
                 //the stack has already been defined; not a problem
             }
@@ -431,7 +427,7 @@
             }
 
             $this->config->load(strtolower($pkg), $stack);
-            $this->language->addFilePath(PKG_PATH.$pkg.DIRECTORY_SEPARATOR.'lang'.DIRECTORY_SEPARATOR);
+            $this->language->addFilePath($path.'lang'.DIRECTORY_SEPARATOR);
             $result = $this->loader->loadStack($stack, $pkg, $callback);
             $unstack && $this->loader->removeStack($stack);
 

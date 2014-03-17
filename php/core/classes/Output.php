@@ -167,8 +167,10 @@
          */
         public function setStatusCode($statusCode)
         {
-            if ($statusCode) {
+            if (array_key_exists($statusCode, $this->statusCodes)) {
                 $this->addHeader(sprintf('HTTP/1.0 %d %s', $statusCode, $this->statusCodes[$statusCode]));
+            } else {
+                throw new \PhorkException(sprintf('Invalid status code: %s', $statusCode));
             }
 
             return $this;

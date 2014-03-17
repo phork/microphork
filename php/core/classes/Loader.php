@@ -11,11 +11,19 @@
      * callback function. This is a singleton.
      *
      * <code>
+     *   //set up the absolute basic path mapping
+     *   $this
+     *     ->mapPath('Core', CORE_PATH)
+     *     ->mapPath('App',  APP_PATH)
+     *     ->mapPath('Pkg',  PKG_PATH)
+     *     ->mapPath('View', VIEW_PATH)
+     *   ;
+     *
      *   //define a stack that first tries to load core file and then app files
-     *   $this->addStack('default', array(
-     *     'Core' => CORE_PATH,
-     *     'App' => APP_PATH
-     *   ));
+     *   $this->addStack('default', array('Core', 'App'));
+     *   
+     *   //define a package stack using the mapped App path and a custom package path
+     *   $this->addStack('package', array('App', array('Pkg', $pkg)));
      *
      *   //load the Foo class using the default stack and return a new Foo object
      *   $this->loadStack('default', 'Foo',
@@ -40,6 +48,7 @@
         protected $classes = array();
         protected $namespaces = array();
         protected $stacks = array();
+        protected $paths = array();
         protected $extension = '.php';
 
         
@@ -56,13 +65,15 @@
         protected function __construct()
         {
             $extension = $this->extension;
-            $closure = function ($class, $unmatched) use ($extension) {
-                if (($type = array_shift($unmatched)) && defined($pathvar = strtoupper($type).'_PATH') && ($root = constant($pathvar))) {
+            $paths = &$this->paths;
+            
+            $closure = function ($class, $unmatched) use ($extension, &$paths) {
+                if (($type = array_shift($unmatched)) && array_key_exists($type, $paths) && $path = $paths[$type]) {
                     if ($type == 'Pkg') {
                         $package = array_shift($unmatched);
-                        return $root.$package.DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR, $unmatched).$extension;
+                        return $path.$package.DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR, $unmatched).$extension;
                     } else {
-                        return $root.'classes'.DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR, $unmatched).$extension;
+                        return $path.'classes'.DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR, $unmatched).$extension;
                     }
                 } else {
                     throw new \PhorkException(sprintf('No path defined for Phork\%s', $type));
@@ -114,11 +125,12 @@
          * @access public
          * @param string $class The name of the class
          * @param string $file The full path to the file containing the class
-         * @return void
+         * @return object The instance of the loader object
          */
         public function mapClass($class, $file)
         {
             $this->classes[$class] = $file;
+            return $this;
         }
         
         
@@ -129,14 +141,48 @@
          * @access public
          * @param string $namespace A full or partial namespace 
          * @param callback $loader The loader callback
-         * @return void
+         * @return object The instance of the loader object
          */
         public function mapNamespace($namespace, $loader)
         {
             $this->namespaces[$namespace] = $loader;
+            return $this;
         }
 
 
+        /**
+         * Maps a path name to the pull path for. At the very least
+         * there should be Core, App, Pkg and View. This returns an
+         * instance of itself for chaining.
+         *
+         * @access public
+         * @param string $name The name of the path (eg. Core)
+         * @param string $path The path
+         * @return object The instance of the loader object
+         */
+        public function mapPath($name, $path)
+        {
+            $this->paths[$name] = $path;
+            return $this;
+        }
+        
+        
+        /**
+         * Returns a path from the array of paths.
+         *
+         * @access public
+         * @param string $name The name of the path to get
+         * @return string The path
+         */
+        public function getPath($name)
+        {
+            if (array_key_exists($name, $this->paths)) {
+                return $this->paths[$name];
+            } else {
+                throw new \PhorkException(sprintf('Invalid path name: %s', $name));
+            }
+        }
+        
         /**
          * Loads a file and returns the result. If the loaded file doesn't contain
          * a return statement it will return 1 if the file was loaded successfully.
@@ -249,8 +295,15 @@
         {
             $results = array();
             
-            foreach ($this->getStack($name) as $type => $root) {
-                if ($fullpath = $this->isFile($root.$folder.DIRECTORY_SEPARATOR.$file.($ext ?: $this->extension))) {
+            foreach ($this->getStack($name) as $item) {
+                if (is_array($item)) {
+                    list($type, $path) = $item;
+                } else {
+                    $type = $item;
+                    $path = $this->getPath($type);
+                }
+                
+                if ($fullpath = $this->isFile($path.$folder.DIRECTORY_SEPARATOR.$file.($ext ?: $this->extension))) {
                     $results[$type] = $fullpath;
                 }
             }
@@ -266,9 +319,9 @@
          *
          * @access public
          * @param string $name The name of the stack
-         * @param array $stack The stack keyed by the full path with the path type (eg. Core) as the value
+         * @param array $stack The array of stack paths (eg. 'Core' or array('Pkg' => '/path/to/pkg'))
          * @param boolean $overwrite Whether an existing stack can be overwritten
-         * @return void
+         * @return object The instance of the loader object
          */
         public function addStack($name, array $stack, $overwrite = false)
         {
@@ -277,6 +330,8 @@
             } elseif ($exists) {
                 throw new \PhorkException(sprintf('The %s stack already exists and cannot be overwritten', $name));
             }
+
+            return $this;
         }
         
 
@@ -375,7 +430,7 @@
          */
         public function isTemplate($path, $ext = null)
         {
-            return $this->isFile(VIEW_PATH.DIRECTORY_SEPARATOR.$path.($ext ?: $this->extension), VIEW_PATH);
+            return $this->isFile($this->getPath('View').DIRECTORY_SEPARATOR.$path.($ext ?: $this->extension), $this->getPath('View'));
         }
 
 
