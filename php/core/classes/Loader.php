@@ -14,8 +14,8 @@
      *   //set up the absolute basic path mapping
      *   $this
      *     ->mapPath('Core', CORE_PATH)
-     *     ->mapPath('App',  APP_PATH)
-     *     ->mapPath('Pkg',  PKG_PATH)
+     *     ->mapPath('App', APP_PATH)
+     *     ->mapPath('Pkg', PKG_PATH)
      *     ->mapPath('View', VIEW_PATH)
      *   ;
      *
@@ -116,6 +116,11 @@
                 }
             }
         }
+        
+        
+        //-----------------------------------------------------------------
+        //   mapping methods
+        //-----------------------------------------------------------------
 
 
         /**
@@ -183,6 +188,12 @@
             }
         }
         
+        
+        //-----------------------------------------------------------------
+        //   loader methods
+        //-----------------------------------------------------------------
+
+        
         /**
          * Loads a file and returns the result. If the loaded file doesn't contain
          * a return statement it will return 1 if the file was loaded successfully.
@@ -240,6 +251,11 @@
         }
         
 
+        //-----------------------------------------------------------------
+        //   stack methods
+        //-----------------------------------------------------------------
+
+        
         /**
          * Loads a stack of files from the predefined stack list and if a
          * callback function exists it will either run all the callbacks for
@@ -370,6 +386,11 @@
                 throw new \PhorkException(sprintf('Unable to get non-existent stack %s', $name));
             }
         }
+        
+        
+        //-----------------------------------------------------------------
+        //   validation methods
+        //-----------------------------------------------------------------
         
 
         /**
