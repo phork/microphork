@@ -274,7 +274,7 @@
                     $args[0] = call_user_func_array($callback, array($args[0]));
                     $action->args($args);
                 } else {
-                    throw new \PhorkException(sprintf('Unable to replace non-existent action %s from %s', $id, $name));
+                    throw new \PhorkException(sprintf('Unable to replace non-existent content %s', $id));
                 }
             } else {
                 throw new \PhorkException('Output buffering must be turned on to replace content');

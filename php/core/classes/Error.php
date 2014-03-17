@@ -104,7 +104,6 @@
                     case E_ERROR:
                     default:
                         $type = 'Error';
-                        break;
                 }
 
                 $error = $this->verbose ? sprintf('%s: %s in %s on line %d', $type, $error, $file, $line) : $error;
