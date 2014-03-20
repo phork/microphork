@@ -52,7 +52,7 @@
          *
          * @access public
          * @param array The array of handler config data
-         * @return array The number of handlers initialized and the number activated
+         * @return array The handler counts
          */
         public function init(array $config)
         {
@@ -65,6 +65,18 @@
                 }
             }
 
+            return $this->count();
+        }
+        
+        
+        /**
+         * Returns the number of handlers initialized and the number activated.
+         *
+         * @access public
+         * @return array The handler counts
+         */
+        public function count()
+        {
             return array(
                 count($this->handlers),
                 count(array_filter($this->active))
@@ -78,16 +90,18 @@
          * @access public
          * @param string $name The name of the handler to initialize
          * @param array $config The handler config or empty to default to the loaded config
-         * @return void
+         * @return array The handler counts
          */
         public function initHandler($name, $config = array())
         {
-            if ($config = $config ?: $this->config[$name]) {
+            if ($config || (array_key_exists($name, $this->config) && $config = $this->config[$name])) {
                 $reflection = new \ReflectionClass($config['class']);
                 $this->addHandler($name, $reflection->newInstance(!empty($config['params']) ? $config['params'] : array()), !empty($config['active']));
             } else {
                 throw new \PhorkException(sprintf('The %s handler in %s must be configured before being initialized', $name, get_class($this)));
             }
+            
+            return $this->count();
         }
         
 
@@ -98,7 +112,7 @@
          * @param string $name The name of the handler
          * @param object $handler The handler object
          * @param boolean $active Whether to activate the handler
-         * @return void
+         * @return array The handler counts
          */
         public function addHandler($name, $handler, $active = true)
         {
@@ -108,6 +122,8 @@
             } else {
                 throw new \PhorkException(sprintf('The %s handler must be an instance of %s', get_class($this), $this->instanceOf));
             }
+            
+            return $this->count();
         }
         
 
@@ -117,15 +133,17 @@
          * @access public
          * @param string $name The name of the handler to remove
          * @param boolean $warn Whether to throw an exception if removing a non-existent handler
-         * @return void
+         * @return array The handler counts
          */
-        public function removeHander($name, $warn = true)
+        public function removeHandler($name, $warn = true)
         {
             if (array_key_exists($name, $this->handlers)) {
                 unset($this->handlers[$name], $this->active[$name], $this->config[$name]);
             } elseif ($warn) {
                 throw new \PhorkException(sprintf('Unable to remove non-existent handler %s from %s', $name, get_class($this)));
             }
+            
+            return $this->count();
         }
         
 
@@ -135,7 +153,7 @@
          *
          * @access public
          * @param string $name The name of the handler to activate
-         * @return void
+         * @return array The handler counts
          */
         public function activateHandler($name)
         {
@@ -143,14 +161,8 @@
                 $this->initHandler($name);
             }
 
-            if (array_key_exists($name, $this->handlers)) {
-                if (empty($this->handlers[$name])) {
-                    $this->initHandler($name);
-                }
-                $this->active[$name] = true;
-            } else {
-                throw new \PhorkException(sprintf('Unable to activate non-existent handler %s from %s', $name, get_class($this)));
-            }
+            $this->active[$name] = true;
+            return $this->count();
         }
 
 
@@ -160,7 +172,7 @@
          * @access public
          * @param string $name The name of the handler to deactivate
          * @param boolean $warn Whether to throw an exception if deactivating a non-existent handler
-         * @return void
+         * @return array The handler counts
          */
         public function deactivateHandler($name, $warn = true)
         {
@@ -169,6 +181,8 @@
             } elseif ($warn) {
                 throw new \PhorkException(sprintf('Unable to deactivate non-existent handler %s from %s', $name, get_class($this)));
             }
+            
+            return $this->count();
         }
 
 
@@ -213,7 +227,7 @@
                 }
 
                 if ($this->maximum == 1) {
-                    $results = $results[$name];
+                    $results = end($results);
                 }
                 
                 return isset($results) ? $results : null;
