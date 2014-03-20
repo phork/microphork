@@ -186,7 +186,7 @@
                 throw new \ApiException(\Phork::language()->translate('Missing batch definitions'), 400);
             }
             
-            if (!($requests = json_decode($requests, true))) {
+            if (!(is_string($requests) && $requests = json_decode($requests, true))) {
                 throw new \ApiException(\Phork::language()->translate('Invalid batch definitions'), 400);
             }
             
@@ -207,7 +207,7 @@
                                 $result[$key]['status'],
                                 $result[$key]['success'],
                                 $result[$key]['data'],
-                            ) = Api\Internal::post($request['url'], $request['args'], false);
+                            ) = Api\Internal::post($request['url'], !empty($request['args']) ? $request['args'] : array(), false);
                             break;
 
                         case 'put':
