@@ -135,7 +135,7 @@
                     case 'xml':
                         $encoder->activateHandler('xml');
                         $args = array(
-                            'formatCallback' => method_exists($this->api, 'getXmlNode') ? array($this->api, 'getXmlNode') : null
+                            'formatCallback' => method_exists($this->api, 'mapXmlNode') ? array($this->api, 'mapXmlNode') : null
                         );
                         $handler = 'xml';
                         break;

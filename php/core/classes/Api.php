@@ -16,6 +16,8 @@
     class Api
     {
         protected $prefix = 'handle';
+        protected $restful = false;
+        protected $segment = 1;
 
         protected $router;
         protected $authenticated;
@@ -61,21 +63,29 @@
 
         /**
          * Determines whether to delegate handling to a separate object based
-         * on the number of segments in the URL. If the URL has more than 2
-         * segments this will instantiate a new API object using the second
-         * segment's value. This allows all API requests to be routed through
-         * this class and for all fatal errors (eg. 404) to be handled here
-         * instead of somewhere that won't return the results in the right
+         * on the number of segments in the URL. The zero-based $segment property
+         * determines where to start mapping the URL from. For example if the URL
+         * is /api/encoders.json then $segment should be 1 so that /api/ will be
+         * ignored. If the URL has more than $segment+1 segments then this will
+         * instantiate a new API object using the $segment+1 value. For example
+         * if the URL is /api/foo/bar.json then the handling will be delegated to
+         * a new Api/Foo object. This allows for all API requests to be routed
+         * through this class and for all fatal errors (eg. 404) to be handled
+         * here instead of somewhere that won't return the results in the right 
          * format.
          *
          * @access public
+         * @param integer $segment The segment to start mapping the router from
          * @return array The result data either to be encoded or handled as is
          */
-        public function run()
+        public function run($segment = null)
         {
+            $this->segment = $segment ?: $this->segment;
+            unset($segment);
+            
             try {
-                if (get_class($this) == __CLASS__ && count($segments = $this->router->getSegments()) > 2) {
-                    $class = \Phork::loader()->loadStack(\Phork::LOAD_STACK, ($segment = ucfirst($segments[1])), (
+                if (get_class($this) == __CLASS__ && count($segments = $this->router->getSegments()) > ($this->segment + 1)) {
+                    $class = \Phork::loader()->loadStack(\Phork::LOAD_STACK, ($segment = ucfirst($segments[$this->segment])), (
                         function ($result, $type) use ($segment) {
                             $class = sprintf('\\Phork\\%s\\Api\\%s', $type, $segment);
                             return $class;
@@ -96,7 +106,7 @@
                 $this->error($exception->getCode());
             }
             
-            return isset($delegate) ? $delegate->run() : array(
+            return isset($delegate) ? $delegate->run($this->segment + 1) : array(
                 $this->statusCode ?: 200,
                 $this->success,
                 $this->result
@@ -132,18 +142,14 @@
          */
         protected function handle()
         {
-            $handlers = array(
-                'batch'     => 'getBatch',
-                'encoders'  => 'getEncoders'
-            );
-
-            $segment = str_replace('.'.$this->format, '', $this->router->getSegment(1));
-            if (empty($handlers[$segment])) {
+            $prefix = $this->restful ? \Phork::router()->getMethod() : $this->prefix;
+            $segment = str_replace('.'.$this->format, '', $this->router->getSegment($this->segment));
+            
+            if (method_exists($this, $method = $prefix.ucfirst($segment))) {
+                call_user_func_array(array($this, $method), array_slice(\Phork::router()->getSegments(), $this->segment + 1));
+            } else {
                 throw new \ApiException(\Phork::language()->translate('Invalid API method'), 400);
             }
-            
-            $method = $this->prefix.$handlers[$segment];
-            $this->$method();
         }
 
 
@@ -180,7 +186,7 @@
          * @access protected
          * @return array The array of result data for each call
          */
-        protected function handleGetBatch()
+        protected function handleBatch()
         {
             if (!($requests = $this->router->getVariable('requests'))) {
                 throw new \ApiException(\Phork::language()->translate('Missing batch definitions'), 400);
@@ -244,7 +250,7 @@
          * @access protected
          * @return array The array of encoders
          */
-        protected function handleGetEncoders()
+        protected function handleEncoders()
         {
             $this->validate('GET', 'HEAD');
             $handlers = \Phork::config()->encoder->handlers;
@@ -262,7 +268,7 @@
 
 
         /**
-         * Used to get an XML node name based on the parent's name. This is to
+         * Returns an XML node name based on the parent's name. This is to
          * prevent child nodes being named with a generic name.
          *
          * @access public
@@ -270,7 +276,7 @@
          * @param string $parent The name of the parent node
          * @return string The formatted node name
          */
-        public function getXmlNode($node, $parent)
+        public function mapXmlNode($node, $parent)
         {
             switch ($parent) {
                 case 'errors':
