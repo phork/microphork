@@ -67,7 +67,7 @@
 
             return array(
                 count($this->handlers),
-                count($this->active)
+                count(array_filter($this->active))
             );
         }
         
