@@ -18,14 +18,16 @@
      *   //initialize a group of handlers based on a config file
      *   $foo->init(array(
      *      'bar' => array(
-     *        'active'  => true,
-     *        'class'   => '\Phork\App\Foo\Handlers\Bar',
-     *        'params'  => array('some', 'args')
+     *        'init'     => true
+     *        'active'   => true,
+     *        'class'    => '\Phork\App\Foo\Handlers\Bar',
+     *        'params'   => array('some', 'args')
      *      ),
      *      'baz' => array(
-     *        'active'  => false,
-     *        'class'   => '\Phork\App\Foo\Handlers\Baz',
-     *        'params'  => array('some', 'more', 'args')
+     *        'init'     => true,
+     *        'active'   => false,
+     *        'class'    => '\Phork\App\Foo\Handlers\Baz',
+     *        'params'   => array('some', 'more', 'args')
      *      )
      *   ));
      * </code>
@@ -58,7 +60,7 @@
             $this->handlers = $this->active = array();
 
             foreach ($config as $name => $handler) {
-                if (!empty($handler['active'])) {
+                if (!empty($handler['init']) || !empty($handler['active'])) {
                     $this->initHandler($name);
                 }
             }
