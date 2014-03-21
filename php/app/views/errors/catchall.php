@@ -1,5 +1,9 @@
 <?php
-    print $statusCode.': '.$statusString;
+    if (isset($statusCode) && isset($statusString)) {
+        print $statusCode.': '.$statusString;
+    } else {
+        print 'Fatal error';
+    }
     
     //if included from fatal.php and in verbose mode then print the full exception
     $verbose = !empty(\Phork::instance()->config) && \Phork::config()->error->verbose;
