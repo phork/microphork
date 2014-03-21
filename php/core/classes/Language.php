@@ -67,14 +67,18 @@
          */
         protected function load()
         {
-            if ($this->cachepath) {
-                if (file_exists($cache = $this->cachepath.'/'.$this->language.'.php')) {
-                    $this->translations = include($cache);
-                }
-            } else {
-                if (!empty($this->filepaths)) {
-                    foreach ($this->filepaths as $filepath) {
-                        $this->loadFilePath($filepath);
+            $this->translations = array();
+            
+            if ($this->language) {
+                if ($this->cachepath) {
+                    if (file_exists($cache = $this->cachepath.'/'.$this->language.'.php')) {
+                        $this->translations = include($cache);
+                    }
+                } else {
+                    if (!empty($this->filepaths)) {
+                        foreach ($this->filepaths as $filepath) {
+                            $this->loadFilePath($filepath);
+                        }
                     }
                 }
             }
@@ -142,6 +146,7 @@
         public function setFilePaths($filepaths)
         {
             $this->filepaths = $filepaths;
+            $this->load();
         }
         
 
@@ -155,6 +160,7 @@
         public function setCachePath($cachepath)
         {
             $this->cachepath = $cachepath;
+            $this->load();
         }
         
 
@@ -168,9 +174,7 @@
          */
         public function setLanguage($language)
         {
-            $this->translations = array();
-            if ($this->language = $language) {
-                $this->load();
-            }
+            $this->language = $language;
+            $this->load();
         }
     }
