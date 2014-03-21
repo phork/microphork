@@ -191,10 +191,8 @@
         {
             if ($this->buffered) {
                 \Phork::event()->once('output.display.headers', 'header', array($header), $position, $id);
-            } elseif (!headers_sent($file, $line)) {
-                header($header);
             } else {
-                throw new \PhorkException(sprintf('Headers have already been sent in %s on line %d', $file, $line));
+                header($header);
             }
 
             return $this;
