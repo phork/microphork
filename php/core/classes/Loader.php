@@ -451,7 +451,7 @@
          */
         public function isTemplate($path, $ext = null)
         {
-            return $this->isFile($this->getPath('View').DIRECTORY_SEPARATOR.$path.($ext ?: $this->extension), $this->getPath('View'));
+            return $this->isFile($this->getPath('View').$path.($ext ?: $this->extension), $this->getPath('View'));
         }
 
 

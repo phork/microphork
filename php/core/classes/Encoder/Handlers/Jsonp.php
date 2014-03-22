@@ -11,20 +11,14 @@
     class Jsonp extends Json
     {
         /**
-         * Sets up the handler's params if there are any.
+         * Sets up the handler's params if there are any. In this case
+         * there are none.
          *
          * @access public
          * @param array $params An array of params to set for each property
          * @return void
          */
-        public function __construct($params = array())
-        {
-            foreach ($params as $key => $value) {
-                if (property_exists($this, $key)) {
-                    $this->$key = $value;
-                }
-            }
-        }
+        public function __construct($params = array()) {}
 
 
         /**
