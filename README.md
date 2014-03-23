@@ -1,6 +1,6 @@
 #microphork
 
-[![Build Status](https://travis-ci.org/phork/microphork-tests.svg)](https://travis-ci.org/phork/microphork-tests) [![Latest Stable Version](https://poser.pugx.org/microphork/framework/v/stable.png)](https://packagist.org/packages/microphork/framework) [![Latest Unstable Version](https://poser.pugx.org/microphork/framework/v/unstable.png)](https://packagist.org/packages/microphork/framework) [![Total Downloads](https://poser.pugx.org/microphork/framework/downloads.png)](https://packagist.org/packages/microphork/framework) [![License](https://poser.pugx.org/microphork/framework/license.png)](https://packagist.org/packages/microphork/framework)
+[![Build Status](https://travis-ci.org/phork/microphork.svg)](https://travis-ci.org/phork/microphork) [![Coverage Status](https://coveralls.io/repos/phork/microphork/badge.png)](https://coveralls.io/r/phork/microphork) [![Latest Stable Version](https://poser.pugx.org/microphork/framework/v/stable.png)](https://packagist.org/packages/microphork/framework) [![Latest Unstable Version](https://poser.pugx.org/microphork/framework/v/unstable.png)](https://packagist.org/packages/microphork/framework) [![Total Downloads](https://poser.pugx.org/microphork/framework/downloads.png)](https://packagist.org/packages/microphork/framework) [![License](https://poser.pugx.org/microphork/framework/license.png)](https://packagist.org/packages/microphork/framework)
 
 
 ##Introduction

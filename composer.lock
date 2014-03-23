@@ -196,22 +196,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phork/microphork-tests.git",
-                "reference": "1cfe0c83691675b1172949dbb49e0452fac8be8b"
+                "reference": "2eacc9630994227f807a1c1e65e09dda16105ce0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phork/microphork-tests/zipball/1cfe0c83691675b1172949dbb49e0452fac8be8b",
-                "reference": "1cfe0c83691675b1172949dbb49e0452fac8be8b",
+                "url": "https://api.github.com/repos/phork/microphork-tests/zipball/2eacc9630994227f807a1c1e65e09dda16105ce0",
+                "reference": "2eacc9630994227f807a1c1e65e09dda16105ce0",
                 "shasum": ""
             },
             "require": {
-                "microphork/framework": "*",
                 "microphork/package-auth": "*",
                 "microphork/package-debug": "*",
                 "phpunit/phpunit": "4.0.*"
-            },
-            "require-dev": {
-                "satooshi/php-coveralls": "dev-master"
             },
             "type": "library",
             "autoload": {
@@ -230,7 +226,7 @@
                 "microphork",
                 "phork"
             ],
-            "time": "2014-03-23 18:08:51"
+            "time": "2014-03-23 18:54:57"
         },
         {
             "name": "phpunit/php-code-coverage",
