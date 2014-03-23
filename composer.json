@@ -15,6 +15,10 @@
     "require": {
         "php": ">=5.3.0"
     },
+    "require-dev": {
+        "microphork/tests": "*",
+        "satooshi/php-coveralls": "dev-master"
+    },
     "autoload": {
         "psr-4": {
             "Phork\\Core\\": "php/core/classes",
@@ -25,5 +29,6 @@
         "branch-alias": {
             "dev-master": "0.1-dev"
         }
-    }
+    },
+    "minimum-stability": "dev"
 }
