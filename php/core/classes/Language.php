@@ -41,7 +41,6 @@
 
             return $string;
         }
-        
 
         /**
          * Returns the list of language files in the file path passed.
@@ -56,7 +55,6 @@
                 return glob($filepath.$this->language.'/*.lang');
             }
         }
-        
 
         /**
          * Loads the replacements into the object from the cache or set of
@@ -83,7 +81,6 @@
                 }
             }
         }
-        
 
         /**
          * Loads a set of replacements from a single file path.
@@ -114,7 +111,6 @@
                 }
             }
         }
-        
 
         /**
          * Adds a new file path and immediately adds each language file
@@ -133,7 +129,6 @@
             }
         }
         
-
         /**
          * Sets the file paths to the language directories, excluding
          * the specific language directory.
@@ -148,7 +143,6 @@
             $this->filepaths = $filepaths;
             $this->load();
         }
-        
 
         /**
          * Sets the path to the cached language files.
@@ -162,7 +156,6 @@
             $this->cachepath = $cachepath;
             $this->load();
         }
-        
 
         /**
          * Sets the language to use for the translations and includes

@@ -43,7 +43,6 @@
 
             \Phork::event()->trigger('controller.run.after', null, true);
         }
-        
 
         /**
          * Adds the index template to the output.
@@ -55,7 +54,6 @@
         {
             \Phork::output()->addTemplate($this->views.'index');
         }
-        
 
         /**
          * Displays a fatal error by routing the call through the bootstrap's

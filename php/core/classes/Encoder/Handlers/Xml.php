@@ -28,7 +28,6 @@
          */
         public function __construct($params = array()) {}
 
-
         /**
          * Encodes the data into XML.
          *
@@ -54,7 +53,6 @@
 
             return $this->dom->saveXML();
         }
-
 
         /**
          * Builds the XML from an array or object and appends it to the parent
@@ -89,7 +87,6 @@
             }
         }
 
-
         /**
          * Returns the node name to use. If the node is numeric this checks the name
          * of the parent node and looks in the numeric replacement array to see if
@@ -116,7 +113,6 @@
 
             return $realKey;
         }
-        
 
         /**
          * Returns the header to send for XML data.

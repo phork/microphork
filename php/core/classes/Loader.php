@@ -83,7 +83,6 @@
             $this->mapNamespace('Phork', method_exists($closure, 'bindTo') ? $closure->bindTo(new \StdClass()) : $closure);
         }
         
-        
         /**
          * Removes this class from the autoload stack before destruction.
          *
@@ -94,7 +93,6 @@
             $this->autoload(false);
             parent::__destruct();
         }
-
 
         /**
          * Adds or remove this class from the autoload stack based on the
@@ -117,11 +115,9 @@
             }
         }
         
-        
         //-----------------------------------------------------------------
         //   mapping methods
         //-----------------------------------------------------------------
-
 
         /**
          * Maps a class name to a file so that loadClass() will be able
@@ -138,7 +134,6 @@
             return $this;
         }
         
-        
         /**
          * Maps a namespace to a class loader so that loadClass() will
          * be able to load classes in non-standard locations.
@@ -153,7 +148,6 @@
             $this->namespaces[$namespace] = $loader;
             return $this;
         }
-
 
         /**
          * Maps a path name to the pull path for. At the very least
@@ -171,7 +165,6 @@
             return $this;
         }
         
-        
         /**
          * Returns a path from the array of paths.
          *
@@ -188,11 +181,9 @@
             }
         }
         
-        
         //-----------------------------------------------------------------
         //   loader methods
         //-----------------------------------------------------------------
-
         
         /**
          * Loads a file and returns the result. If the loaded file doesn't contain
@@ -212,7 +203,6 @@
             }
         }
         
-
         /**
          * Loads a class by class name without knowing the path. First checks
          * the class map array and if no value is found this will check the 
@@ -250,11 +240,9 @@
             }
         }
         
-
         //-----------------------------------------------------------------
         //   stack methods
         //-----------------------------------------------------------------
-
         
         /**
          * Loads a stack of files from the predefined stack list and if a
@@ -296,7 +284,6 @@
             return isset($results) ? $results : null;
         }
         
-
         /**
          * Returns the full paths to all the files found in the stack.
          *
@@ -327,7 +314,6 @@
             return $results;
         }
         
-        
         /**
          * Adds a new stack to the list of available stacks. If the overwrite
          * flag is false this will throw an exception instead of overwriting
@@ -349,7 +335,6 @@
 
             return $this;
         }
-        
 
         /**
          * Removes a stack from the available stacks and returns it.
@@ -370,7 +355,6 @@
             return isset($return) ? $return : null;
         }
         
-        
         /**
          * Gets a stack if it's been registered.
          *
@@ -387,12 +371,10 @@
             }
         }
         
-        
         //-----------------------------------------------------------------
         //   validation methods
         //-----------------------------------------------------------------
         
-
         /**
          * Validates a file path and optionally checks that it's contained
          * within the restricted directory passed.
@@ -421,7 +403,6 @@
             return $cleanpath;
         }
 
-
         /**
          * A convenience wrapper for the validateFile method that ignores
          * the exceptions and just returns the filepath or false.
@@ -440,7 +421,6 @@
             }
         }
 
-
         /**
          * Checks whether a template exists in the path passed.
          *
@@ -453,7 +433,6 @@
         {
             return $this->isFile($this->getPath('View').$path.($ext ?: $this->extension), $this->getPath('View'));
         }
-
 
         /**
          * Replaces the slashed path with the appropriate directory

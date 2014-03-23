@@ -35,7 +35,6 @@
             }
         }
 
-
         /**
          * Builds the error string and sends it to the logging method.
          *
@@ -51,7 +50,6 @@
         {
             $this->log($this->verbose ? sprintf('%s: %s in %s on line %d', $type, $error, $file, $line) : $error);
         }
-
 
         /**
          * Builds the error message and logs the output. This has the

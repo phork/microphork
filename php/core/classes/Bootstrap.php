@@ -67,18 +67,16 @@
             ), null);
         }
         
-        
         /**
          * Don't let the bootstrap be dereferenced.
          *
          * @access public
          * @static
          */
-        static public function dereference()
+        public static function dereference()
         {
             throw new \PhorkException('The bootstrap cannot be dereferenced');
         }
-
 
         /**
          * Dispatches to the other initialization methods. These can be
@@ -113,7 +111,6 @@
             $this->initialized = true;
             return $this;
         }
-
 
         /**
          * Runs the application by determining the controller and then
@@ -151,7 +148,6 @@
             return $this;
         }
 
-
         /**
          * Unsets most of the registry objects. If any of these are referenced
          * elsewhere they will only be dereferenced here and won't actually be
@@ -175,7 +171,6 @@
                 $this->registry['language']
             );
         }
-
 
         /**
          * Displays a fatal error using one of the error templates if found,
@@ -204,7 +199,6 @@
             ;
         }
 
-
         /**
          * Adds an object to the registry and returns an instance of itself
          * to allow for chaining.
@@ -226,7 +220,6 @@
             return $this;
         }
         
-        
         /**
          * Removes an object from the registry and returns it.
          *
@@ -246,11 +239,9 @@
             return $object;
         }
 
-
         //-----------------------------------------------------------------
         //   initialization methods
         //-----------------------------------------------------------------
-
 
         /**
          * Loads the global and environmental configuration files.
@@ -272,7 +263,6 @@
             $this->config->load('environments'.DIRECTORY_SEPARATOR.$env);
         }
         
-        
         /**
          * Loads and initializes the event class. The event class is a
          * singleton that's immediately dereferenced because it's stored
@@ -290,7 +280,6 @@
                 }
             ));
         }
-
 
         /**
          * Loads and initializes the error dispatcher and adds each of
@@ -314,7 +303,6 @@
                 $this->error->init($handlers);
             }
         }
-
 
         /**
          * Loads and initializes the language class and sets it up to
@@ -345,7 +333,6 @@
             }
         }
 
-
         /**
          * Routes the application to the appropriate controller based on
          * the URL or the CLI args. The router is not a singleton because
@@ -371,7 +358,6 @@
             $this->router->init();
         }
 
-
         /**
          * Loads and initializes the output class. The output class is
          * a singleton that's immediately dereferenced because it's stored
@@ -391,7 +377,6 @@
             
             $this->event->listen('shutdown.run.before', array($this->output, 'flush'));
         }
-
 
         /**
          * Loads and initializes a package and returns the callback result.
@@ -417,7 +402,7 @@
             }
             
             if (is_null($callback)) {
-                $callback = function($result, $type) use ($pkg) {
+                $callback = function ($result, $type) use ($pkg) {
                     $class = sprintf('\\Phork\\%s\\%s', $type, $pkg);
                     if ($type == 'Pkg') {
                         $class .= '\\'.$pkg;
@@ -434,11 +419,9 @@
             return $result;
         }
 
-
         //-----------------------------------------------------------------
         //   magic methods
         //-----------------------------------------------------------------
-
 
         /**
          * Called when isset is called on the bootstrap. This is used to
@@ -452,7 +435,6 @@
         {
             return !empty($this->registry[$name]);
         }
-
 
         /**
          * Called when an unknown or un-public variable is called. This is
@@ -471,7 +453,6 @@
             }
         }
 
-
         /**
          * Called when an unknown static method is called. This is used as
          * a way to pass through calls to the registry objects.
@@ -481,7 +462,7 @@
          * @param array $args The arguments passed to the method
          * @return object The object property
          */
-        static public function __callStatic($name, $args)
+        public static function __callStatic($name, $args)
         {
             $registry = self::instance()->registry;
             if (array_key_exists($name, $registry) && is_object($registry[$name])) {

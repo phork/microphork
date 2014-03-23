@@ -73,7 +73,6 @@
             $this->flush();
         }
 
-
         /**
          * Turns on output buffering within this class. This is internal
          * buffering and doesn't affect the output buffer. If no output 
@@ -97,7 +96,6 @@
             return $this;
         }
 
-
         /**
          * Outputs the headers and the content, turns off buffering and
          * destroys the output events.
@@ -115,7 +113,6 @@
             $this->clear();
             return $this;
         }
-        
         
         /**
          * Destroys any headers and content that have been buffered and
@@ -137,7 +134,6 @@
             return $this;
         }
 
-
         /**
          * Gets the status code string for the code passed.
          *
@@ -152,11 +148,9 @@
             }
         }
 
-
         //-----------------------------------------------------------------
         // builder methods
         //-----------------------------------------------------------------
-
 
         /**
          * Adds a header with the status code passed.
@@ -175,7 +169,6 @@
 
             return $this;
         }
-
 
         /**
          * Adds a header to the display.header event. This uses the built in
@@ -197,7 +190,6 @@
 
             return $this;
         }
-
 
         /**
          * Includes a template. This uses the class method addContent() to
@@ -231,7 +223,6 @@
             return $this;
         }
 
-
         /**
          * Adds some content to the display.content event. The benefit of using 
          * addContent versus standard print is that it makes it possible to 
@@ -253,7 +244,6 @@
 
             return $this;
         }
-        
         
         /**
          * Replaces the buffered content at the key passed using the
@@ -281,11 +271,9 @@
             }
         }
 
-
         //-----------------------------------------------------------------
         // output methods
         //-----------------------------------------------------------------
-
 
         /**
          * Triggers the event to display the queued headers.
@@ -298,7 +286,6 @@
             \Phork::event()->trigger('output.display.headers');
             return $this;
         }
-
 
         /**
          * Triggers the event to display the queued content.

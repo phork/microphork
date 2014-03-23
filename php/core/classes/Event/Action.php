@@ -31,7 +31,6 @@
             $this->once = $once;
         }
         
-        
         /**
          * Returns (and optionally sets) the callback closure, function name
          * or method.
@@ -46,7 +45,6 @@
             return $this->callback;
         }
         
-        
         /**
          * Returns (and optionally sets) the arguments that get passed to the
          * callback.
@@ -60,7 +58,6 @@
             (!is_null($args) && $this->args = $args);
             return $this->args;
         }
-        
         
         /**
          * Returns (and optionally sets) the once-only flag.

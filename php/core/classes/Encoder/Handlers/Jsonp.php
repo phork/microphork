@@ -20,7 +20,6 @@
          */
         public function __construct($params = array()) {}
 
-
         /**
          * Encodes the data into JSON and formats appropriately for a script
          * tag. The args must contain the name of the callback to include in
@@ -38,7 +37,6 @@
 
             return $callback.'('.$json.')';
         }
-
 
         /**
          * Returns the header to send for JSONP data.

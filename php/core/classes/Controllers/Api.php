@@ -62,7 +62,6 @@
             \Phork::event()->trigger('controller.run.after', null, true);
         }
 
-
         /**
          * Authenticates a user using either the HTTP authentication or
          * token authentication. The token can either be part of the query
@@ -86,7 +85,6 @@
             }
         }
 
-
         /**
          * Encodes and outputs the result returned from the API handler.
          *
@@ -107,7 +105,6 @@
                 \Phork::instance()->fatal($exception->getCode() ?: 500, $exception->getMessage(), $exception);
             }
         }
-
 
         /**
          * Encodes the display result based on the extension.  Currently supports

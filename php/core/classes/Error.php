@@ -47,7 +47,6 @@
             set_error_handler(array($this, 'handle'));
             $this->handling = true;
         }
-        
 
         /**
          * Restores the error handler to the previously registered
@@ -63,7 +62,6 @@
                 restore_error_handler();
             }
         }
-        
 
         /**
          * Handles the error information. The user errors triggered by
@@ -120,7 +118,6 @@
             return true;
         }
         
-
         /**
          * Clears out all the errors data.
          *
@@ -133,7 +130,6 @@
             $this->details->clear();
             $this->backtraces->clear();
         }
-        
 
         /**
          * Returns the error iterator object.
@@ -145,7 +141,6 @@
         {
             return $this->errors;
         }
-        
 
         /**
          * Returns the details iterator object.
@@ -157,7 +152,6 @@
         {
             return $this->details;
         }
-        
 
         /**
          * Returns the backtrace iterator object.
@@ -170,7 +164,6 @@
             return $this->backtraces;
         }
         
-
         /**
          * Returns the verbosity flag.
          *

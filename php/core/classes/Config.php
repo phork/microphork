@@ -12,7 +12,8 @@
     class Config
     {
         protected $config = array();
-
+        
+        
         /**
          * The constructor sets up the initial configuration data.
          *
@@ -23,7 +24,6 @@
         {
             $this->import($config);
         }
-
 
         /**
          * Imports an array of config data into the object.
@@ -38,7 +38,6 @@
                 $this->set($name, $value);
             }
         }
-
 
         /**
          * Exports the entire config tree as an array.
@@ -60,7 +59,6 @@
             return $result;
         }
 
-
         /**
          * Loads a stack of config files into the object. Each config file
          * should return an array of config vars. The $self = $this hack is
@@ -80,7 +78,6 @@
                 }
             ), 'config', true, null, false);
         }
-        
 
         /**
          * Returns either the existing config variable or the default value
@@ -104,7 +101,6 @@
 
             return $result;
         }
-        
 
         /**
          * Sets a config variable. If the merge flag is set this will merge
@@ -131,7 +127,6 @@
             return $this->config[$name];
         }
         
-        
         /**
          * Deletes a config variable. Also has the option to throw an exception
          * if the value isn't defined.
@@ -150,7 +145,6 @@
             }
         }
         
-
         /**
          * Merges the additional values into the initial object.
          *
@@ -163,11 +157,9 @@
             }
         }
 
-
         //-----------------------------------------------------------------
         //   magic methods
         //-----------------------------------------------------------------
-
 
         /**
          * Called when an unknown or un-public variable is called. Returns
@@ -181,7 +173,6 @@
         {
             return $this->get($name, null, true);
         }
-        
         
         /**
          * Checks if an unknown or un-public variable exists.

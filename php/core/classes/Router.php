@@ -57,7 +57,6 @@
             $this->mixedPost = $mixedPost;
         }
 
-
         /**
          * Initializes the URL data. Loads the current URL, routes as
          * necessary, and parses the URL into segments and filters.
@@ -99,7 +98,6 @@
 
             $this->initialized = true;
         }
-
 
         /**
          * Makes adjustments to account for the URL using a query string.
@@ -147,7 +145,6 @@
             parse_str($queryString, $_GET);
         }
 
-
         /**
          * Detects whether the script is being accessed via the PHP CLI.
          *
@@ -158,7 +155,6 @@
         {
             $this->cli = (php_sapi_name() === 'cli');
         }
-
 
         /**
          * Checks for a PHP CLI script first, followed by the path info, and
@@ -181,7 +177,6 @@
 
             list($this->relativeUrl,) = explode('?', $this->cleanUrl($relativeUrl));
         }
-
 
         /**
          * Sets the request variables based on the request method.
@@ -222,7 +217,6 @@
             }
         }
 
-
         /**
          * Cleans up the URL by replacing any double slashes with single
          * slashes. Doesn't replace double slashes following a colon.
@@ -235,7 +229,6 @@
         {
             return preg_replace('|(?<!:)/{2,}|', '/', trim($relativeUrl));
         }
-        
 
         /**
          * Adds a trailing slash to the URL if it doesn't have an extension.
@@ -249,7 +242,6 @@
                 $this->relativeUrl = rtrim($this->relativeUrl, ' /').'/';
             }
         }
-
 
         /**
          * Checks for a re-routed URL using the pre-loaded routes config
@@ -275,7 +267,6 @@
                 }
             }
         }
-
 
         /**
          * Splits the URL into an array of segments. If the URL has been
@@ -324,11 +315,9 @@
             }
         }
 
-
         //-----------------------------------------------------------------
         //   get and set methods
         //-----------------------------------------------------------------
-
 
         /**
          * Returns the CLI flag. The flag can only be set by manually
@@ -342,7 +331,6 @@
             return $this->cli;
         }
 
-
         /**
          * Returns the request method.
          *
@@ -355,7 +343,6 @@
             return $this->method;
         }
 
-
         /**
          * Returns the base URL.
          *
@@ -366,7 +353,6 @@
         {
             return $this->baseUrl;
         }
-
 
         /**
          * Returns the URL excluding the base URL.
@@ -380,7 +366,6 @@
             return $this->relativeUrl;
         }
 
-
         /**
          * Returns the routed URL.
          *
@@ -392,7 +377,6 @@
             $this->initialized || $this->init();
             return $this->routedUrl;
         }
-
 
         /**
          * Returns the base URL, the relative URL and optionally the query
@@ -418,7 +402,6 @@
             return $relativeUrl;
         }
 
-
         /**
          * Returns the file extension of the current page if there is one.
          *
@@ -430,7 +413,6 @@
             $this->initialized || $this->init();
             return $this->extension;
         }
-
 
         /**
          * Returns the URL segment at the position passed.
@@ -446,7 +428,6 @@
             }
         }
 
-
         /**
          * Returns all the URL segments as an array.
          *
@@ -458,7 +439,6 @@
             $this->initialized || $this->init();
             return $this->segments;
         }
-
 
         /**
          * Returns the value of the URL filter if it exists.
@@ -474,7 +454,6 @@
             }
         }
 
-
         /**
          * Returns all the URL filters as an array.
          *
@@ -486,7 +465,6 @@
             $this->initialized || $this->init();
             return $this->filters;
         }
-
 
         /**
          * Returns the value of the request variable if it exists.
@@ -502,7 +480,6 @@
             }
         }
 
-
         /**
          * Returns all the request variables as an array.
          *
@@ -514,7 +491,6 @@
             $this->initialized || $this->init();
             return $this->variables;
         }
-
 
         /**
          * Returns the raw data from HTTP_RAW_POST_DATA.
@@ -528,7 +504,6 @@
             return $this->rawData;
         }
 
-
         /**
          * Returns whether the site is running on HTTPS.
          *
@@ -539,7 +514,6 @@
         {
             return !empty($_SERVER['HTTPS']);
         }
-
 
         /**
          * Sets the custom routes. The segments and filters come from the
@@ -554,11 +528,9 @@
             $this->routes = $routes;
         }
 
-
         //-----------------------------------------------------------------
         //   magic methods
         //-----------------------------------------------------------------
-
 
         /**
          * Called when the router is cloned because the CLI property

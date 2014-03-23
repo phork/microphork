@@ -45,7 +45,6 @@
             }
         }
         
-        
         /**
          * Checks if an event exists.
          *
@@ -57,7 +56,6 @@
         {
             return array_key_exists($name, $this->events);
         }
-        
 
         /**
          * Registers the event action by storing it in the events array.
@@ -83,7 +81,6 @@
                 return $this->events[$name]->append(array($id, new $this->actionClass($callback, $args, $once)));
             }
         }
-        
 
         /**
          * Registers an event to run only once. This is a convenience wrapper
@@ -101,7 +98,6 @@
         {
             return $this->listen($name, $callback, $args, $position, $id, true);
         }
-
 
         /**
          * Runs the event actions registered with the event name passed.
@@ -138,7 +134,6 @@
             }
         }
         
-        
         /**
          * Calls the event callback function and passes the standard and
          * runtime args.
@@ -152,7 +147,6 @@
         {
             return call_user_func_array($event->callback(), is_array($args) ? array_merge($event->args(), $args) : $event->args());
         }
-
 
         /**
          * Removes the event from the registry and returns the registered
@@ -170,7 +164,6 @@
                 return $iterator;
             }
         }
-
 
         /**
          * Removes a single action from an event and returns the action.
@@ -195,7 +188,6 @@
                 }
             }
         }
-        
         
         /**
          * Returns the event iterator for the event named.

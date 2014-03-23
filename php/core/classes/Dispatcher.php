@@ -68,7 +68,6 @@
             return $this->count();
         }
         
-        
         /**
          * Returns the number of handlers initialized and the number activated.
          *
@@ -82,7 +81,6 @@
                 count(array_filter($this->active))
             );
         }
-        
 
         /**
          * Initializes and adds a handler based on the set of config data.
@@ -104,7 +102,6 @@
             return $this->count();
         }
         
-
         /**
          * Adds a new handler. Active handlers do the actual processing.
          *
@@ -126,7 +123,6 @@
             return $this->count();
         }
         
-
         /**
          * Removes a handler.
          *
@@ -146,7 +142,6 @@
             return $this->count();
         }
         
-
         /**
          * Activates a handler by name. If the handler isn't initialized this
          * will initialize it based on the config.
@@ -164,7 +159,6 @@
             $this->active[$name] = true;
             return $this->count();
         }
-
 
         /**
          * Deactivates a handler by name. Only active handlers are run.
@@ -185,7 +179,6 @@
             return $this->count();
         }
 
-
         /**
          * Gets a handler if it exists and returns it.
          *
@@ -202,7 +195,6 @@
                 throw new \PhorkException(sprintf('Unable to get non-existent handler %s from %s', $name, get_class($this)));
             }
         }
-
 
         /**
          * Dispatches the call to the handler(s) if the handlers are valid.

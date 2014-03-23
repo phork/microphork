@@ -19,8 +19,8 @@
      */
     abstract class Singleton
     {
-        static protected $instances = array();
-        static protected $dereferenced = array();
+        protected static $instances = array();
+        protected static $dereferenced = array();
 
 
         /**
@@ -35,7 +35,7 @@
          * @return object The instance of the object
          * @static
          */
-        static public function instance($dereference = false, $create = true)
+        public static function instance($dereference = false, $create = true)
         {
             if (!array_key_exists($class = get_called_class(), static::$instances)) {
                 if (empty(static::$dereferenced[$class])) {
@@ -55,7 +55,6 @@
             }
         }
         
-
         /**
          * Removes the reference to the instantiated singleton so that
          * unset() can be called and the object can be destroyed. This
@@ -66,7 +65,7 @@
          * @return object The instance of the object
          * @static
          */
-        static public function dereference()
+        public static function dereference()
         {
             if (array_key_exists($class = get_called_class(), static::$instances)) {
                 $instance = static::$instances[$class];
@@ -77,14 +76,12 @@
             }
         }
         
-        
         /**
          * The constructor can't be public for a singleton.
          *
          * @access protected
          */
         protected function __construct() {}
-        
         
         /**
          * Removes the dereferenced flag or the instance.
@@ -99,7 +96,6 @@
                 unset(static::$instances[$class]);
             }
         }
-
 
         /**
          * A singleton can't be cloned.

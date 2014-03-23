@@ -20,7 +20,6 @@
          */
         public function __construct($params = array()) {}
 
-
         /**
          * Encodes the data into JSON.
          *
@@ -33,7 +32,6 @@
         {
             return json_encode($source, !empty($args['options']) ? $args['options'] : null);
         }
-
 
         /**
          * Returns the header to send for JSON data.

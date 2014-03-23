@@ -23,7 +23,7 @@
          * @return array An array with the status code, success flag and result data
          * @static
          */
-        static protected function request(\Phork\Core\Router $router, $internal = true)
+        protected static function request(\Phork\Core\Router $router, $internal = true)
         {
             $authenticated = !empty(\Phork::instance()->auth) ? \Phork::auth()->isAuthenticated() : false;
             $errors = count(\Phork::error()->getErrors()->items());
@@ -48,11 +48,9 @@
             return array($statusCode, $success, $result);
         }
 
-
         //-----------------------------------------------------------------
         //   spoof methods
         //-----------------------------------------------------------------
-
 
         /**
          * Spoofs an API get and retrieves the result without having the
@@ -64,7 +62,7 @@
          * @return array An array with the success flag and the results
          * @static
          */
-        static public function get($url, $internal = true)
+        public static function get($url, $internal = true)
         {
             if (strstr($url, '?') !== false) {
                 list($url, $queryString) = explode('?', $url);
@@ -76,7 +74,6 @@
 
             return static::request($router, $internal);
         }
-        
 
         /**
          * Spoofs an API post and retrieves the result without having the
@@ -89,14 +86,13 @@
          * @return array An array with the success flag and the results
          * @static
          */
-        static public function post($url, $post, $internal = true)
+        public static function post($url, $post, $internal = true)
         {
             $router = clone \Phork::router();
             $router->init('POST', $url, $post);
 
             return static::request($router, $internal);
         }
-        
 
         /**
          * Spoofs an API put and retrieves the result without having the
@@ -108,14 +104,13 @@
          * @return array An array with the success flag and the results
          * @static
          */
-        static public function put($url, $internal = true)
+        public static function put($url, $internal = true)
         {
             $router = clone \Phork::router();
             $router->init('PUT', $url, array());
 
             return static::request($router, $internal);
         }
-        
 
         /**
          * Spoofs an API delete and retrieves the result without having the
@@ -127,7 +122,7 @@
          * @return array An array with the success flag and the results
          * @static
          */
-        static public function delete($url, $internal = true)
+        public static function delete($url, $internal = true)
         {
             $router = clone \Phork::router();
             $router->init('DELETE', $url, array());

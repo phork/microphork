@@ -31,7 +31,6 @@
 
             return $key;
         }
-        
 
         /**
          * Extracts the key and the value from the item. If a key doesn't
@@ -58,11 +57,9 @@
             return array($key, $value);
         }
 
-
         //-----------------------------------------------------------------
         //   cursor moving methods
         //-----------------------------------------------------------------
-
 
         /**
          * Moves the cursor to the position of the key passed.
@@ -79,7 +76,6 @@
                 return true;
             }
         }
-        
 
         /**
          * Returns the current item from the list and advances the cursor.
@@ -101,11 +97,9 @@
             }
         }
 
-
         //-----------------------------------------------------------------
         //   modification methods
         //-----------------------------------------------------------------
-
 
         /**
          * Appends an item to the list and increments the count.
@@ -125,7 +119,6 @@
                 return $key;
             }
         }
-        
 
         /**
          * Inserts an item at a specific position and shifts all the
@@ -148,7 +141,6 @@
             }
         }
         
-
         /**
          * Inserts an item before the key passed.
          *
@@ -164,7 +156,6 @@
             }
         }
         
-
         /**
          * Inserts an item after the key passed.
          *
@@ -180,7 +171,6 @@
             }
         }
         
-
         /**
          * Clears out the list and resets the cursor.
          *
@@ -193,11 +183,9 @@
             parent::clear();
         }
 
-
         //-----------------------------------------------------------------
         //   retrieval methods
         //-----------------------------------------------------------------
-
 
         /**
          * Returns all the items in the list with their keys.
@@ -210,7 +198,6 @@
             return $this->keys || $this->items ? array_combine($this->keys, $this->items) : array();
         }
         
-
         /**
          * Returns the key at the position of the cursor.
          *
@@ -224,7 +211,6 @@
             }
         }
         
-
         /**
          * Returns the position of an item by its key.
          *
@@ -236,7 +222,6 @@
         {
             return array_search($key, $this->keys);
         }
-        
         
         /**
          * Returns the key for the offset passed.
@@ -252,11 +237,9 @@
             }
         }
 
-
         //-----------------------------------------------------------------
         //   offset methods
         //-----------------------------------------------------------------
-
 
         /**
          * Modifies an item in the list by its position. If no item exists
@@ -280,7 +263,6 @@
                 return true;
             }
         }
-        
 
         /**
          * Removes an item by its position, decrements the count and shifts
@@ -299,12 +281,10 @@
                 return true;
             }
         }
-        
 
         //-----------------------------------------------------------------
         //   key methods
         //-----------------------------------------------------------------
-
 
         /**
          * Checks if an item exists by its key.
@@ -317,7 +297,6 @@
         {
             return $this->keyOffset($key) !== false;
         }
-        
 
         /**
          * Returns the item with the key passed if it exists.
@@ -332,7 +311,6 @@
                 return $this->items[$position];
             }
         }
-        
 
         /**
          * Modifies the current item in the list by its key.
@@ -349,7 +327,6 @@
             }
         }
         
-
         /**
          * Removes an item by its key, decrements the count and shifts
          * the other items to fill the hole.

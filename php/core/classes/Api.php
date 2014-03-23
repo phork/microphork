@@ -60,7 +60,6 @@
             }
         }
 
-
         /**
          * Determines whether to delegate handling to a separate object based
          * on the number of segments in the URL. The zero-based $segment property
@@ -113,7 +112,6 @@
             );
         }
 
-
         /**
          * Verifies that the actual method matches the method passed and
          * throws an API exception if it doesn't. This can accept multiple
@@ -131,7 +129,6 @@
                 throw new \ApiException(\Phork::language()->translate('Invalid request method - [%s] required', implode('|', $methods)), 400);
             }
         }
-
 
         /**
          * Maps the API method to a method within this controller and
@@ -152,7 +149,6 @@
             }
         }
 
-
         /**
          * Sets up an error response.
          *
@@ -172,11 +168,9 @@
             }
         }
 
-
         //-----------------------------------------------------------------
         //   handler methods
         //-----------------------------------------------------------------
-
 
         /**
          * Handles batch processing. Multiple API calls can be called at
@@ -243,7 +237,6 @@
             );
         }
 
-
         /**
          * Returns the encoders available to format the results.
          *
@@ -261,11 +254,9 @@
             );
         }
 
-
         //-----------------------------------------------------------------
         //   get and set methods
         //-----------------------------------------------------------------
-
 
         /**
          * Returns an XML node name based on the parent's name. This is to

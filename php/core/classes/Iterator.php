@@ -29,7 +29,6 @@
             return true;
         }
 
-
         /**
          * Returns true if the cursor position is valid.
          *
@@ -41,11 +40,9 @@
             return $this->cursor >= 0 && $this->cursor < $this->count;
         }
 
-
         //-----------------------------------------------------------------
         //   cursor moving methods
         //-----------------------------------------------------------------
-
 
         /**
          * Rewinds the cursor and returns the previous item from the list
@@ -65,7 +62,6 @@
             }
         }
 
-
         /**
          * Advances the cursor and returns the next item from the list.
          * The maximum cursor value is one past the last actual position.
@@ -84,7 +80,6 @@
             }
         }
 
-
         /**
          * Rewinds the cursor to the beginning of the list.
          *
@@ -96,7 +91,6 @@
             $this->cursor = 0;
         }
 
-
         /**
          * Moves the cursor to the end of the list.
          *
@@ -107,7 +101,6 @@
         {
             $this->cursor = $this->count - 1;
         }
-
 
         /**
          * Moves the cursor to the position passed.
@@ -124,7 +117,6 @@
                 return true;
             }
         }
-
 
         /**
          * Returns the current item from the list and advances the cursor.
@@ -146,11 +138,9 @@
             }
         }
 
-
         //-----------------------------------------------------------------
         //   modification methods
         //-----------------------------------------------------------------
-
 
         /**
          * Appends an item to the list and increments the count.
@@ -167,7 +157,6 @@
                 return $this->count - 1;
             }
         }
-
 
         /**
          * Inserts an item at a specific position and shifts all the
@@ -188,7 +177,6 @@
             }
         }
 
-
         /**
          * Inserts an item before the position passed.
          *
@@ -203,7 +191,6 @@
                 return $this->insert($position, $item);
             }
         }
-
 
         /**
          * Inserts an item after the position passed.
@@ -220,7 +207,6 @@
             }
         }
 
-
         /**
          * Modifies the current item in the list.
          *
@@ -233,7 +219,6 @@
             return $this->offsetSet($this->cursor, $item);
         }
 
-
         /**
          * Removes the current item from the list.
          *
@@ -244,7 +229,6 @@
         {
             return $this->offsetUnset($this->cursor);
         }
-
 
         /**
          * Clears out the list and resets the cursor.
@@ -259,11 +243,9 @@
             $this->rewind();
         }
 
-
         //-----------------------------------------------------------------
         //   retrieval methods
         //-----------------------------------------------------------------
-
 
         /**
          * Returns the current item from the list.
@@ -278,7 +260,6 @@
             }
         }
 
-
         /**
          * Returns the first item in the list.
          *
@@ -289,7 +270,6 @@
         {
             return $this->offsetExists(0) ? $this->items[0] : null;
         }
-        
 
         /**
          * Returns the last item in the list.
@@ -301,7 +281,6 @@
         {
             return $this->offsetExists($this->count - 1) ? $this->items[$this->count - 1] : null;
         }
-        
 
         /**
          * Returns all the items in the list.
@@ -313,7 +292,6 @@
         {
             return $this->items;
         }
-        
 
         /**
          * Returns the count of the items in the list.
@@ -325,7 +303,6 @@
         {
             return $this->count;
         }
-        
 
         /**
          * Returns the position of the cursor.
@@ -338,12 +315,10 @@
             return $this->cursor;
         }
 
-        
         //-----------------------------------------------------------------
         //   offset methods
         //-----------------------------------------------------------------
 
-        
         /**
          * Checks if an item exists by its position.
          *
@@ -355,7 +330,6 @@
         {
             return array_key_exists($position, $this->items);
         }
-        
 
         /**
          * Returns the item at the position passed if it exists.
@@ -371,7 +345,6 @@
             }
         }
         
-
         /**
          * Modifies an item in the list by its position. If no item exists
          * at the position passed it will be appended.
@@ -393,7 +366,6 @@
                 return true;
             }
         }
-        
 
         /**
          * Removes an item by its position, decrements the count and shifts
