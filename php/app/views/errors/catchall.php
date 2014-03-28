@@ -1,6 +1,6 @@
 <?php
     if (isset($statusCode) && isset($statusString)) {
-        print $statusCode.': '.$statusString;
+        print htmlentities($statusCode.': '.$statusString);
     } else {
         print 'Fatal error';
     }

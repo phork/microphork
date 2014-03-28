@@ -150,7 +150,7 @@
         }
 
         /**
-         * Maps a path name to the pull path for. At the very least
+         * Maps a path name to the full path for it. At the very least
          * there should be Core, App, Pkg and View. This returns an
          * instance of itself for chaining.
          *
@@ -390,7 +390,7 @@
                 if ($restrict) {
                     if ($restrict = $this->cleanPath($restrict, true)) {
                         if (substr($cleanpath, 0, strlen($restrict)) != $restrict) {
-                            throw new \PhorkException(sprintf('The %s file does is not in the restricted directory', $fullpath));
+                            throw new \PhorkException(sprintf('The %s file is outside the allowed directory', $fullpath));
                         }
                     } else {
                         throw new \PhorkException(sprintf('Invalid directory restriction %s', $restrict));

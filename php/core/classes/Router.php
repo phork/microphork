@@ -101,16 +101,15 @@
 
         /**
          * Makes adjustments to account for the URL using a query string.
-         * This can be in either the format /index.php?/path/to/page/ if
-         * using mod rewrite or /index.php?url=/path/to/page/ if not using
-         * mod rewrite. When using the first format no variable should be
-         * passed. When using the second format the name of the variable
-         * containing the URL should be passed (eg. url). This resets the
-         * $_GET array and removes any effect the URL may have had on it.
-         * It works with additional non-URL GET data as well as URLs with
-         * equals sign filters. For example the query string
-         * index.php?/path/to/filter=1/page/ will not end up with a variable
-         * named /path/to/filter.
+         * This can be in either the format /index.php?/path/to/page/ or
+         * /index.php?url=/path/to/page/&foo=bar. When using the first 
+         * format no variable should be passed. When using the second format
+         * the name of the variable containing the URL should be passed 
+         * (eg. url). This resets the $_GET array and removes any effect
+         * the URL may have had on it. This works with additional non-URL
+         * GET data as well as URLs with equals sign filters. For example
+         * the query string index.php?/path/to/filter=1/page/ will not end
+         * up with a variable named /path/to/filter.
          *
          * This should be called manually before init() if it's needed.
          *
