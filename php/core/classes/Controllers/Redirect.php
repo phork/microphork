@@ -32,7 +32,7 @@
             $status = \Phork::router()->getFilter('status');
             $redirect = preg_replace('#/redirect(/status=[0-9]{3})?/#', '/', \Phork::router()->getRoutedUrl());
             
-            \Phork::output()->setStatusCode($status ?: 200)->addHeader('location: '.$redirect);
+            \Phork::output()->setStatusCode($status ?: 200)->addHeader('location: '.\Phork::config()->router->urls->base.$redirect);
             \Phork::event()->trigger('controller.run.after', null, true);
         }
     }

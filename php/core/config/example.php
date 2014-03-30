@@ -27,9 +27,9 @@
                 'mixedpost'         => false
             ),
             'urls'              => array(
-                'site'              => !empty($_SERVER['HTTP_HOST']) ? 'http://'.$_SERVER['HTTP_HOST'] : '',
-                'secure'            => !empty($_SERVER['HTTP_HOST']) ? 'https://'.$_SERVER['HTTP_HOST'] : '',
                 'base'              => '',
+                'site'              => !empty($_SERVER['HTTP_HOST']) ? 'http://'.$_SERVER['HTTP_HOST'] : '',
+                'secure'            => !empty($_SERVER['HTTP_HOST']) ? 'https://'.$_SERVER['HTTP_HOST'] : ''
             ),
             'routes'            => array(
                 '^/error/([0-9]{3}/?)'  => '/home/fatal/$1'
