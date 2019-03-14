@@ -1,4 +1,4 @@
-#microphork
+# microphork
 
 [![Build Status](https://travis-ci.org/phork/microphork.svg)](https://travis-ci.org/phork/microphork)
 [![Coverage Status](https://coveralls.io/repos/phork/microphork/badge.png)](https://coveralls.io/r/phork/microphork)
@@ -8,7 +8,7 @@
 [![License](https://poser.pugx.org/microphork/framework/license.png)](https://packagist.org/packages/microphork/framework)
 
 
-##Introduction
+## Introduction
 
 microphork is a small and very flexible MVC framework for PHP 5.3 and above. It includes an API framework, automatic URL routing, language localization, a stack-based loader and several useful utilities and extensions. Parts of microphork are based on the [Phork Framework](http://phork.org) but it has mostly been written from the ground up.
 
@@ -17,12 +17,12 @@ microphork is a small and very flexible MVC framework for PHP 5.3 and above. It 
 All application code should go in the `app` folder.
 
 
-##Credits
+## Credits
 
-Built by [Elenor](http://elenor.net) at [Phork Labs](http://phorklabs.com).
+Built by [Elenor](http://elenor.net) at [Phork Labs](http://phork.org).
 
 
-##License
+## License
 
 Licensed under The MIT License
 <http://www.opensource.org/licenses/mit-license.php>
